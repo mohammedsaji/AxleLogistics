@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AxleOS Portal</title>
+    <link rel="stylesheet" href="../styles/dashboard.css">
+</head>
+<body class="dashboard-shell">
+
+<header class="dashboard-shell-wrapper-header">
+    <div class="dashboard-shell-inner-header">
+        <div class="dashboard-shell-group-header">
+            <div class="dashboard-shell-brand">
+                <img class="dashboard-shell-logo" src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=100" alt="Logo">
+            </div>
+            <div class="dashboard-shell-profile-actions">
+                <button class="sign-out-btn">SIGN OUT</button>
+                <button class="sign-out-btn">LOG OUT</button>
+                <button class="profile-view-btn">View Profile</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="dashboard-shell-wrapper-body">
+    <div class="dashboard-shell-inner-body">
+        <h2 class="dashboard-shell-title">Dashboard Terminals</h2>
+
+        <div class="dashboard-shell-grid">
+            <div class="dashboard-shell-card">
+                <h3 class="dashboard-shell-card-title">Enter New Shipment</h3>
+                <button class="dashboard-shell-btn-shipment-create">Open Dispatcher</button>
+            </div>
+            <div class="dashboard-shell-card">
+                <h3 class="dashboard-shell-card-title">Managing Operator</h3>
+                <button class="dashboard-shell-btn-operator-read">Manage Operators</button>
+            </div>
+            <div class="dashboard-shell-card">
+                <h3 class="dashboard-shell-card-title">Managing Shipment Details</h3>
+                <button class="dashboard-shell-btn-shipment-list">View Ledger Logs</button>
+            </div>
+            <div class="dashboard-shell-card">
+                <h3 class="dashboard-shell-card-title">Partner Account Creation</h3>
+                <button class="dashboard-shell-btn-federate-acc">Register Partner</button>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="/js/ajaxCalls/ajaxCalls.js"></script>
+<script src="/js/viewStateConfig.js"></script>
+<script src="/js/dashboard.js"></script>
+</body>
+</html>

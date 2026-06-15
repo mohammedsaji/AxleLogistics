@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup Screen</title>
+</head>
+<body>
+<div class="sign-up-shell">
+    <div class="sign-up-shell-wrapper-form">
+        <label for="signup-username">Name</label>
+        <input type="text" id="signup-username" placeholder="Username"
+               required>
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" placeholder="Email Address"
+               required>
+        <label for="signup-password">Password</label>
+        <input type="password" id="signup-password" placeholder="Password"
+               required>
+        <label for="account-holder-role">Role</label>
+        <select id="account-holder-role" required>
+            <option value="">Select</option>
+        </select>
+        <button class="submit-btn">SignUp</button>
+    </div>
+</div>
+<script src="/js/viewStateConfig.js"></script>
+<script src="../../js/ajaxCalls/ajaxCalls.js"></script>
+<script src="../../js/signUp/signUp.js"></script>
+</body>
+</html>

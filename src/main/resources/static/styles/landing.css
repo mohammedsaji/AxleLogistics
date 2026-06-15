@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+
+:root {
+    --bg-color: #0d1117;
+    --card-bg: #161b22;
+    --border-color: #30363d;
+    --text-color: #c9d1d9;
+    --accent-violet: #8a2be2;
+    --font-main: 'Inter', -apple-system, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-main);
+    margin: 0;
+    padding: 40px;
+}
+
+/* Header */
+.axle-os-shell-wrapper-header {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 20px;
+    margin-bottom: 60px;
+}
+
+.axle-os-shell-inner-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Button Styling & Animation */
+.sign-in-btn {
+    background-color: var(--accent-violet);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    cursor: pointer;
+    border-radius: 0px;
+    min-width: 160px;
+    transition: transform 0.1s ease, filter 0.1s ease;
+}
+
+.sign-in-btn:active {
+    transform: translateY(2px) scale(0.98);
+    filter: brightness(0.8);
+}
+
+/* Content Sections */
+.axle-os-shell-wrapper-body {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+/* ... existing root variables ... */
+
+/* Remove card styling, add transition for zoom */
+.axle-os-shell-advantage-item {
+    background: radial-gradient(circle at center, rgba(138, 43, 226, 0.08) 0%, rgba(13, 17, 23, 0) 70%);
+    border: none; /* Removed border */
+    padding: 40px;
+    flex: 0 0 calc(50% - 20px);
+    box-sizing: border-box;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth easing */
+    cursor: default;
+}
+
+/* Very slight zoom-in effect */
+.axle-os-shell-advantage-item:hover {
+    transform: scale(1.02); /* Slight 2% zoom */
+}
+
+.axle-os-shell-advantage-title {
+    margin-top: 0;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.axle-os-shell-advantage-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #8b949e;
+    transition: color 0.3s;
+}
+
+/* Optional: brighten text on hover for better focus */
+.axle-os-shell-advantage-item:hover .axle-os-shell-advantage-desc {
+    color: #c9d1d9;
+}

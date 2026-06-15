@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+
+:root {
+    --bg-color: #0d1117;
+    --card-bg: #161b22;
+    --border-color: #30363d;
+    --text-color: #c9d1d9;
+    --accent-violet: #8a2be2;
+    --success-green: #238636;
+    --danger-red: #da3633;
+    --font-main: 'Inter', -apple-system, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-main);
+    margin: 0;
+    padding: 20px; /* Tight corners */
+}
+
+/* Header Layout - Minimal spacing */
+.driver-shell-wrapper-header {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.driver-shell-inner-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.driver-shell-group-header-left,
+.driver-shell-group-header-right {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px; /* Tight gap */
+}
+
+/* Button Styling */
+button {
+    background-color: var(--accent-violet);
+    color: white;
+    border: none;
+    padding: 8px 16px; /* Reduced padding */
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 0px;
+    min-width: 120px; /* Slightly smaller to keep it compact */
+    transition: transform 0.1s ease, filter 0.1s ease;
+}
+
+button:active {
+    transform: translateY(2px) scale(0.98);
+    filter: brightness(0.8);
+}
+
+.previous-form-btn, .next-form-btn { background-color: var(--success-green); }
+/*.delete-driver-btn { background-color: var(--danger-red); }*/
+
+/* Form Body - Denser layout */
+.driver-shell-wrapper-body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Compact grid */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.driver-shell-inner-body {
+    flex: 0 0 calc(33.33% - 12px); /* Density focus */
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+label {
+    font-size: 0.75rem; /* Smaller, cleaner label */
+    color: #8b949e;
+}
+
+input {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: white;
+    padding: 8px 12px;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 0px;
+}
+
+input:focus {
+    outline: 1px solid var(--accent-violet);
+}

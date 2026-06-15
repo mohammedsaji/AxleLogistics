@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="/styles/signIn/signin.css">
+</head>
+<body>
+<div class="login-shell">
+    <div class="login-shell-wrapper-header">
+        <div class="axle-os-shell-inner-header">
+            <div class="axle-os-shell-logo-container">
+                <img src="" alt="AxleOS">
+            </div>
+        </div>
+    </div>
+    <div class="login-shell-wrapper-header">
+        <button class="previous-form-btn">Previous form</button>
+    </div>
+    <div class="login-shell-wrapper-body">
+        <div class="login-shell-inner-body">
+            <form action="http://localhost:8080/logistic/auth/signin" method="POST">
+                <label for="username">Username</label>
+                <input id="username" name="accountUsername" autocomplete="username" type="text" required>
+                <label for="password">Password</label>
+                <input id="password" name="accountPassword" autocomplete="current-password" type="password" required>
+                <button class="submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="/js/viewStateConfig.js"></script>
+<script src="../../js/signIn/signIn.js"></script>
+</body>
+</html>
