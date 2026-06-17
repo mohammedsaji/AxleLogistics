@@ -2,40 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Employee List</title>
+    <title>Employee list</title>
 </head>
 <body>
-<div class="employee-shell">
-    <div class="employee-shell-wrapper-header">
-        <div class="employee-shell-inner-header">
-            <div class="employee-shell-group-header">
-                <button class="previous-form-btn">Previous form</button>
+<div class="employee">
+    <header class="employee-header">
+        <div class="employee-header-brand-icon">
+            <img class="employee-header-logo" src="" alt="Employee Logo">
+        </div>
+        <div class="employee-header-actions">
+            <div class="employee-header-section-a">
+                <button id="dashboard-btn">Dashboard</button>
             </div>
-            <div class="employee-shell-group-header">
-                <div class="employee-shell-section-header">
-                    <input id="search" type="text" placeholder="Search by employee name" max="25">
-                </div>
-                <div class="employee-shell-section-header">
-                    <button class="search-btn">Search</button>
+            <div class="employee-header-section-b">
+                <div class="employee-header-actions-a">
+                    <button id="create-employee-btn">Create employee</button>
                 </div>
             </div>
         </div>
-        <div class="employee-shell-inner-header">
-            <button class="create-employee-btn">Create employee</button>
+    </header>
+    <main class="employee-body">
+        <div class="employee-body-search">
+            <input id="search" type="text" placeholder="Search by employee name" maxlength="250">
+            <button id="search-btn">Search</button>
         </div>
-    </div>
-    <div class="employee-shell-wrapper-pager">
-        <div class="employee-shell-inner-pager">
-            <button class="previous-page-btn">Previous page</button>
-            <button class="next-page-btn">Next page</button>
+        <div class="employee-body-list">
+            <div id="employee-list-container">
+                <!-- Employee items will be rendered here -->
+            </div>
         </div>
-    </div>
-    <div class="employee-shell-wrapper-body">
-
-    </div>
+        <div class="employee-body-pagination">
+            <button id="previous-page-btn">Previous page</button>
+            <button id="next-page-btn">Next page</button>
+        </div>
+    </main>
+    <footer class="employee-footer">
+    </footer>
 </div>
-<script src="/js/viewStateConfig.js"></script>
-<script src="../../js/utility/utility.js"></script>
+
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
 <script src="../../js/employee/employeeList.js"></script>
 </body>

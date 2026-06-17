@@ -2,25 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Vehicle form</title>
-    <link rel="stylesheet" href="../../styles/vehicle/vehicleCreationForm.css">
+    <title>Vehicle creation form</title>
 </head>
 <body>
-<div class="vehicle-shell">
-    <div class="vehicle-shell-wrapper-header">
-        <div class="vehicle-shell-inner-header">
-            <div class="vehicle-shell-group-header">
-                <button class="dashboard-btn">Dashboard</button>
-                <button class="previous-form-btn">Previous form</button>
+<div class="vehicle">
+    <header class="vehicle-header">
+        <div class="vehicle-header-brand-icon">
+            <img class="vehicle-header-logo" src="" alt="Vehicle Logo">
+        </div>
+        <div class="vehicle-header-actions">
+            <div class="vehicle-header-section-a">
+                <button id="dashboard-btn">Dashboard</button>
+            </div>
+            <div class="vehicle-header-section-b">
             </div>
         </div>
-    </div>
-    <div class="vehicle-shell-wrapper-body">
+    </header>
+    <main class="vehicle-body">
+        <div class="vehicle-body-form">
+            <form>
+                <label for="vehicle-type">Vehicle Type :</label>
+                <input id="vehicle-type" type="text" maxlength="50" required>
 
-    </div>
+                <label for="vehicle-number">Vehicle Number :</label>
+                <input id="vehicle-number" type="text" maxlength="50" required>
+
+                <div id="operator-id-display" style="display:none;">
+                    <label for="operator-id">Operator ID :</label>
+                    <input id="operator-id" type="number" readonly>
+                </div>
+
+                <button type="submit" id="create-btn">Create</button>
+            </form>
+        </div>
+    </main>
+    <footer class="vehicle-footer">
+    </footer>
 </div>
-</body>
-<script src="../../js/utility/utility.js"></script>
+
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
 <script src="../../js/vehicle/vehicleCreationForm.js"></script>
+</body>
 </html>

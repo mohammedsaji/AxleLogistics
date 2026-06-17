@@ -2,24 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Customer Screen</title>
+    <title>Customer screen</title>
 </head>
 <body>
-<div class="customer-shell">
-    <div class="customer-shell-wrapper-header">
-        <div class="customer-shell-inner-header">
-            <div class="customer-shell-group-header">
-                <button class="dashboard-btn">Dashboard</button>
-                <button class="previous-form-btn">Previous form</button>
+<div class="customer">
+    <header class="customer-header">
+        <div class="customer-header-brand-icon">
+            <img class="customer-header-logo" src="" alt="Customer">
+        </div>
+        <div class="customer-header-actions">
+            <div class="operator-header-section-a">
+                <button id="dashboard-btn">Dashboard</button>
+            </div>
+            <div class="operator-header-section-b">
+                <div id="customer-header-actions-a" class="customer-header-actions-a">
+                </div>
+                <div id="customer-header-actions-b" class="customer-header-actions-b">
+                </div>
             </div>
         </div>
+    </header>
+    <main class="customer-body">
+        <div class="customer-body-customer-display">
+            <form class="customer-body-customer-form">
+                <label for="customer-id">Customer ID</label>
+                <input type="text" id="customer-id" readonly>
 
-    </div>
-    <div class="customer-shell-wrapper-body">
+                <label for="customer-name">Customer name</label>
+                <input type="text" id="customer-name" readonly>
 
-    </div>
+                <label for="customer-email">Customer email</label>
+                <input type="email" id="customer-email" readonly>
+
+                <label for="customer-phoneno">Customer phone no</label>
+                <input type="text" id="customer-phoneno" readonly>
+
+                <label for="created-at">Created at</label>
+                <input type="text" id="created-at" readonly>
+
+                <label for="created-by">Created by</label>
+                <input type="text" id="created-by" readonly>
+            </form>
+        </div>
+        <div id="customer-body-common-actions" class="customer-body-common-actions">
+            <button id="return-to-shipment-btn">Return to shipment</button>
+        </div>
+    </main>
+    <footer class="customer-footer"></footer>
 </div>
-<script src="/js/viewStateConfig.js"></script>
 <script src="../../js/utility/utility.js"></script>
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
 <script src="../../js/shipment/customer.js"></script>

@@ -2,24 +2,91 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Shipment Form</title>
+    <title>Shipment creation form</title>
 </head>
 <body>
-<div class="shipment-shell">
-    <div class="shipment-shell-wrapper-header">
-        <div class="shipment-shell-inner-header">
-            <div class="shipment-shell-group-header">
-                <button class="dashboard-btn">Dashboard</button>
-                <button class="previous-form-btn">Previous form</button>
+<div class="shipment">
+    <header class="shipment-header">
+        <div class="shipment-header-brand-icon">
+            <img class="shipment-header-logo" src="" alt="Shipment Logo">
+        </div>
+        <div class="shipment-header-actions">
+            <div class="shipment-header-section-a">
+                <button id="dashboard-btn">Dashboard</button>
+            </div>
+            <div class="shipment-header-section-b">
             </div>
         </div>
-    </div>
-    <div class="shipment-shell-wrapper-body">
+    </header>
+    <main class="shipment-body">
+        <div class="shipment-body-form">
+            <form>
+                <!-- Cargo Details Section -->
+                <fieldset>
+                    <legend>Cargo Details</legend>
+                    <label for="cargo-name">Cargo Name :</label>
+                    <input id="cargo-name" type="text" maxlength="250" required>
 
-    </div>
+                    <label for="cargo-weight">Cargo Weight :</label>
+                    <input id="cargo-weight" type="text" maxlength="100" required>
+
+                    <label for="cargo-quantity">Cargo Quantity :</label>
+                    <input id="cargo-quantity" type="text" maxlength="100" required>
+
+                    <label for="cargo-type">Cargo Type :</label>
+                    <input id="cargo-type" type="text" maxlength="100" required>
+
+                    <label for="cargo-description">Cargo Description :</label>
+                    <textarea id="cargo-description" maxlength="500" required></textarea>
+                </fieldset>
+
+                <!-- Customer Details Section -->
+                <fieldset>
+                    <legend>Customer Details</legend>
+                    <label for="customer-name">Customer Name :</label>
+                    <input id="customer-name" type="text" maxlength="250" required>
+
+                    <label for="customer-email">Customer Email :</label>
+                    <input id="customer-email" type="email" required>
+
+                    <label for="customer-phoneno">Customer Phone No :</label>
+                    <input id="customer-phoneno" type="text" maxlength="25" required>
+                </fieldset>
+
+                <!-- Shipment Details Section -->
+                <fieldset>
+                    <legend>Shipment Details</legend>
+                    <label for="shipping-from">Shipping From :</label>
+                    <input id="shipping-from" type="text" maxlength="250" required>
+
+                    <label for="shipping-to">Shipping To :</label>
+                    <input id="shipping-to" type="text" maxlength="250" required>
+
+                    <label for="delivery-date">Delivery Date :</label>
+                    <input id="delivery-date" type="date" required>
+                </fieldset>
+
+                <!-- Carrier Information Section (Read-only) -->
+                <fieldset>
+                    <legend>Carrier Information</legend>
+                    <label for="operator-id">Operator ID :</label>
+                    <input id="operator-id" type="number" readonly>
+
+                    <label for="driver-id">Driver ID :</label>
+                    <input id="driver-id" type="number" readonly>
+
+                    <label for="vehicle-id">Vehicle ID :</label>
+                    <input id="vehicle-id" type="number" readonly>
+                </fieldset>
+
+                <button type="submit" id="create-btn">Create</button>
+            </form>
+        </div>
+    </main>
+    <footer class="shipment-footer">
+    </footer>
 </div>
-<script src="/js/viewStateConfig.js"></script>
-<script src="../../js/utility/utility.js"></script>
+
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
 <script src="../../js/shipment/shipmentForm.js"></script>
 </body>

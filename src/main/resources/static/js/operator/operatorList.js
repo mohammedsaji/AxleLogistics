@@ -1,190 +1,197 @@
-document.addEventListener("DOMContentLoaded", function () {
-    async function PayloadExtractor() {
+const params = new URLSearchParams(window.location.search);
+let currentPageNo = 1;
+let totalPages = 1;
+let currentResponse = null;
 
-        const viewState = localStorage.getItem("viewState");
+async function payloadExtractor() {
+    const userAction = params.get("userAction");
+    const transportType = params.get("transportType");
 
-        const operatorState = operatorViewState().OPERATOR;
-        const shipmentState = shipmentViewState().SHIPMENT;
-        const statusState = statusViewState().SHIPMENT_ASSIGNMENT;
+    if (!userAction || !transportType) {
+        alert('Invalid parameters.');
+        return;
+    }
 
-        previousPageNavigation(viewState);
-
-        if (viewState !== operatorViewState().READ) {
-            const createOperatorBtn = document.querySelector('.create-operator-btn');
-            const parentDiv = createOperatorBtn.closest('.operator-shell-inner-header');
-            if (parentDiv) {
-                parentDiv.remove();
-            }
-        }
-        if(viewState === operatorState.READ || viewState === shipmentState.CREATE || viewState === statusState.OPERATOR_REASSIGN){
-            const pageNo = localStorage.getItem("pageNo") != null ? localStorage.getItem("pageNo") : 1;
-            const transportType = localStorage.getItem("transportType");
-            const url = `/logistic/operator/fetchall?operatorTransportType=${transportType}&pageNo=${pageNo}`;
-            const methodType = 'GET';
-            const response = await ajaxCall(url, methodType, null);
-            LayoutRenderer(viewState, response);
+    // Remove create-operator-btn if not in Read operator flow
+    if (userAction !== 'Read operator') {
+        const createOperatorBtn = document.getElementById('create-operator-btn');
+        if (createOperatorBtn) {
+            createOperatorBtn.remove();
         }
     }
 
-    PayloadExtractor();
-});
+    currentPageNo = 1;
+    await fetchOperatorList(transportType, currentPageNo);
+}
+payloadExtractor();
 
-function LayoutRenderer(viewState, response) {
-    let operatorList = [];
+async function fetchOperatorList(transportType, pageNo) {
+    const url = `/logistic/operator/fetchall?operatorTransportType=${transportType}&pageNo=${pageNo}`;
+    const methodType = 'GET';
+    const response = await ajaxCall(url, methodType, null);
+
+    currentResponse = response;
 
     if (response && response.valueMap) {
-        operatorList = response.valueMap.OperatorList || [];
-
-        localStorage.setItem("totalPages", response.valueMap.TotalPages || 1);
-        localStorage.setItem("totalElements", response.valueMap.TotalElements || 0);
-    } else {
-        operatorList = Array.isArray(response) ? response : [response];
+        totalPages = response.valueMap.TotalPages || 1;
+        const operatorList = response.valueMap.OperatorList || [];
+        renderOperatorList(operatorList);
+    } else if (Array.isArray(response)) {
+        renderOperatorList(response);
+    } else if (response) {
+        renderOperatorList([response]);
     }
-    const operatorShellWrapperBody = document.querySelector('.operator-shell-wrapper-body');
+}
 
-    if (operatorShellWrapperBody) {
-        operatorShellWrapperBody.innerHTML = '';
+function renderOperatorList(operatorList) {
+    const listContainer = document.getElementById('operator-list-container');
+    if (listContainer) {
+        listContainer.innerHTML = '';
     }
 
     operatorList.forEach(operator => {
         if (!operator) return;
 
-        const elementDiv = document.createElement('div');
-        elementDiv.className = 'operator-shell-inner-body';
+        const operatorDiv = document.createElement('div');
+        operatorDiv.className = 'operator-list-item';
+        operatorDiv.setAttribute('data-operator-id', operator.operatorId);
+        operatorDiv.setAttribute('data-operator-name', operator.operatorName);
 
-        Object.entries(operator).forEach(([keyName, keyValue]) => {
+        const operatorInfoDiv = document.createElement('div');
+        operatorInfoDiv.className = 'operator-info';
 
-            if (keyName === "operatorId" || keyName === "operatorName" || keyName === "operatorTransportType") {
-                const elementP = document.createElement('p');
-                elementP.className = camelToKebabCase(keyName);
-                elementP.textContent = `${keyName.charAt(0).toUpperCase()+whiteSpacedCamelCase(keyName).slice(1)} : ${keyValue}`;
-                elementDiv.append(elementP);
-            }
-        });
-        const elementBtnDiv = document.createElement('div');
-        elementBtnDiv.className = 'operator-shell-event'
+        const operatorIdP = document.createElement('p');
+        operatorIdP.textContent = `Operator ID: ${operator.operatorId}`;
+        operatorInfoDiv.append(operatorIdP);
 
-        const elementBtn = document.createElement('button');
-        elementBtn.className = 'view-btn';
-        elementBtn.setAttribute('data-operator-id', operator.operatorId);
-        elementBtn.textContent = 'View';
-        elementBtnDiv.append(elementBtn);
+        const operatorNameP = document.createElement('p');
+        operatorNameP.textContent = `Operator Name: ${operator.operatorName}`;
+        operatorInfoDiv.append(operatorNameP);
 
-        elementDiv.append(elementBtnDiv);
-        operatorShellWrapperBody.append(elementDiv);
-    })
-    ClickEventBinder(viewState);
-    searchOptionClickEvent(response, viewState);
-}
+        const operatorTransportTypeP = document.createElement('p');
+        operatorTransportTypeP.textContent = `Transport Type: ${operator.operatorTransportType}`;
+        operatorInfoDiv.append(operatorTransportTypeP);
 
-function ClickEventBinder(viewState) {
+        const viewBtn = document.createElement('button');
+        viewBtn.className = 'view-btn';
+        viewBtn.setAttribute('data-operator-id', operator.operatorId);
+        viewBtn.textContent = 'View';
+        operatorInfoDiv.append(viewBtn);
 
-    if(viewState === operatorViewState().OPERATOR.READ || viewState === shipmentViewState().SHIPMENT.CREATE || viewState === statusViewState().SHIPMENT_ASSIGNMENT.OPERATOR_REASSIGN){
-        const viewBtnArray = document.querySelectorAll('.view-btn');
-        viewBtnArray.forEach(current => {
-            current.addEventListener('click', function () {
-                const operatorId = this.dataset.operatorId;
-                localStorage.setItem("operatorId", operatorId);
-                localStorage.setItem("viewState", viewState);
-                window.location.href = "../../views/operator/operator.html";
-            }, {once: true});
-        });
-    }
-
-    const createOperatorBtn = document.querySelector('.create-operator-btn');
-    if(createOperatorBtn){
-        createOperatorBtn.addEventListener('click', function () {
-            localStorage.setItem("viewState", operatorViewState().OPERATOR.CREATE);
-            window.location.href = "../../views/operator/operator-creation-form.html";
-        }, {once: true});
-    }
-}
-
-
-function searchOptionClickEvent(response, viewState) {
-
-    const searchBtn = document.querySelector('.search-btn');
-    if(searchBtn){
-        searchBtn.addEventListener('click', async function () {
-            const searchInput = document.getElementById('search').value.trim();
-            const operatorNameList = document.querySelectorAll('.operator-name');
-            operatorNameList.forEach(function (operator) {
-                const operatorName = operator.textContent.replace("Operator Name : ", "").trim().toLowerCase();
-                const parentElement = operator.closest('.operator-shell-inner-body');
-                if (parentElement) {
-                    if (operatorName !== searchInput && searchInput !== "") {
-                        parentElement.style.display = 'none';
-                    } else {
-                        parentElement.style.display = '';
-                    }
-                }
-            });
-            const activeElements = Array.from(document.querySelectorAll('.operator-shell-inner-body')).filter(element => element.style.display !== 'none');
-            if (activeElements.length === 0 && searchInput) {
-                const fallbackResponse = await ajaxCall(`/logistic/operator/fetchByName?operatorName=${searchInput}`);
-                if (fallbackResponse) {
-                    LayoutRenderer(fallbackResponse, localStorage.getItem("viewState"));
-                }
-            }
-        });
-    }
-
-    const searchInput = document.getElementById('search');
-    searchInput.addEventListener('input', function () {
-        const searchValue = this.value.trim().toLowerCase();
-
-        if (!searchValue) {
-            LayoutRenderer(response, viewState);
-            return;
-        }
-
+        operatorDiv.append(operatorInfoDiv);
+        listContainer.append(operatorDiv);
     });
+
+    clickEventBinder();
+    searchClickEvent();
 }
 
+function clickEventBinder() {
+    const userAction = params.get("userAction");
+    const transportType = params.get("transportType");
 
-function previousPageNavigation(viewState) {
+    const dashboardBtn = document.getElementById('dashboard-btn');
+    if (dashboardBtn) {
+        dashboardBtn.addEventListener('click', function () {
+            window.location.href = "/views/dashboard.html";
+        }, { once: true });
+    }
 
-    const previousFormBtn = document.querySelector('.previous-form-btn');
+    const createOperatorBtn = document.getElementById('create-operator-btn');
+    if (createOperatorBtn) {
+        createOperatorBtn.addEventListener('click', function () {
+            window.location.href = `../../views/operator/operator-creation-form.html?userAction=Entry operator`;
+        }, { once: true });
+    }
 
-    if (!previousFormBtn) return;
+    const viewBtnArray = document.querySelectorAll('.view-btn');
+    viewBtnArray.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const operatorId = this.getAttribute('data-operator-id');
 
-    if (window.history.length <= 1) {
-        previousFormBtn.disabled = true;
-    } else {
-        previousFormBtn.disabled = false;
+            if (userAction === 'Reassign operator') {
+                const shippingStatusId = params.get("shippingStatusId");
+                window.location.href = `../../views/operator/operator.html?operatorId=${operatorId}&userAction=${userAction}&shippingStatusId=${shippingStatusId}`;
+            } else {
+                // Read operator, Entry shipping
+                window.location.href = `../../views/operator/operator.html?operatorId=${operatorId}&userAction=${userAction}`;
+            }
+        }, { once: true });
+    });
 
-        previousFormBtn.addEventListener('click', function () {
-            localStorage.setItem("viewState", viewState);
-            window.history.back();
+    const previousPageBtn = document.getElementById('previous-page-btn');
+    if (previousPageBtn) {
+        previousPageBtn.addEventListener('click', async function () {
+            if (currentPageNo > 1) {
+                currentPageNo--;
+                await fetchOperatorList(transportType, currentPageNo);
+            }
+        }, { once: true });
+    }
+
+    const nextPageBtn = document.getElementById('next-page-btn');
+    if (nextPageBtn) {
+        nextPageBtn.addEventListener('click', async function () {
+            if (currentPageNo < totalPages) {
+                currentPageNo++;
+                await fetchOperatorList(transportType, currentPageNo);
+            }
         }, { once: true });
     }
 }
 
-function recordPageEventBinding(){
+function searchClickEvent() {
+    const searchBtn = document.getElementById('search-btn');
+    const searchInput = document.getElementById('search');
 
-    const lastPage = parseInt(localStorage.getItem("totalPages")) || 1;
+    if (searchBtn) {
+        searchBtn.addEventListener('click', async function () {
+            const searchValue = searchInput.value.trim().toLowerCase();
+            const operatorItems = document.querySelectorAll('.operator-list-item');
+            let hasMatch = false;
 
-    const previousRecordPageBtn = document.getElementById('previous-page-btn');
+            operatorItems.forEach(item => {
+                const operatorName = item.getAttribute('data-operator-name').toLowerCase();
+                if (operatorName.includes(searchValue) || searchValue === '') {
+                    item.style.display = '';
+                    hasMatch = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
 
-    previousRecordPageBtn.addEventListener('click',function (){
-        let currentPage = parseInt(localStorage.getItem("pageNo")) || 1;
-        if(currentPage > 1){
-            const pageNo = currentPage-1;
-            localStorage.setItem("pageNo",pageNo);
-            window.location.href = "../../views/operator/operator-list.html";
-        }
-    }, {once: true});
+            if (!hasMatch && searchValue !== '') {
+                const response = await ajaxCall(`/logistic/operator/fetchByName?operatorName=${searchValue}`, 'GET', null);
+                if (response) {
+                    let operatorList = [];
 
-    const nextRecordPageBtn = document.getElementById('next-page-btn');
+                    // Handle both response formats: valueMap wrapper and direct array
+                    if (response && response.valueMap) {
+                        operatorList = response.valueMap.OperatorList || [];
+                    } else if (Array.isArray(response)) {
+                        operatorList = response;
+                    } else if (response) {
+                        operatorList = [response];
+                    }
 
-    nextRecordPageBtn.addEventListener('click',function (){
-        let currentPage = parseInt(localStorage.getItem("pageNo")) || 1;
-        if(currentPage > 0 && currentPage < lastPage){
-            const pageNo = currentPage+1;
-            localStorage.setItem("pageNo",pageNo);
-            window.location.href = "../../views/operator/operator-list.html";
-        }
-    }, {once: true});
+                    if (operatorList.length > 0) {
+                        renderOperatorList(operatorList);
+                    }
+                }
+            }
+        }, { once: true });
+    }
 
+    if (searchInput) {
+        searchInput.addEventListener('input', function () {
+            const searchValue = this.value.trim();
+
+            if (!searchValue) {
+                const operatorItems = document.querySelectorAll('.operator-list-item');
+                operatorItems.forEach(item => {
+                    item.style.display = '';
+                });
+            }
+        });
+    }
 }
-recordPageEventBinding();

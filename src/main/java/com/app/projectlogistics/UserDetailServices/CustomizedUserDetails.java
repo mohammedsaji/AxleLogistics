@@ -34,11 +34,11 @@ public class CustomizedUserDetails implements UserDetails {
     }
 
     public EmployeeVO getEmployeeInfo(){
-        return accountVO.getEmployeeInfo();
+        return accountVO.getEmployeeVO();
     }
 
     public Integer getEmployeeId(){
-        return accountVO.getEmployeeInfo().getEmployeeId();
+        return accountVO.getEmployeeVO().getEmployeeId();
     }
 
     public AccountVO getAccountVO(){

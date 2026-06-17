@@ -1,191 +1,201 @@
-document.addEventListener('DOMContentLoaded', function (event) {
-    async function PayloadExtractor() {
+const params = new URLSearchParams(window.location.search);
 
-        const viewState = localStorage.getItem("viewState");
+async function payloadExtractor() {
+    const vehicleId = params.get("vehicleId");
+    const url = `/logistic/vehicle/fetch?vehicleId=${vehicleId}`;
+    const methodType = 'GET';
+    const response = await ajaxCall(url, methodType, null);
+    valueInitializer(response);
+    dynamicLayoutRender(response.vehicleId, response.operatorId);
+}
+payloadExtractor();
 
-        const operatorStates = operatorViewState().OPERATOR;
-        const shipmentStates = shipmentViewState().SHIPMENT;
-        const statusStates = statusViewState().SHIPMENT_ASSIGNMENT;
+function valueInitializer(response) {
+    const vehicleId = document.getElementById('vehicle-id');
+    const vehicleType = document.getElementById('vehicle-type');
+    const vehicleNumber = document.getElementById('vehicle-number');
+    const operatorId = document.getElementById('operator-id');
+    const createdAt = document.getElementById('created-at');
+    const updatedAt = document.getElementById('updated-at');
+    const updatedBy = document.getElementById('updated-by');
 
-        if (viewState !== operatorStates.READ || viewState !== operatorStates.CREATE) {
-            const createVehicleBtn = document.querySelector('.create-vehicle-btn');
-            const deleteVehicleBtn = document.querySelector('.delete-vehicle-btn');
-            if(createVehicleBtn){
-                createVehicleBtn.remove();
-            }
-            if(deleteVehicleBtn){
-                deleteVehicleBtn.remove();
-            }
-        }
-
-        if (
-            viewState === operatorStates.READ ||
-            viewState === operatorStates.CREATE ||
-            viewState === shipmentStates.CREATE ||
-            viewState === statusStates.VEHICLE_REASSIGN
-        ) {
-            const vehicleId = localStorage.getItem("vehicleId");
-            const operatorId = localStorage.getItem("operatorId");
-            const driverId = localStorage.getItem("driverId");
-
-            if (vehicleId) {
-                const url = `/logistic/vehicle/fetch?vehicleId=${vehicleId}`;
-                const methodType = 'GET';
-                const response = await ajaxCall(url, methodType, null);
-                LayoutRenderer(vehicleId, operatorId, driverId, response, viewState);
-            }
-        }
+    if (!response.vehicleId) {
+        alert('Vehicle not available.');
+        return;
     }
 
-    PayloadExtractor();
-});
-
-function LayoutRenderer(vehicleId, operatorId, driverId, response, viewState) {
-
-    const vehicleShellWrapperBody = document.querySelector('.vehicle-shell-wrapper-body');
-
-    Object.entries(response).forEach(([keyName, keyValue]) => {
-
-        if (keyName === "vehicleId") {
-            const updateVehicleBtn = document.querySelector('.update-vehicle-btn');
-            const deleteVehicleBtn = document.querySelector('.delete-vehicle-btn');
-
-            if (updateVehicleBtn) updateVehicleBtn.setAttribute(`data-${camelToKebabCase(keyName)}`, keyValue);
-            if (deleteVehicleBtn) deleteVehicleBtn.setAttribute(`data-${camelToKebabCase(keyName)}`, keyValue);
-        }
-
-        const elementDiv = document.createElement('div');
-        elementDiv.className = 'vehicle-shell-inner-body';
-
-        const elementLabel = document.createElement('label');
-        elementLabel.htmlFor = camelToKebabCase(keyName);
-        elementLabel.textContent = `${keyName.charAt(0).toUpperCase() + whiteSpacedCamelCase(keyName).slice(1)}`;
-        elementDiv.append(elementLabel);
-
-        const elementInput = document.createElement('input');
-        elementInput.id = camelToKebabCase(keyName);
-        elementInput.value = keyValue;
-        elementInput.readOnly = true;
-
-        elementDiv.append(elementInput);
-        vehicleShellWrapperBody.append(elementDiv);
-    });
-
-    if (
-        viewState === shipmentViewState().SHIPMENT.CREATE ||
-        viewState === statusViewState().SHIPMENT_ASSIGNMENT.VEHICLE_REASSIGN ||
-        viewState === operatorViewState().OPERATOR.READ ||
-        viewState === operatorViewState().OPERATOR.CREATE
-    ) {
-        const elementDiv = document.createElement('div');
-        elementDiv.className = 'vehicle-shell-inner-body';
-
-        if (viewState === shipmentViewState().SHIPMENT.CREATE) {
-            const shipmentBtn = document.createElement('button');
-            shipmentBtn.className = 'proceed-shipment-btn';
-            shipmentBtn.setAttribute('data-operator-id', operatorId);
-            shipmentBtn.setAttribute('data-driver-id', driverId);
-            shipmentBtn.setAttribute('data-vehicle-id', vehicleId);
-            shipmentBtn.textContent = "Proceed Shipment";
-            elementDiv.append(shipmentBtn);
-            vehicleShellWrapperBody.append(elementDiv);
-        } else if (viewState === statusViewState().SHIPMENT_ASSIGNMENT.VEHICLE_REASSIGN) {
-            const reassignVehicleBtn = document.createElement('button');
-            reassignVehicleBtn.className = 'reassign-vehicle-btn';
-            reassignVehicleBtn.setAttribute('data-vehicle-id', vehicleId);
-            reassignVehicleBtn.textContent = "Reassign vehicle";
-            elementDiv.append(reassignVehicleBtn);
-            vehicleShellWrapperBody.append(elementDiv);
-        } else if (viewState === operatorViewState().OPERATOR.READ ||
-            viewState === operatorViewState().OPERATOR.CREATE) {
-            const backToOperatorBtn = document.createElement('button');
-            backToOperatorBtn.className = 'back-to-operator-btn';
-            backToOperatorBtn.setAttribute('data-operator-id', operatorId);
-            backToOperatorBtn.textContent = "Back to operator";
-            elementDiv.append(backToOperatorBtn);
-            vehicleShellWrapperBody.append(elementDiv);
-        }
-    }
-
-    ClickEventBinder(viewState, response);
+    vehicleId.value = response.vehicleId;
+    vehicleType.value = response.vehicleType;
+    vehicleNumber.value = response.vehicleNumber;
+    operatorId.value = response.operatorId;
+    createdAt.value = response.createdAt;
+    updatedAt.value = response.updatedAt;
+    updatedBy.value = response.updatedBy;
 }
 
-function ClickEventBinder(viewState, response) {
+function dynamicLayoutRender(vehicleId, operatorId) {
+    const userAction = params.get("userAction");
 
-    const shipmentStates = shipmentViewState().SHIPMENT;
-    const statusAssignmentStates = statusViewState().SHIPMENT_ASSIGNMENT;
-    const statusReadStates = statusViewState().SHIPMENT_STATUS;
+    if (userAction === 'Entry shipping' ||
+        userAction === 'Reassign vehicle') {
 
-    const dashboardBtn = document.querySelector('.dashboard-btn');
+        const vehicleHeaderActionsDivA = document.getElementById('vehicle-header-actions-a');
+        if (vehicleHeaderActionsDivA) {
+            vehicleHeaderActionsDivA.remove();
+        }
+        const vehicleHeaderActionsDivB = document.getElementById('vehicle-header-actions-b');
+        if (vehicleHeaderActionsDivB) {
+            vehicleHeaderActionsDivB.remove();
+        }
+        const vehicleBodyActionsDiv = document.getElementById('vehicle-body-vehicle-actions');
+        if (vehicleBodyActionsDiv) {
+            vehicleBodyActionsDiv.remove();
+        }
+
+        const proceedBtn = document.getElementById('proceed-btn');
+        if (proceedBtn) {
+            proceedBtn.setAttribute('data-vehicle-id', vehicleId);
+            if (userAction === 'Entry shipping') {
+                const driverId = params.get("driverId");
+                proceedBtn.setAttribute('data-operator-id', operatorId);
+                proceedBtn.setAttribute('data-driver-id', driverId);
+            }
+        }
+
+    } else if (userAction === 'Read operator' ||
+        userAction === 'Entry operator') {
+
+        const vehicleBodyCommonActionsDiv = document.getElementById('vehicle-body-common-actions');
+        if (vehicleBodyCommonActionsDiv) {
+            vehicleBodyCommonActionsDiv.remove();
+        }
+
+        const deleteBtn = document.getElementById('delete-btn');
+        if (deleteBtn) {
+            deleteBtn.setAttribute('data-vehicle-id', vehicleId);
+        }
+
+        const entryVehicleBtn = document.getElementById('entry-vehicle-btn');
+        if (entryVehicleBtn) {
+            entryVehicleBtn.setAttribute('data-operator-id', operatorId);
+        }
+
+        const backToOperatorBtn = document.getElementById('back-to-operator-btn');
+        if (backToOperatorBtn) {
+            backToOperatorBtn.setAttribute('data-operator-id', operatorId);
+        }
+    }
+}
+
+function clickEventBinder() {
+    const userAction = params.get("userAction");
+
+    const dashboardBtn = document.getElementById('dashboard-btn');
     if (dashboardBtn) {
         dashboardBtn.addEventListener('click', function () {
             window.location.href = "/views/dashboard.html";
-        },{once : true});
+        }, {once: true});
     }
 
-    if(viewState === operatorViewState().OPERATOR.READ || viewState === operatorViewState().OPERATOR.CREATE){
-
-        const createVehicleBtn = document.querySelector('.create-vehicle-btn');
-        if (createVehicleBtn) {
-            createVehicleBtn.addEventListener('click', function () {
-                let operatorIdFallback = localStorage.getItem("vehicleOperatorId");
-                localStorage.setItem("viewState", viewState);
-                localStorage.setItem("operatorId", operatorIdFallback);
-                window.location.href = "../../views/vehicle/vehicle-creation-form.html";
-            },{once : true});
-        }
-
-        const deleteVehicleBtn = document.querySelector('.delete-vehicle-btn');
-        if (deleteVehicleBtn) {
-            deleteVehicleBtn.addEventListener('click', async function () {
-                const url = `/logistic/vehicle/delete?vehicleId=${this.dataset.vehicleId}`;
-                const methodType = 'DELETE';
-                await ajaxCall(url, methodType, null);
-            },{once : true});
-        }
-
-        const backToOperatorBtn = document.querySelector('.back-to-operator-btn');
-        if(backToOperatorBtn){
-            backToOperatorBtn.addEventListener('click', async function () {
-                const url = `/logistic/operator/fetch?operatorId=${this.dataset.operatorId}`;
-                const methodType = 'GET';
-                const response = await ajaxCall(url, methodType, null);
-
-                localStorage.setItem("operatorId", response.operatorId);
-                localStorage.setItem("viewState",operatorViewState().OPERATOR.READ);
-
-                window.location.href = "../../views/operator/operator.html";
-            },{once : true});
-        }
+    const vehicleListBtn = document.getElementById('vehicle-list-btn');
+    if (vehicleListBtn) {
+        vehicleListBtn.addEventListener('click', function () {
+            const operatorId = params.get("operatorId");
+            window.location.href = `../../views/vehicle/vehicle-list.html?userAction=${userAction}&operatorId=${operatorId}`;
+        }, {once: true});
     }
 
-    if (viewState === shipmentStates.CREATE) {
-        const shipmentBtn = document.querySelector('.proceed-shipment-btn');
-        if(shipmentBtn){
-            shipmentBtn.addEventListener('click', function () {
-                localStorage.setItem("shippingOperatorId", this.dataset.operatorId);
-                localStorage.setItem("shippingDriverId", this.dataset.driverId);
-                localStorage.setItem("shippingVehicleId", this.dataset.vehicleId);
-                window.location.href = "../../views/shipment/shipment-form.html";
-            },{once : true});
-        }
+    const backToOperatorBtn = document.getElementById('back-to-operator-btn');
+    if (backToOperatorBtn) {
+        backToOperatorBtn.addEventListener('click', function () {
+            const operatorId = this.dataset.operatorId;
+            window.location.href = `../../views/operator/operator.html?userAction=${userAction}&operatorId=${operatorId}`;
+        }, {once: true});
     }
 
-    if (viewState === statusAssignmentStates.VEHICLE_REASSIGN) {
-        const reassignVehicle = document.querySelector('.reassign-vehicle-btn');
-        if(reassignVehicle){
-            reassignVehicle.addEventListener('click', async function () {
+    const entryVehicleBtn = document.getElementById('entry-vehicle-btn');
+    if (entryVehicleBtn) {
+        entryVehicleBtn.addEventListener('click', function () {
+            const operatorId = this.dataset.operatorId;
+            window.location.href = `../../views/vehicle/vehicle-creation-form.html?userAction=${userAction}&operatorId=${operatorId}`;
+        }, {once: true});
+    }
+
+    const updateBtn = document.getElementById('update-btn');
+    if (updateBtn) {
+        updateBtn.addEventListener('click', async function () {
+            const vehicleId = document.getElementById('vehicle-id').value.trim();
+            const vehicleType = document.getElementById('vehicle-type').value.trim();
+            const vehicleNumber = document.getElementById('vehicle-number').value.trim();
+            const operatorId = document.getElementById('operator-id').value.trim();
+            const createdAt = document.getElementById('created-at').value.trim();
+            const updatedAt = document.getElementById('updated-at').value.trim();
+            const updatedBy = document.getElementById('updated-by').value.trim();
+
+            if (vehicleId === '') {
+                alert('Vehicle ID not available.');
+            } else if (vehicleType === '') {
+                alert('Vehicle type not entered.');
+            } else if (vehicleNumber === '') {
+                alert('Vehicle number not entered.');
+            } else if (operatorId === '') {
+                alert('Operator ID not available.');
+            } else if (createdAt === '') {
+                alert('Created date not available.');
+            } else if (updatedAt === '') {
+                alert('Updated date not entered.');
+            } else if (updatedBy === '') {
+                alert('Updated by not entered.');
+            }
+
+            const payload = {
+                "vehicleId": vehicleId,
+                "vehicleType": vehicleType,
+                "vehicleNumber": vehicleNumber,
+                "operatorId": operatorId,
+                "createdAt": createdAt,
+                "updatedAt": updatedAt,
+                "updatedBy": updatedBy
+            };
+
+            const response = await ajaxCall(`/logistic/vehicle/update`, 'POST', payload);
+            if (response) {
+                alert(response);
+            }
+        });
+    }
+
+    const deleteBtn = document.getElementById('delete-btn');
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', async function () {
+            const vehicleId = this.dataset.vehicleId;
+            const url = `/logistic/vehicle/delete?vehicleId=${vehicleId}`;
+            const methodType = 'DELETE';
+            await ajaxCall(url, methodType, null);
+        }, {once: true});
+    }
+
+    const proceedBtn = document.getElementById('proceed-btn');
+    if (proceedBtn) {
+        proceedBtn.addEventListener('click', async function () {
+            if (userAction === 'Entry shipping') {
+                const operatorId = this.dataset.operatorId;
+                const driverId = this.dataset.driverId;
+                const vehicleId = this.dataset.vehicleId;
+                window.location.href = `../../views/shipment/shipment-form.html?userAction=${userAction}&operatorId=${operatorId}&driverId=${driverId}&vehicleId=${vehicleId}`;
+            } else if (userAction === 'Reassign vehicle') {
+                const vehicleId = this.dataset.vehicleId;
+                const shippingStatusId = params.get("shippingStatusId");
                 const url = `/logistic/status/update`;
                 const methodType = 'POST';
                 const payload = {
-                    "shippingStatusId": localStorage.getItem("shippingStatusId"),
-                    "vehicleId": parseInt(this.dataset.vehicleId, 10)
+                    "shippingStatusId": shippingStatusId,
+                    "vehicleId": parseInt(vehicleId, 10)
                 };
                 const statusUpdateResponse = await ajaxCall(url, methodType, payload);
-                localStorage.setItem("statusId", statusUpdateResponse.shippingStatusId);
-                localStorage.setItem("viewState", statusReadStates.READ);
-                window.location.href = "../../views/status/status.html";
-            },{once : true});
-        }
+                window.location.href = `../../views/status/status.html?userAction=${userAction}&shippingStatusId=${statusUpdateResponse.shippingStatusId}`;
+            }
+        }, {once: true});
     }
 }
+clickEventBinder();

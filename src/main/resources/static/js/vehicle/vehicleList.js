@@ -1,182 +1,202 @@
-document.addEventListener("DOMContentLoaded", function () {
-    async function PayloadExtractor() {
+const params = new URLSearchParams(window.location.search);
+let currentPageNo = 1;
+let totalPages = 1;
+let currentResponse = null;
 
-        const viewState = localStorage.getItem("viewState");
-        const operatorStates = operatorViewState().OPERATOR;
-        const shipmentStates = shipmentViewState().SHIPMENT;
-        const statusStates = statusViewState().SHIPMENT_ASSIGNMENT;
+async function payloadExtractor() {
+    const userAction = params.get("userAction");
+    const operatorId = params.get("operatorId");
 
-         previousPageNavigation(viewState);
-
-        if (viewState === operatorStates.READ || viewState === shipmentStates.CREATE || viewState === statusStates.VEHICLE_REASSIGN) {
-            const operatorId = localStorage.getItem("operatorId");
-            const pageNo = localStorage.getItem("pageNo") != null ? localStorage.getItem("pageNo") : 1;
-            const url = `/logistic/vehicle/fetchall?operatorId=${operatorId}&pageNo=${pageNo}`;
-            const methodType = 'GET';
-            const response = await ajaxCall(url, methodType, null);
-            LayoutRenderer(response, viewState);
-            searchClickEvent(response, viewState);
-        }
+    if (!userAction || !operatorId) {
+        alert('Invalid parameters.');
+        return;
     }
 
-    PayloadExtractor();
-});
+    currentPageNo = 1;
+    await fetchVehicleList(operatorId, currentPageNo);
+}
+payloadExtractor();
 
-function LayoutRenderer(response, viewState) {
-    let vehicleList = [];
+async function fetchVehicleList(operatorId, pageNo) {
+    const url = `/logistic/vehicle/fetchall?operatorId=${operatorId}&pageNo=${pageNo}`;
+    const methodType = 'GET';
+    const response = await ajaxCall(url, methodType, null);
+
+    currentResponse = response;
 
     if (response && response.valueMap) {
-        vehicleList = response.valueMap.VehicleList || [];
-
-        localStorage.setItem("totalPages", response.valueMap.TotalPages || 1);
-        localStorage.setItem("totalElements", response.valueMap.TotalElements || 0);
-    } else {
-        vehicleList = Array.isArray(response) ? response : [response];
+        totalPages = response.valueMap.TotalPages || 1;
+        const vehicleList = response.valueMap.VehicleList || [];
+        renderVehicleList(vehicleList);
+    } else if (Array.isArray(response)) {
+        renderVehicleList(response);
+    } else if (response) {
+        renderVehicleList([response]);
     }
-    const vehicleShellWrapperBody = document.querySelector('.vehicle-shell-wrapper-body');
+}
 
-    if (vehicleShellWrapperBody) {
-        vehicleShellWrapperBody.innerHTML = '';
+function renderVehicleList(vehicleList) {
+    const userAction = params.get("userAction");
+    const driverId = params.get("driverId");
+
+    const listContainer = document.getElementById('vehicle-list-container');
+    if (listContainer) {
+        listContainer.innerHTML = '';
     }
 
     vehicleList.forEach(vehicle => {
-
         if (!vehicle) return;
 
-        const elementDiv = document.createElement('div');
-        elementDiv.className = 'vehicle-shell-inner-body';
+        const vehicleDiv = document.createElement('div');
+        vehicleDiv.className = 'vehicle-list-item';
+        vehicleDiv.setAttribute('data-vehicle-id', vehicle.vehicleId);
+        vehicleDiv.setAttribute('data-vehicle-number', vehicle.vehicleNumber);
+        vehicleDiv.setAttribute('data-operator-id', vehicle.operatorId);
 
-        Object.entries(vehicle).forEach(([keyName, keyValue]) => {
-            if (keyName === "vehicleId" || keyName === "vehicleNumber" || keyName === "operatorId") {
-                const elementP = document.createElement('p');
-                elementP.className = camelToKebabCase(keyName);
-                elementP.textContent = `${keyName.charAt(0).toUpperCase() + whiteSpacedCamelCase(keyName).slice(1)} : ${keyValue}`;
-                elementDiv.append(elementP);
-            }
-        });
+        const vehicleInfoDiv = document.createElement('div');
+        vehicleInfoDiv.className = 'vehicle-info';
 
-        const elementBtnDiv = document.createElement('div');
-        elementBtnDiv.className = 'vehicle-shell-event';
+        const vehicleIdP = document.createElement('p');
+        vehicleIdP.textContent = `Vehicle ID: ${vehicle.vehicleId}`;
+        vehicleInfoDiv.append(vehicleIdP);
 
-        const elementBtn = document.createElement('button');
-        elementBtn.className = 'view-btn';
-        elementBtn.setAttribute('data-operator-id', vehicle.operatorId);
-        if (viewState === shipmentViewState().SHIPMENT.CREATE) {
-            elementBtn.setAttribute('data-driver-id', localStorage.getItem("driverId"));
+        const vehicleNumberP = document.createElement('p');
+        vehicleNumberP.textContent = `Vehicle Number: ${vehicle.vehicleNumber}`;
+        vehicleInfoDiv.append(vehicleNumberP);
+
+        const operatorIdP = document.createElement('p');
+        operatorIdP.textContent = `Operator ID: ${vehicle.operatorId}`;
+        vehicleInfoDiv.append(operatorIdP);
+
+        const viewBtn = document.createElement('button');
+        viewBtn.className = 'view-btn';
+        viewBtn.setAttribute('data-vehicle-id', vehicle.vehicleId);
+        viewBtn.setAttribute('data-operator-id', vehicle.operatorId);
+        // carry driverId forward for Entry shipping flow
+        if (userAction === 'Entry shipping' && driverId) {
+            viewBtn.setAttribute('data-driver-id', driverId);
         }
-        elementBtn.setAttribute('data-vehicle-id', vehicle.vehicleId);
-        elementBtn.textContent = 'View';
-        elementBtnDiv.append(elementBtn);
+        viewBtn.textContent = 'View';
+        vehicleInfoDiv.append(viewBtn);
 
-        elementDiv.append(elementBtnDiv);
-        vehicleShellWrapperBody.append(elementDiv);
+        vehicleDiv.append(vehicleInfoDiv);
+        listContainer.append(vehicleDiv);
     });
-    ClickEventBinder(viewState);
-    searchClickEvent(response, viewState);
+
+    clickEventBinder();
+    searchClickEvent();
 }
 
-function ClickEventBinder(viewState) {
+function clickEventBinder() {
+    const userAction = params.get("userAction");
+    const operatorId = params.get("operatorId");
 
-    if (viewState === shipmentViewState().SHIPMENT.CREATE || viewState === operatorViewState().OPERATOR.READ || viewState === statusViewState().SHIPMENT_ASSIGNMENT.VEHICLE_REASSIGN) {
-        const viewBtnArray = document.querySelectorAll('.view-btn');
-
-        viewBtnArray.forEach(current => {
-            current.addEventListener('click', function () {
-                localStorage.setItem("operatorId", this.dataset.operatorId);
-                if (viewState === shipmentViewState().SHIPMENT.CREATE) {
-                    localStorage.setItem("driverId", this.dataset.driverId);
-                }
-                localStorage.setItem("vehicleId", this.dataset.vehicleId);
-                localStorage.setItem("viewState", viewState);
-                window.location.href = "../../views/vehicle/vehicle.html";
-            },{once : true});
-        });
+    const dashboardBtn = document.getElementById('dashboard-btn');
+    if (dashboardBtn) {
+        dashboardBtn.addEventListener('click', function () {
+            window.location.href = "/views/dashboard.html";
+        }, { once: true });
     }
-}
 
-function searchClickEvent(response, viewState) {
-    const searchBtn = document.querySelector('.search-btn');
+    const createVehicleBtn = document.getElementById('create-vehicle-btn');
+    if (createVehicleBtn) {
+        createVehicleBtn.addEventListener('click', function () {
+            window.location.href = `../../views/vehicle/vehicle-creation-form.html?userAction=Entry operator&operatorId=${operatorId}`;
+        }, { once: true });
+    }
 
-    searchBtn.addEventListener('click', async function () {
-        const searchInput = document.getElementById('search').value.trim().toLowerCase();
-        const vehicleNumberList = document.querySelectorAll('.vehicle-number');
+    const viewBtnArray = document.querySelectorAll('.view-btn');
+    viewBtnArray.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const vehicleId = this.getAttribute('data-vehicle-id');
+            const operatorId = this.getAttribute('data-operator-id');
 
-        vehicleNumberList.forEach(function (vehicle) {
-            const vehicleNumber = vehicle.textContent.replace("Vehicle Number : ", "").trim().toLowerCase();
-            const parentElement = vehicle.closest('.vehicle-shell-inner-body');
-            if (parentElement) {
-                if (vehicleNumber !== searchInput && searchInput !== "") {
-                    parentElement.style.display = 'none';
-                } else {
-                    parentElement.style.display = '';
-                }
+            if (userAction === 'Entry shipping') {
+                const driverId = this.getAttribute('data-driver-id');
+                window.location.href = `../../views/vehicle/vehicle.html?vehicleId=${vehicleId}&userAction=${userAction}&operatorId=${operatorId}&driverId=${driverId}`;
+            } else if (userAction === 'Reassign vehicle') {
+                const shippingStatusId = params.get("shippingStatusId");
+                window.location.href = `../../views/vehicle/vehicle.html?vehicleId=${vehicleId}&userAction=${userAction}&operatorId=${operatorId}&shippingStatusId=${shippingStatusId}`;
+            } else {
+                // Read operator
+                window.location.href = `../../views/vehicle/vehicle.html?vehicleId=${vehicleId}&userAction=${userAction}&operatorId=${operatorId}`;
             }
-        });
-        const activeElements = Array.from(document.querySelectorAll('.vehicle-shell-inner-body')).filter(element => element.style.display !== 'none');
-        if (activeElements.length === 0 && searchInput) {
-            const fallbackResponse = await ajaxCall(`/logistic/vehicle/fetchByNumber?vehicleNumber=${searchInput}`);
-            if (fallbackResponse) {
-                LayoutRenderer(fallbackResponse, viewState);
-            }
-        }
+        }, { once: true });
     });
 
-    const searchInput = document.getElementById('search');
+    const previousPageBtn = document.getElementById('previous-page-btn');
+    if (previousPageBtn) {
+        previousPageBtn.addEventListener('click', async function () {
+            if (currentPageNo > 1) {
+                currentPageNo--;
+                await fetchVehicleList(operatorId, currentPageNo);
+            }
+        }, { once: true });
+    }
 
-    searchInput.addEventListener('input', function () {
-        const searchValue = this.value.trim().toLowerCase();
-
-        if (!searchValue) {
-            LayoutRenderer(response, viewState);
-            return;
-        }
-
-    });
-}
-
-
-function previousPageNavigation(viewState) {
-
-    const previousFormBtn = document.querySelector('.previous-form-btn');
-
-    if (!previousFormBtn) return;
-
-    if (window.history.length <= 1) {
-        previousFormBtn.disabled = true;
-    } else {
-        previousFormBtn.disabled = false;
-
-        previousFormBtn.addEventListener('click', function () {
-            localStorage.setItem("viewState", viewState);
-            window.history.back();
+    const nextPageBtn = document.getElementById('next-page-btn');
+    if (nextPageBtn) {
+        nextPageBtn.addEventListener('click', async function () {
+            if (currentPageNo < totalPages) {
+                currentPageNo++;
+                await fetchVehicleList(operatorId, currentPageNo);
+            }
         }, { once: true });
     }
 }
 
+function searchClickEvent() {
+    const searchBtn = document.getElementById('search-btn');
+    const searchInput = document.getElementById('search');
 
-function recordPageEventBinding(){
+    if (searchBtn) {
+        searchBtn.addEventListener('click', async function () {
+            const searchValue = searchInput.value.trim().toLowerCase();
+            const vehicleItems = document.querySelectorAll('.vehicle-list-item');
+            let hasMatch = false;
 
-    const lastPage = parseInt(localStorage.getItem("TotalPages")) || 1;
+            vehicleItems.forEach(item => {
+                const vehicleNumber = item.getAttribute('data-vehicle-number').toLowerCase();
+                if (vehicleNumber.includes(searchValue) || searchValue === '') {
+                    item.style.display = '';
+                    hasMatch = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
 
-    const previousRecordPageBtn = document.getElementById('previous-page-btn');
+            if (!hasMatch && searchValue !== '') {
+                const response = await ajaxCall(`/logistic/vehicle/fetchByNumber?vehicleNumber=${searchValue}`, 'GET', null);
+                if (response) {
+                    let vehicleList = [];
 
-    previousRecordPageBtn.addEventListener('click',function (){
-        let currentPage = parseInt(localStorage.getItem("pageNo")) || 1;
-        if(currentPage > 1){
-            const pageNo = currentPage-1;
-            localStorage.setItem("pageNo",pageNo);
-        }
-    }, {once: true});
+                    // Handle both response formats: valueMap wrapper and direct array
+                    if (response && response.valueMap) {
+                        vehicleList = response.valueMap.VehicleList || [];
+                    } else if (Array.isArray(response)) {
+                        vehicleList = response;
+                    } else if (response) {
+                        vehicleList = [response];
+                    }
 
-    const nextRecordPageBtn = document.getElementById('next-page-btn');
+                    if (vehicleList.length > 0) {
+                        renderVehicleList(vehicleList);
+                    }
+                }
+            }
+        }, { once: true });
+    }
 
-    nextRecordPageBtn.addEventListener('click',function (){
-        let currentPage = parseInt(localStorage.getItem("pageNo")) || 1;
-        if(currentPage > 0 && currentPage < lastPage){
-            const pageNo = currentPage+1;
-            localStorage.setItem("pageNo",pageNo);
-        }
-    }, {once: true});
+    if (searchInput) {
+        searchInput.addEventListener('input', function () {
+            const searchValue = this.value.trim();
 
+            if (!searchValue) {
+                const vehicleItems = document.querySelectorAll('.vehicle-list-item');
+                vehicleItems.forEach(item => {
+                    item.style.display = '';
+                });
+            }
+        });
+    }
 }
-recordPageEventBinding();

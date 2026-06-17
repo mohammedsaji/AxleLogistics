@@ -2,26 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Cargo Screen</title>
+    <title>Cargo screen</title>
 </head>
 <body>
-<div class="cargo-shell">
-    <div class="cargo-shell-wrapper-header">
-        <div class="cargo-shell-inner-header">
-            <div class="cargo-shell-group-header">
-                <button class="dashboard-btn">Dashboard</button>
-                <button class="previous-form-btn">Previous form</button>
+<div class="cargo">
+    <header class="cargo-header">
+        <div class="cargo-header-brand-icon">
+            <img class="cargo-header-logo" src="" alt="Cargo">
+        </div>
+        <div class="cargo-header-actions">
+            <div class="operator-header-section-a">
+                <button id="dashboard-btn">Dashboard</button>
+            </div>
+            <div class="operator-header-section-b">
+                <div id="cargo-header-actions-a" class="cargo-header-actions-a">
+                </div>
+                <div id="cargo-header-actions-b" class="cargo-header-actions-b">
+                </div>
             </div>
         </div>
+    </header>
+    <main class="cargo-body">
+        <div class="cargo-body-cargo-display">
+            <form class="cargo-body-cargo-form">
+                <label for="cargo-id">Cargo ID</label>
+                <input type="text" id="cargo-id" readonly>
 
-    </div>
-    <div class="cargo-shell-wrapper-body">
+                <label for="cargo-name">Cargo name</label>
+                <input type="text" id="cargo-name" readonly>
 
-    </div>
+                <label for="cargo-weight">Cargo weight</label>
+                <input type="text" id="cargo-weight" readonly>
+
+                <label for="cargo-quantity">Cargo quantity</label>
+                <input type="number" id="cargo-quantity" readonly>
+
+                <label for="cargo-type">Cargo type</label>
+                <input type="text" id="cargo-type" readonly>
+
+                <label for="cargo-description">Cargo description</label>
+                <input type="text" id="cargo-description" readonly>
+
+                <label for="created-at">Created at</label>
+                <input type="text" id="created-at" readonly>
+
+                <label for="updated-at">Updated at</label>
+                <input type="text" id="updated-at" readonly>
+            </form>
+        </div>
+        <div id="cargo-body-common-actions" class="cargo-body-common-actions">
+            <button id="return-to-shipment-btn">Return to shipment</button>
+        </div>
+    </main>
+    <footer class="cargo-footer"></footer>
 </div>
-<script src="/js/viewStateConfig.js"></script>
 <script src="../../js/utility/utility.js"></script>
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
-<script src= "../../js/shipment/cargo.js"></script>
+<script src="../../js/shipment/cargo.js"></script>
 </body>
 </html>

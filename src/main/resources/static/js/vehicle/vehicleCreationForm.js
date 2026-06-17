@@ -1,143 +1,66 @@
-document.addEventListener('DOMContentLoaded', function () {
+const params = new URLSearchParams(window.location.search);
 
-    function LayoutRender() {
+function payloadExtractor() {
+    const operatorId = params.get("operatorId");
 
-        const operatorId = localStorage.getItem("operatorIdForVehicleCreation");
-        const viewState = localStorage.getItem("viewState");
-
-         previousPageNavigation(viewState);
-
-        if (viewState === operatorViewState().OPERATOR.READ || viewState === operatorViewState().OPERATOR.CREATE) {
-
-            const vehicleShellWrapperBody = document.querySelector('.vehicle-shell-wrapper-body');
-
-            const formFields = vehicleFormFields();
-
-            formFields.forEach(field => {
-
-                const clsName = camelToKebabCase(field);
-                const value = whiteSpacedCamelCase(field);
-
-                const elementDiv = document.createElement('div');
-                elementDiv.className = 'vehicle-shell-inner-body';
-
-                const elementLabel = document.createElement('label');
-                elementLabel.htmlFor = clsName;
-                elementLabel.textContent = `${field.charAt(0).toUpperCase() + whiteSpacedCamelCase(field).slice(1)}`;
-                elementDiv.append(elementLabel);
-
-                if (field !== "operatorId") {
-                    const elementInput = document.createElement('input');
-                    elementInput.className = clsName;
-                    elementInput.type = "text";
-                    elementInput.required = true;
-                    if (field === "vehicleType") {
-                        elementInput.max = "50";
-                    } else if (field === "vehicleNumber") {
-                        elementInput.max = "50";
-                    }
-                    elementDiv.append(elementInput);
-                }
-
-                if (field === "operatorId") {
-                    const elementP = document.createElement('p');
-                    elementP.className = clsName;
-                    elementP.setAttribute(`data-${clsName}`, operatorId);
-                    elementP.textContent = operatorId;
-                    elementDiv.append(elementP);
-                }
-
-                vehicleShellWrapperBody.append(elementDiv);
-            });
-
-            const elementDiv = document.createElement('div');
-            elementDiv.className = 'vehicle-shell-inner-body';
-
-            const createBtn = document.createElement('button');
-            createBtn.className = 'create-btn';
-            createBtn.textContent = 'Create';
-            elementDiv.append(createBtn);
-
-            vehicleShellWrapperBody.append(elementDiv);
+    if (operatorId) {
+        const operatorIdDisplay = document.getElementById('operator-id-display');
+        if (operatorIdDisplay) {
+            operatorIdDisplay.style.display = 'block';
         }
-        ClickEventBinder(operatorId, viewState);
+        const operatorIdInput = document.getElementById('operator-id');
+        if (operatorIdInput) {
+            operatorIdInput.value = operatorId;
+        }
     }
-
-    LayoutRender();
-});
-
-
-function vehicleFormFields(){
-
-    const formFields = ["operatorId","vehicleType","vehicleNumber"];
-
-    return formFields;
 }
+payloadExtractor();
 
+function clickEventBinder() {
 
-function ClickEventBinder(operatorId, viewState) {
-
-    const dashboardBtn = document.querySelector('.dashboard-btn');
+    const dashboardBtn = document.getElementById('dashboard-btn');
     if (dashboardBtn) {
         dashboardBtn.addEventListener('click', function () {
-            localStorage.setItem("viewStatus",dashboardViewState().DASHBOARD);
             window.location.href = "/views/dashboard.html";
-        },{once : true});
+        }, {once: true});
     }
 
+    const createForm = document.querySelector('form');
+    if (createForm) {
+        createForm.addEventListener('submit', async function (event) {
+            event.preventDefault();
 
-    const createBtn = document.querySelector('.create-btn');
+            const vehicleType = document.getElementById('vehicle-type').value.trim();
+            const vehicleNumber = document.getElementById('vehicle-number').value.trim();
+            const operatorIdInput = document.getElementById('operator-id');
+            const operatorId = operatorIdInput ? operatorIdInput.value.trim() : null;
 
-    createBtn.addEventListener('click', async function () {
+            if (vehicleType === '') {
+                alert('Vehicle Type not entered.');
+                return;
+            } else if (vehicleNumber === '') {
+                alert('Vehicle Number not entered.');
+                return;
+            } else if (!operatorId) {
+                alert('Operator ID not available.');
+                return;
+            }
 
-        const formFields = vehicleFormFields();
+            const payload = {
+                "vehicleType": vehicleType,
+                "vehicleNumber": vehicleNumber,
+                "operatorId": parseInt(operatorId, 10)
+            };
 
-        const payload = {};
+            const url = `/logistic/vehicle/save`;
+            const methodType = 'POST';
+            const response = await ajaxCall(url, methodType, payload);
 
-        formFields.forEach(field => {
-            const kebabCaseKey = camelToKebabCase(field);
-
-            const domElement = document.createElement(`.${kebabCaseKey}`);
-
-            if (domElement) {
-
-                const fieldValue = domElement.textContent || null;
-
-                payload[field] = fieldValue;
+            if (response) {
+                const vehicleId = response.vehicleId;
+                window.location.href = `../../views/vehicle/vehicle.html?vehicleId=${vehicleId}&userAction=Entry operator&operatorId=${operatorId}`;
             }
         });
-
-        const url = `/logistic/vehicle/save`;
-        const methodType = 'POST';
-
-        const response = await ajaxCall(url, methodType, payload);
-
-        if (response !== null) {
-            localStorage.setItem("vehicleId", response.vehicleId);
-            localStorage.setItem("operatorId", operatorId);
-            localStorage.setItem("viewState", viewState);
-            window.location.href = "../../views/vehicle/vehicle.html";
-        }
-    });
-}
-
-
-
-
-function previousPageNavigation(viewState) {
-
-    const previousFormBtn = document.querySelector('.previous-form-btn');
-
-    if (!previousFormBtn) return;
-
-    if (window.history.length <= 1) {
-        previousFormBtn.disabled = true;
-    } else {
-        previousFormBtn.disabled = false;
-
-        previousFormBtn.addEventListener('click', function () {
-            localStorage.setItem("viewState", viewState);
-            window.history.back();
-        }, { once: true });
     }
 }
+clickEventBinder();

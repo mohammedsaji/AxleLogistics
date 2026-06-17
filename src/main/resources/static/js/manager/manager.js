@@ -1,136 +1,163 @@
-document.addEventListener('DOMContentLoaded', function (event) {
-    async function PayloadExtractor() {
+const params = new URLSearchParams(window.location.search);
 
-        const viewState = localStorage.getItem("viewState");
-        const managerStates = managerViewState().MANAGER_PROFILE;
-        const operatorStates = operatorViewState().OPERATOR;
+async function payloadExtractor() {
 
-        previousPageNavigation(viewState);
+    const managerId = params.get("managerId");
 
-        if (viewState === operatorStates.READ || viewState === managerStates.CREATE) {
-            const managerId = localStorage.getItem("managerId");
-            if(managerId){
-                const url = `/logistic/manager/fetch?managerId=${managerId}`;
-                const methodType = 'GET';
-                const response = await ajaxCall(url, methodType, null);
-                LayoutRender(managerId, response);
-            }
-        }
+    const url = `/logistic/manager/fetch?managerId=${managerId}`;
+    const methodType = 'GET';
+    const response = await ajaxCall(url, methodType, null);
+    valueInitializer(response);
+    dynamicLayoutRender(response.managerId, response.operatorId);
+}
+payloadExtractor();
+
+function valueInitializer(response) {
+    const managerId = document.getElementById('manager-id');
+    const managerName = document.getElementById('manager-name');
+    const managerContactNo = document.getElementById('manager-contact-no');
+    const operatorId = document.getElementById('operator-id');
+    const managerStatus = document.getElementById('manager-status');
+    const createdAt = document.getElementById('created-at');
+    const updatedAt = document.getElementById('updated-at');
+    const updatedBy = document.getElementById('updated-by');
+
+    if (!response.managerId) {
+        alert('Manager not available.');
+        return;
     }
-    PayloadExtractor();
-});
 
-function LayoutRender(managerId, response) {
-
-    const viewState = localStorage.getItem("viewState");
-    const managerStatus = response.managerStatus;
-    const managerShellWrapperBody = document.querySelector('.manager-shell-wrapper-body');
-
-    if (!managerShellWrapperBody) return;
-
-    managerShellWrapperBody.innerHTML = '';
-
-    Object.entries(response).forEach(([keyName, keyValue]) => {
-
-        if(keyName === "managerId"){
-            const updateManagerBtn = document.querySelector('.update-manager-btn');
-            const deleteManagerBtn = document.querySelector('.delete-manager-btn');
-
-            updateManagerBtn.setAttribute(`data-${camelToKebabCase(keyName)}`,keyValue);
-            deleteManagerBtn.setAttribute(`data-${camelToKebabCase(keyName)}`,keyValue);
-        }
-
-        const elementDiv = document.createElement('div');
-        elementDiv.className = 'manager-shell-inner-body';
-
-        const elementLabel = document.createElement('label');
-        elementLabel.htmlFor = camelToKebabCase(keyName);
-        elementLabel.textContent = `${keyName.charAt(0).toUpperCase()+whiteSpacedCamelCase(keyName).slice(1)}`;
-        elementDiv.append(elementLabel);
-
-        const elementInput = document.createElement('input');
-        elementInput.id = camelToKebabCase(keyName);
-        elementInput.value = keyValue != null ? keyValue : "";
-
-        if (keyName !== "managerId" && keyName !== "createdAt" && keyName !== "updatedAt" && keyName !== "updatedBy") {
-            elementInput.readOnly = false;
-        }else{
-            elementInput.readOnly = true;
-        }
-        elementDiv.append(elementInput);
-
-        managerShellWrapperBody.append(elementDiv);
-    });
-
-    ClickEventBinder(viewState, managerStatus, response);
+    managerId.value = response.managerId;
+    managerName.value = response.managerName;
+    managerContactNo.value = response.managerContactNo;
+    operatorId.value = response.operatorId;
+    managerStatus.value = response.managerStatus;
+    createdAt.value = response.createdAt;
+    updatedAt.value = response.updatedAt;
+    updatedBy.value = response.updatedBy;
 }
 
-function ClickEventBinder(viewState, managerStatus, response) {
+function dynamicLayoutRender(managerId, operatorId) {
+    const userAction = params.get("userAction");
 
-    const dashboardBtn = document.querySelector('.dashboard-btn');
-    dashboardBtn.addEventListener('click', function () {
-        window.location.href = "/views/dashboard.html";
-    },{once : true});
+    if (userAction === 'Entry manager') {
+        const managerHeaderActionsDivA = document.querySelector('.manager-header-actions-a');
+        if (managerHeaderActionsDivA) {
+            managerHeaderActionsDivA.remove();
+        }
+        const managerHeaderActionsDivB = document.querySelector('.manager-header-actions-b');
+        if (managerHeaderActionsDivB) {
+            managerHeaderActionsDivB.remove();
+        }
+        const managerBodyActionsDiv = document.querySelector('.manager-body-manager-actions');
+        if (managerBodyActionsDiv) {
+            managerBodyActionsDiv.remove();
+        }
 
-    const createManagerBtn = document.querySelector('.create-manager-btn');
-    if(createManagerBtn){
-        createManagerBtn.addEventListener('click', function () {
-            localStorage.setItem("viewState",federateViewState().FEDERATE_ACC.CREATE);
-            window.location.href = "../../views/signUp/sign-up.html";
-        },{once : true});
+        const entryManagerBtn = document.getElementById('entry-manager-btn');
+        entryManagerBtn.setAttribute('data-operator-id',operatorId);
+
+    } else if (userAction === 'Read operator') {
+        const managerHeaderActionsDivA = document.querySelector('.manager-header-actions-a');
+        if (managerHeaderActionsDivA) {
+            managerHeaderActionsDivA.remove();
+        }
+        const managerHeaderActionsDivB = document.querySelector('.manager-header-actions-b');
+        if (managerHeaderActionsDivB) {
+            managerHeaderActionsDivB.remove();
+        }
+
+        const deleteBtn = document.getElementById('delete-btn');
+        if (deleteBtn) {
+            deleteBtn.setAttribute('data-manager-id', managerId);
+        }
+    }
+}
+
+function clickEventBinder() {
+
+    const userAction = params.get("userAction");
+
+    const managerListBtn = document.getElementById('manager-list-btn');
+    if (managerListBtn) {
+        managerListBtn.addEventListener('click', function () {
+            const userAction = 'Read operator';
+            window.location.href = `../../views/manager/manager-list.html?userAction=${userAction}`;
+        }, {once: true});
     }
 
-    const updateManagerBtn = document.querySelector('.update-manager-btn');
-    if(updateManagerBtn){
-        updateManagerBtn.addEventListener('click', async function () {
-            const payload = {};
-            Object.keys(response).forEach((key) => {
+    const entryManagerBtn = document.getElementById('entry-manager-btn');
+    if (entryManagerBtn) {
+        entryManagerBtn.addEventListener('click', function () {
+            const userAction = 'Entry manager';
+            const operatorId = this.dataset.operatorId;
+            window.location.href = `../../views/signUp/sign-up.html?userAction=${userAction}&operatorId=${operatorId}`;
+        }, {once: true});
+    }
 
-                const kebabCaseKey = camelToKebabCase(key);
-                const domElementInput = document.getElementById(`${kebabCaseKey}`);
-                if (domElementInput) {
-                    const elementInputValue = domElementInput.value.trim();
+    const dashboardBtn = document.getElementById('dashboard-btn');
+    if (dashboardBtn) {
+        dashboardBtn.addEventListener('click', function () {
+            window.location.href = "/views/dashboard.html";
+        }, {once: true});
+    }
 
-                    if (key === "managerId" || key === "updatedBy") {
-                        payload[key] = elementInputValue ? parseInt(elementInputValue, 10) : null;
-                    } else {
-                        payload[key] = elementInputValue || null;
-                    }
-                }
+    const updateBtn = document.getElementById('update-btn');
+    if (updateBtn) {
+        updateBtn.addEventListener('click', async function () {
+            const managerId = document.getElementById('manager-id').value.trim();
+            const managerName = document.getElementById('manager-name').value.trim();
+            const managerContactNo = document.getElementById('manager-contact-no').value.trim();
+            const operatorId = document.getElementById('operator-id').value.trim();
+            const managerStatus = document.getElementById('manager-status').value.trim();
+            const createdAt = document.getElementById('created-at').value.trim();
+            const updatedAt = document.getElementById('updated-at').value.trim();
+            const updatedBy = document.getElementById('updated-by').value.trim();
 
-            });
-            const fallbackResponse = await ajaxCall(`/logistic/manager/save`, 'POST', payload);
-            if(fallbackResponse){
-                alert(fallbackResponse);
+            if (managerId === '') {
+                alert('Manager ID not available.');
+            } else if (managerName === '') {
+                alert('Manager Name not entered.');
+            } else if (managerContactNo === '') {
+                alert('Manager Contact No not entered.');
+            } else if (operatorId === '') {
+                alert('Operator ID not entered.');
+            } else if (managerStatus === '') {
+                alert('Manager Status not entered.');
+            } else if (createdAt === '') {
+                alert('Created date not entered.');
+            } else if (updatedAt === '') {
+                alert('Updated date not entered.');
+            } else if (updatedBy === '') {
+                alert('Updated by not entered.');
+            }
+
+            const payload = {
+                "managerId": managerId,
+                "managerName": managerName,
+                "managerContactNo": managerContactNo,
+                "operatorId": operatorId,
+                "managerStatus": managerStatus,
+                "createdAt": createdAt,
+                "updatedAt": updatedAt,
+                "updatedBy": updatedBy
+            };
+
+            const response = await ajaxCall(`/logistic/manager/update`, 'POST', payload);
+            if (response) {
+                alert(response);
             }
         });
     }
 
-    const deleteManagerBtn = document.querySelector('.delete-manager-btn');
-    if(deleteManagerBtn){
-        deleteManagerBtn.addEventListener('click', async function () {
-            const url = `/logistic/manager/delete?managerId=${this.dataset.managerId}`;
+    const deleteBtn = document.getElementById('delete-btn');
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', async function () {
+            const managerId = this.dataset.managerId;
+            const url = `/logistic/manager/delete?managerId=${managerId}`;
             const methodType = 'DELETE';
             await ajaxCall(url, methodType, null);
-        },{once : true});
+        }, {once: true});
     }
 }
-
-
-function previousPageNavigation(viewState) {
-
-    const previousFormBtn = document.querySelector('.previous-form-btn');
-
-    if (!previousFormBtn) return;
-
-    if (window.history.length <= 1) {
-        previousFormBtn.disabled = true;
-    } else {
-        previousFormBtn.disabled = false;
-
-        previousFormBtn.addEventListener('click', function () {
-            localStorage.setItem("viewState", viewState);
-            window.history.back();
-        }, { once: true });
-    }
-}
+clickEventBinder();

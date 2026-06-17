@@ -1,163 +1,191 @@
-document.addEventListener('DOMContentLoaded', function (event) {
-    async function PayloadExtractor() {
+const params = new URLSearchParams(window.location.search);
 
-        const viewState = localStorage.getItem("viewState");
-        const employeeStates = employeeViewState().EMPLOYEE_ACCOUNT;
+async function payloadExtractor() {
+    const employeeId = params.get("employeeId");
+    const url = `/logistic/employee/fetch?employeeId=${employeeId}`;
+    const methodType = 'GET';
+    const response = await ajaxCall(url, methodType, null);
+    valueInitializer(response);
+    dynamicLayoutRender(response.employeeId);
+}
+payloadExtractor();
 
-        previousPageNavigation(viewState);
+function valueInitializer(response) {
+    const employeeId = document.getElementById('employee-id');
+    const employeeName = document.getElementById('employee-name');
+    const employeePhoneNo = document.getElementById('employee-phone-no');
+    const employeeDepartment = document.getElementById('employee-department');
+    const employeeJoiningDate = document.getElementById('employee-joining-date');
+    const employeeStatus = document.getElementById('employee-status');
+    const reportingManagerId = document.getElementById('reporting-manager-id');
+    const accountId = document.getElementById('account-id');
+    const createdAt = document.getElementById('created-at');
+    const updatedAt = document.getElementById('updated-at');
+    const updatedBy = document.getElementById('updated-by');
 
-        if (viewState === employeeStates.READ || viewState === employeeStates.ADMINSTR || viewState === employeeStates.CREATE) {
-            const employeeId = localStorage.getItem("employeeId");
-            if (employeeId) {
-                const url = `/logistic/employee/fetch?employeeId=${employeeId}`;
-                const methodType = 'GET';
-                const response = await ajaxCall(url, methodType, null);
-                LayoutRender(employeeId, response, viewState);
-            }
-        }
+    if (!response.employeeId) {
+        alert('Employee not available.');
+        return;
     }
-    PayloadExtractor();
-});
 
-function LayoutRender(employeeId, response, viewState) {
+    employeeId.value = response.employeeId;
+    employeeName.value = response.employeeName;
+    employeePhoneNo.value = response.employeePhoneNo;
+    employeeDepartment.value = response.employeeDepartment;
+    employeeJoiningDate.value = response.employeeJoiningDate;
+    employeeStatus.value = response.employeeStatus;
+    reportingManagerId.value = response.reportingManagerId;
+    accountId.value = response.accountId;
+    createdAt.value = response.createdAt;
+    updatedAt.value = response.updatedAt;
+    updatedBy.value = response.updatedBy;
 
-    const employeeStatus = response.employeeStatus;
-    const employeeShellWrapperBody = document.querySelector('.employee-shell-wrapper-body');
+    const userAction = params.get("userAction");
+    if ((userAction === 'Read employee' || userAction === 'Administer employee') && response.accountVO) {
+        const accountUsername = document.getElementById('account-username');
+        const accountRole = document.getElementById('account-role');
+        const accountStatus = document.getElementById('account-status');
+        const accountEmail = document.getElementById('account-email');
 
-    if (!employeeShellWrapperBody) return;
-
-    employeeShellWrapperBody.innerHTML = '';
-
-    Object.entries(response).forEach(([keyName, keyValue]) => {
-
-        if (typeof keyValue === 'object' && keyValue !== null) {
-            return;
-        }
-
-        if (keyName === "employeeId") {
-            const updateEmployeeBtn = document.querySelector('.update-employee-btn');
-            const deleteEmployeeBtn = document.querySelector('.delete-employee-btn');
-
-            if (updateEmployeeBtn) updateEmployeeBtn.setAttribute(`data-${camelToKebabCase(keyName)}`, keyValue);
-            if (deleteEmployeeBtn) deleteEmployeeBtn.setAttribute(`data-${camelToKebabCase(keyName)}`, keyValue);
-        }
-
-        const elementDiv = document.createElement('div');
-        elementDiv.className = 'employee-shell-inner-body';
-
-        const elementLabel = document.createElement('label');
-        elementLabel.htmlFor = camelToKebabCase(keyName);
-        elementLabel.textContent = `${keyName.charAt(0).toUpperCase() + whiteSpacedCamelCase(keyName).slice(1)}`;
-        elementDiv.append(elementLabel);
-
-        const elementInput = document.createElement('input');
-        elementInput.id = camelToKebabCase(keyName);
-        elementInput.value = keyValue != null ? keyValue : "";
-
-        if (
-            keyName !== "employeeId" &&
-            keyName !== "accountId" &&
-            keyName !== "createdAt" &&
-            keyName !== "updatedAt" &&
-            keyName !== "updatedBy"
-        ) {
-            elementInput.readOnly = false;
-        }else{
-            elementInput.readOnly = true;
-        }
-        elementDiv.append(elementInput);
-
-        employeeShellWrapperBody.append(elementDiv);
-    });
-
-    const elementDiv = document.createElement('div');
-    elementDiv.className = 'employee-shell-inner-body';
-
-    const createBtn = document.createElement('button');
-    createBtn.className = 'set-as-manager-btn';
-    createBtn.textContent = 'Set as Manager';
-    createBtn.setAttribute('data-manager-id',response.employeeId);
-    elementDiv.append(createBtn);
-    employeeShellWrapperBody.append(elementDiv);
-
-    ClickEventBinder(viewState, employeeStatus, response);
+        accountUsername.value = response.accountVO.accountUsername;
+        accountRole.value = response.accountVO.accountRole;
+        accountStatus.value = response.accountVO.accountStatus;
+        accountEmail.value = response.accountVO.accountEmail;
+    }
 }
 
-function ClickEventBinder(viewState, employeeStatus, response) {
+function dynamicLayoutRender(employeeId) {
+    const userAction = params.get("userAction");
 
-    const dashboardBtn = document.querySelector('.dashboard-btn');
+    if (userAction === 'Read employee' || userAction === 'Administrate employee') {
+        const employeeHeaderActionsDivB = document.getElementById('employee-header-actions-b');
+        if (employeeHeaderActionsDivB) {
+            employeeHeaderActionsDivB.remove();
+        }
+        const employeeBodyCommonActionsDiv = document.getElementById('employee-body-common-actions');
+        if (employeeBodyCommonActionsDiv) {
+            employeeBodyCommonActionsDiv.remove();
+        }
+
+        const deleteBtn = document.getElementById('delete-btn');
+        if (deleteBtn) {
+            deleteBtn.setAttribute('data-employee-id', employeeId);
+        }
+
+    } else if (userAction === 'Entry employee') {
+        const employeeHeaderActionsDivB = document.getElementById('employee-header-actions-b');
+        if (employeeHeaderActionsDivB) {
+            employeeHeaderActionsDivB.remove();
+        }
+        const employeeBodyActionsDiv = document.getElementById('employee-body-employee-actions');
+        if (employeeBodyActionsDiv) {
+            employeeBodyActionsDiv.remove();
+        }
+        const employeeBodyAccountDisplay = document.getElementById('employee-body-account-display');
+        if (employeeBodyAccountDisplay) {
+            employeeBodyAccountDisplay.remove();
+        }
+
+        const proceedBtn = document.getElementById('proceed-btn');
+        if (proceedBtn) {
+            proceedBtn.setAttribute('data-employee-id', employeeId);
+        }
+    }
+}
+
+function clickEventBinder() {
+    const userAction = params.get("userAction");
+
+    const dashboardBtn = document.getElementById('dashboard-btn');
     if (dashboardBtn) {
         dashboardBtn.addEventListener('click', function () {
-            localStorage.setItem("viewState",dashboardViewState().DASHBOARD);
             window.location.href = "/views/dashboard.html";
-        },{once:true});
+        }, {once: true});
     }
 
-    if(viewState === employeeViewState().EMPLOYEE_ACCOUNT.READ || viewState === employeeViewState().EMPLOYEE_ACCOUNT.ADMINSTR){
-        const updateEmployeeBtn = document.querySelector('.update-employee-btn');
-        if(updateEmployeeBtn){
-            updateEmployeeBtn.addEventListener('click', async function () {
-                const payload = {};
-                Object.keys(response).forEach((key) => {
-
-                    const kebabCaseKey = camelToKebabCase(key);
-                    const domElementInput = document.getElementById(`${kebabCaseKey}`);
-                    if (domElementInput) {
-                        const elementInputValue = domElementInput.value.trim();
-
-                        if (
-                            key === "employeeId" ||
-                            key === "reportingManagerId" ||
-                            key === "accountId" ||
-                            key === "updatedBy"
-                        ) {
-                            payload[key] = elementInputValue ? parseInt(elementInputValue, 10) : null;
-                        } else {
-                            payload[key] = elementInputValue || null;
-                        }
-                    }
-                });
-                const fallbackResponse = await ajaxCall(`/logistic/employee/save`, 'POST', payload);
-                if(fallbackResponse){
-                    alert(fallbackResponse);
-                }
-            });
-        }
-
-        const deleteEmployeeBtn = document.querySelector('.delete-employee-btn');
-        if(deleteEmployeeBtn){
-            deleteEmployeeBtn.addEventListener('click', async function () {
-                const url = `/logistic/employee/delete?employeeId=${this.dataset.employeeId}`;
-                const methodType = 'DELETE';
-                await ajaxCall(url, methodType, null);
-            },{once : true});
-        }
+    const employeeListBtn = document.getElementById('employee-list-btn');
+    if (employeeListBtn) {
+        employeeListBtn.addEventListener('click', function () {
+            window.location.href = `../../views/employee/employee-list.html?userAction=${userAction}`;
+        }, {once: true});
     }
 
-    if(viewState === employeeViewState().EMPLOYEE_ACCOUNT.CREATE){
-        const setAsManagerBtn = document.querySelector('.set-as-manager-btn');
-        setAsManagerBtn.addEventListener('click',function (){
-            localStorage.setItem("employeeManagerId",this.dataset.managerId);
-            window.location.href = "../../views/employee/employee-account-creation-form.html";
-        },{once:true});
+    const updateBtn = document.getElementById('update-btn');
+    if (updateBtn) {
+        updateBtn.addEventListener('click', async function () {
+            const employeeId = document.getElementById('employee-id').value.trim();
+            const employeeName = document.getElementById('employee-name').value.trim();
+            const employeePhoneNo = document.getElementById('employee-phone-no').value.trim();
+            const employeeDepartment = document.getElementById('employee-department').value.trim();
+            const employeeJoiningDate = document.getElementById('employee-joining-date').value.trim();
+            const employeeStatus = document.getElementById('employee-status').value.trim();
+            const reportingManagerId = document.getElementById('reporting-manager-id').value.trim();
+            const accountId = document.getElementById('account-id').value.trim();
+            const createdAt = document.getElementById('created-at').value.trim();
+            const updatedAt = document.getElementById('updated-at').value.trim();
+            const updatedBy = document.getElementById('updated-by').value.trim();
+
+            if (employeeId === '') {
+                alert('Employee ID not available.');
+            } else if (employeeName === '') {
+                alert('Employee name not entered.');
+            } else if (employeePhoneNo === '') {
+                alert('Employee phone no not entered.');
+            } else if (employeeDepartment === '') {
+                alert('Employee department not entered.');
+            } else if (employeeJoiningDate === '') {
+                alert('Employee joining date not available.');
+            } else if (employeeStatus === '') {
+                alert('Employee status not entered.');
+            } else if (reportingManagerId === '') {
+                alert('Reporting manager ID not entered.');
+            } else if (accountId === '') {
+                alert('Account ID not available.');
+            } else if (createdAt === '') {
+                alert('Created date not available.');
+            } else if (updatedAt === '') {
+                alert('Updated date not entered.');
+            } else if (updatedBy === '') {
+                alert('Updated by not entered.');
+            }
+
+            const payload = {
+                "employeeId": parseInt(employeeId, 10),
+                "employeeName": employeeName,
+                "employeePhoneNo": employeePhoneNo,
+                "employeeDepartment": employeeDepartment,
+                "employeeJoiningDate": employeeJoiningDate,
+                "employeeStatus": employeeStatus,
+                "reportingManagerId": parseInt(reportingManagerId, 10),
+                "accountId": parseInt(accountId, 10),
+                "createdAt": createdAt,
+                "updatedAt": updatedAt,
+                "updatedBy": parseInt(updatedBy, 10)
+            };
+
+            const response = await ajaxCall(`/logistic/employee/update`, 'PUT', payload);
+            if (response) {
+                alert(response);
+            }
+        });
+    }
+
+    const deleteBtn = document.getElementById('delete-btn');
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', async function () {
+            const employeeId = this.dataset.employeeId;
+            const url = `/logistic/employee/delete?employeeId=${employeeId}`;
+            const methodType = 'DELETE';
+            await ajaxCall(url, methodType, null);
+        }, {once: true});
+    }
+
+    const proceedBtn = document.getElementById('proceed-btn');
+    if (proceedBtn) {
+        proceedBtn.addEventListener('click', function () {
+            const employeeId = this.dataset.employeeId;
+            window.location.href = `../../views/employee/employee-account-creation-form.html?userAction=${userAction}&employeeId=${employeeId}`;
+        }, {once: true});
     }
 }
-
-
-function previousPageNavigation(viewState) {
-
-    const previousFormBtn = document.querySelector('.previous-form-btn');
-
-    if (!previousFormBtn) return;
-
-    if (window.history.length <= 1) {
-        previousFormBtn.disabled = true;
-    } else {
-        previousFormBtn.disabled = false;
-
-        previousFormBtn.addEventListener('click', function () {
-            localStorage.setItem("viewState", viewState);
-            window.history.back();
-        }, { once: true });
-    }
-}
+clickEventBinder();

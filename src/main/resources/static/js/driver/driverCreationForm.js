@@ -1,149 +1,81 @@
-document.addEventListener('DOMContentLoaded', function () {
+const params = new URLSearchParams(window.location.search);
 
-    function LayoutRender() {
+function payloadExtractor() {
+    const operatorId = params.get("operatorId");
+    const accountUserName = params.get("accountUserName");
 
-        const operatorId = localStorage.getItem("operatorIdForDriverCreation");
-
-        const viewState = localStorage.getItem("viewState");
-
-        previousPageNavigation(viewState);
-
-        const driverShellWrapperBody = document.querySelector('.driver-shell-wrapper-body');
-
-        if(!driverShellWrapperBody)return
-
-        driverShellWrapperBody.innerHTML = '';
-
-        if (viewState === driverViewState().DRIVER_PROFILE.CREATE) {
-
-            const formFields = driverFormFields();
-
-            formFields.forEach(field => {
-
-                const clsName = camelToKebabCase(field);
-
-                const value = whiteSpacedCamelCase(field);
-
-                const elementDiv = document.createElement('div');
-                elementDiv.className = 'driver-shell-inner-body';
-
-                const elementLabel = document.createElement('label');
-                elementLabel.htmlFor = clsName;
-                elementLabel.textContent = `${field.charAt(0).toUpperCase() + whiteSpacedCamelCase(field).slice(1)}`;
-                elementDiv.append(elementLabel);
-
-                if (field !== "operatorId") {
-                    const elementInput = document.createElement('input');
-                    elementInput.id = clsName;
-                    elementInput.type = "text";
-                    elementInput.required = true;
-                    elementInput.readOnly = false;
-                    if (field === "driverName") {
-                        elementInput.max = "250";
-                    } else if (field === "driverPhoneNo") {
-                        elementInput.max = "25";
-                    } else if (field === "driverLicenseNo") {
-                        elementInput.max = "20";
-                    }
-                    elementDiv.append(elementInput);
-                }
-                if (field === "operatorId") {
-                    const elementP = document.createElement('p');
-                    elementP.id = clsName;
-                    elementP.setAttribute(`data-${clsName}`, operatorId);
-                    elementP.textContent = operatorId;
-                    elementDiv.append(elementP);
-                }
-                driverShellWrapperBody.append(elementDiv);
-            });
-
-            const elementDiv = document.createElement('div');
-            elementDiv.className = 'driver-shell-inner-body'
-
-            const createBtn = document.createElement('button');
-            createBtn.className = 'create-btn';
-            createBtn.textContent = 'Create';
-            elementDiv.append(createBtn);
-            driverShellWrapperBody.append(elementDiv);
+    if (operatorId) {
+        const operatorIdDisplay = document.getElementById('operator-id-display');
+        if (operatorIdDisplay) {
+            operatorIdDisplay.style.display = 'block';
         }
-
-        ClickEventBinder(operatorId);
+        const operatorIdInput = document.getElementById('operator-id');
+        if (operatorIdInput) {
+            operatorIdInput.value = operatorId;
+        }
     }
-
-    LayoutRender();
-});
-
-
-function driverFormFields() {
-
-    const formFields = ["driverName", "driverPhoneNo", "OperatorId", "driverLicenseNo"];
-
-    return formFields;
 }
+payloadExtractor();
 
+function clickEventBinder() {
 
-function ClickEventBinder(operatorId) {
-
-    const dashboardBtn = document.querySelector('.dashboard-btn');
+    const dashboardBtn = document.getElementById('dashboard-btn');
     if (dashboardBtn) {
         dashboardBtn.addEventListener('click', function () {
-            localStorage.setItem("viewStatus",dashboardViewState().DASHBOARD);
             window.location.href = "/views/dashboard.html";
-        },{once : true});
+        }, {once: true});
     }
 
-    const createBtn = document.querySelector('.create-btn');
+    const createForm = document.querySelector('form');
+    if (createForm) {
+        createForm.addEventListener('submit', async function (event) {
+            event.preventDefault();
 
-    createBtn.addEventListener('click', async function () {
+            const driverName = document.getElementById('driver-name').value.trim();
+            const driverPhoneNo = document.getElementById('driver-phone-no').value.trim();
+            const driverLicenseNo = document.getElementById('driver-license-no').value.trim();
+            const operatorIdInput = document.getElementById('operator-id');
+            const operatorId = operatorIdInput ? operatorIdInput.value.trim() : null;
 
-        const formFields = driverFormFields();
+            if (driverName === '') {
+                alert('Driver Name not entered.');
+                return;
+            } else if (driverPhoneNo === '') {
+                alert('Driver Phone No not entered.');
+                return;
+            } else if (driverLicenseNo === '') {
+                alert('Driver License No not entered.');
+                return;
+            }
 
-        const payload = {};
+            const payload = {
+                "driverName": driverName,
+                "driverPhoneNo": driverPhoneNo,
+                "driverLicenseNo": driverLicenseNo,
+                "accountUserName": params.get("accountUserName")
+            };
 
-        formFields.forEach(field => {
-            const kebabCaseKey = camelToKebabCase(field);
+            if (operatorId) {
+                payload["operatorId"] = parseInt(operatorId, 10);
+            }
 
-            const domElement = document.getElementById(`${kebabCaseKey}`);
+            const url = `/logistic/driver/save`;
+            const methodType = 'POST';
+            const response = await ajaxCall(url, methodType, payload);
 
-            if (domElement) {
+            if (response) {
+                const driverId = response.driverId;
 
-                const fieldValue = (domElement.tagName === 'INPUT' || domElement.tagName === 'P')
-                    ? domElement.value
-                    : domElement.textContent;
-
-                payload[field] = fieldValue;
+                if (operatorId) {
+                    // Flow B: User came from operator view
+                    window.location.href = `../../views/driver/driver.html?driverId=${driverId}&userAction=Entry driver&operatorId=${operatorId}`;
+                } else {
+                    // Flow A: User came from dashboard, needs to select operator
+                    const accountUserName = params.get("accountUserName");
+                    window.location.href = `../../views/operator/transport-types.html?userAction=Entry driver&accountUserName=${accountUserName}`;
+                }
             }
         });
-
-        const url = `/logistic/driver/save`;
-        const methodType = 'POST';
-
-        const response = await ajaxCall(url, methodType, payload);
-
-        if (response) {
-            localStorage.setItem("driverId", response.driverId);
-            localStorage.setItem("operatorId", operatorId);
-            localStorage.setItem("viewState", driverViewState().DRIVER_PROFILE.CREATE);
-            window.location.href = "../../views/driver/driver.html";
-        }
-    });
-}
-
-
-function previousPageNavigation(viewState) {
-
-    const previousFormBtn = document.querySelector('.previous-form-btn');
-
-    if (!previousFormBtn) return;
-
-    if (window.history.length <= 1) {
-        previousFormBtn.disabled = true;
-    } else {
-        previousFormBtn.disabled = false;
-
-        previousFormBtn.addEventListener('click', function () {
-            localStorage.setItem("viewState", viewState);
-            window.history.back();
-        }, { once: true });
     }
 }
+clickEventBinder();

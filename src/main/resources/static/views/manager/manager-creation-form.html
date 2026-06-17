@@ -2,24 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Manager form</title>
+    <title>Manager creation form</title>
 </head>
 <body>
-<div class="manager-shell">
-    <div class="manager-shell-wrapper-header">
-        <div class="manager-shell-inner-header">
-            <div class="manager-shell-group-header">
-                <button class="dashboard-btn">Dashboard</button>
-                <button class="previous-form-btn">Previous form</button>
+<div class="manager">
+    <header class="manager-header">
+        <div class="manager-header-brand-icon">
+            <img class="manager-header-logo" src="" alt="Manager Logo">
+        </div>
+        <div class="manager-header-actions">
+            <div class="manager-header-section-a">
+                <button id="dashboard-btn">Dashboard</button>
+            </div>
+            <div class="manager-header-section-b">
             </div>
         </div>
-    </div>
-    <div class="manager-shell-wrapper-body">
+    </header>
+    <main class="manager-body">
+        <div class="manager-body-form">
+            <form>
+                <label for="manager-name">Manager Name :</label>
+                <input id="manager-name" type="text" maxlength="250" required>
 
-    </div>
+                <label for="manager-contact-no">Manager Contact No :</label>
+                <input id="manager-contact-no" type="text" maxlength="25" required>
+
+                <label for="manager-status">Manager Status :</label>
+                <select id="manager-status" required>
+                    <option value="" selected>Select one</option>
+                    <option value="ACTIVE">Active</option>
+                    <option value="IN_ACTIVE">In Active</option>
+                </select>
+
+                <div id="operator-id-display" style="display:none;">
+                    <label for="operator-id">Operator ID :</label>
+                    <input id="operator-id" type="number" readonly>
+                </div>
+
+                <button type="submit" id="create-btn">Create</button>
+            </form>
+        </div>
+    </main>
+    <footer class="manager-footer">
+    </footer>
 </div>
-<script src="/js/viewStateConfig.js"></script>
-<script src="../../js/utility/utility.js"></script>
+
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
 <script src="../../js/manager/managerCreationForm.js"></script>
 </body>

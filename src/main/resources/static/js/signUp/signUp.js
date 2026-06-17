@@ -1,41 +1,32 @@
-document.addEventListener('DOMContentLoaded', function () {
-    function authenticationProcess() {
+const params = new URLSearchParams(window.location.search);
 
-        const viewState = localStorage.getItem("viewState");
+function dynamicLayoutRender() {
+    const userAction = params.get("userAction");
+    const select = document.getElementById('account-holder-role');
 
-        const elementSelect = document.getElementById('account-holder-role');
+    if (userAction === 'Entry employee') {
+        const optionsToRemove = ['ADMIN', 'DEVELOPER', 'BUSINESS-ANALYST', 'DATA-ENGINEER', 'SOFTWARE ENGINEER'];
+        optionsToRemove.forEach(val => {
+            const opt = select.querySelector(`option[value="${val}"]`);
+            if (opt) opt.remove();
+        });
+    } else if (userAction === 'Entry manager' || userAction === 'Entry driver' || userAction === 'Entry federate') {
+        const optionsToRemove = ['FEDERATE-MANAGER', 'FEDERATE-DRIVER'];
+        optionsToRemove.forEach(val => {
+            const opt = select.querySelector(`option[value="${val}"]`);
+            if (opt) opt.remove();
+        });
+    }
+}
+dynamicLayoutRender();
 
-         previousPageNavigation(viewState);
+function clickEventBinder() {
+    const userAction = params.get("userAction");
+    const operatorId = params.get("operatorId");
 
-        if (viewState === federateViewState().FEDERATE_ACC.CREATE) {
-            const managerOption = document.createElement('option');
-            managerOption.value = "FEDERATE-MANAGER";
-            managerOption.textContent = "Federate Manager";
-            elementSelect.append(managerOption);
-
-            const driverOption = document.createElement('option');
-            driverOption.value = "FEDERATE-DRIVER";
-            driverOption.textContent = "Federate Driver";
-            elementSelect.append(driverOption);
-        } else if (viewState === employeeViewState().EMPLOYEE_ACCOUNT.CREATE) {
-
-            const employeeRoles = ["ADMIN", "DEVELOPER", "BUSINESS-ANALYST", "DATA-ENGINEER", "SOFTWARE ENGINEER"];
-
-            employeeRoles.forEach((employeeRole)=>{
-
-                const whiteSpacedCase = kebabToWhiteSpacedCase(employeeRole);
-
-                const employeeOption = document.createElement('option');
-                employeeOption.value = employeeRole;
-                employeeOption.textContent = `${whiteSpacedCase.charAt(0).toUpperCase() + whiteSpacedCamelCase(whiteSpacedCase).slice(1)}`;
-                elementSelect.append(employeeOption);
-            })
-        }
-
-        const submitBtn = document.querySelector('.submit-btn');
-
+    const submitBtn = document.getElementById('submit-btn');
+    if (submitBtn) {
         submitBtn.addEventListener('click', async function (e) {
-
             e.preventDefault();
 
             const username = document.getElementById('signup-username').value.trim();
@@ -43,28 +34,28 @@ document.addEventListener('DOMContentLoaded', function () {
             const password = document.getElementById('signup-password').value;
             const role = document.getElementById('account-holder-role').value.trim();
 
-
             const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
             if (!emailRegex.test(email)) {
-                alert("Invalid Email, try entering valid Email address.");
+                alert('Invalid email, try entering a valid email address.');
                 return;
             }
 
-            if (password.length < 8 && password.length <= 0) {
-                alert("Password must be at least 8 characters");
+            if (password.length < 8) {
+                alert('Password must be at least 8 characters.');
                 return;
             }
 
-            if (viewState === federateViewState().FEDERATE_ACC.CREATE) {
-                const roles = [ "FEDERATE-MANAGER", "FEDERATE-DRIVER"];
-                if (!roles.includes(role)) {
-                    alert("Invalid Partner Dependent Role.");
+            if (userAction === 'Sign up') {
+                const validRoles = ['FEDERATE-MANAGER', 'FEDERATE-DRIVER'];
+                if (!validRoles.includes(role)) {
+                    alert('Invalid partner dependent role.');
+                    return;
                 }
-            } else if (viewState === employeeViewState().EMPLOYEE_ACCOUNT.CREATE) {
-                const roles = [ "ADMIN",  "DEVELOPER", "BUSINESS-ANALYST", "DATA-ENGINEER", "SOFTWARE ENGINEER"];
-                if (!roles.includes(role)) {
-                    alert("Invalid Employee Role.");
+            } else if (userAction === 'Entry employee') {
+                const validRoles = ['ADMIN', 'DEVELOPER', 'BUSINESS-ANALYST', 'DATA-ENGINEER', 'SOFTWARE ENGINEER'];
+                if (!validRoles.includes(role)) {
+                    alert('Invalid employee role.');
+                    return;
                 }
             }
 
@@ -76,52 +67,40 @@ document.addEventListener('DOMContentLoaded', function () {
                 "accountStatus": "ACTIVE"
             };
 
-            localStorage.setItem("accountCreationUsername", username);
-
-            localStorage.setItem("viewState", viewState);
-
             const response = await ajaxCall(`/logistic/auth/signup`, 'POST', payload);
 
             if (response) {
-
-                const username = response.valueMap.Username;
+                const responseUsername = response.valueMap.Username;
                 const userRole = response.valueMap.Role;
 
-                if (username) {
-                    localStorage.setItem("accountCreationUsername", username);
-                }
-
-                if (userRole && userRole === "EMPLOYEE") {
-                    localStorage.setItem("viewState", employeeViewState().EMPLOYEE_ACCOUNT.CREATE)
-                    window.location.href = "../../views/employee/employee-account-creation-form.html";
-                } else if (userRole && userRole === "MANAGER") {
-                    localStorage.setItem("viewState", managerViewState().MANAGER_PROFILE.CREATE);
-                    window.location.href = "../../views/operator/transport-type.html";
-                } else if (userRole && userRole === "DRIVER") {
-                    localStorage.setItem("viewState", driverViewState().DRIVER_PROFILE.CREATE);
-                    window.location.href = "../../views/operator/transport-type.html";
+                if (userRole === 'EMPLOYEE') {
+                    const userAction =  'Entry employee';
+                    window.location.href = `../../views/employee/employee-account-creation-form.html?userAction=${userAction}&username=${responseUsername}`;
+                } else if (userRole === 'FEDERATE-MANAGER') {
+                    const userAction =  'Entry manager';
+                    let url;
+                    if(operatorId){
+                        url = `../../views/manager/manager-creation-form.html?userAction=${userAction}&username=${responseUsername}&operatorId=${operatorId}`
+                    }else{
+                        url = `../../views/operator/transport-types.html?userAction=${userAction}&username=${responseUsername}`;
+                    }
+                    if(url){
+                        window.location.href = url;
+                    }
+                } else if (userRole === 'FEDERATE-DRIVER') {
+                    const userAction =  'Entry driver';
+                    let url;
+                    if(operatorId){
+                        url = `../../views/driver/driver-creation-form.html?userAction=${userAction}&username=${responseUsername}&operatorId=${operatorId}`
+                    }else{
+                        url = `../../views/operator/transport-types.html?userAction=${userAction}&username=${responseUsername}`;
+                    }
+                    if(url){
+                        window.location.href = url;
+                    }
                 }
             }
-        });
-    }
-    authenticationProcess();
-});
-
-
-function previousPageNavigation(viewState) {
-
-    const previousFormBtn = document.querySelector('.previous-form-btn');
-
-    if (!previousFormBtn) return;
-
-    if (window.history.length <= 1) {
-        previousFormBtn.disabled = true;
-    } else {
-        previousFormBtn.disabled = false;
-
-        previousFormBtn.addEventListener('click', function () {
-            localStorage.setItem("viewState", viewState);
-            window.history.back();
-        }, { once: true });
+        }, {once: true});
     }
 }
+clickEventBinder();

@@ -1,185 +1,172 @@
-document.addEventListener('DOMContentLoaded', function (event) {
-    async function PayloadExtractor() {
+const params = new URLSearchParams(window.location.search);
 
-        const viewState = localStorage.getItem("viewState");
+async function payloadExtractor() {
+    const shippingId = params.get("shippingId");
+    const url = `/logistic/shipment/fetch?shippingId=${shippingId}`;
+    const methodType = 'GET';
+    const response = await ajaxCall(url, methodType, null);
+    valueInitializer(response);
+    dynamicLayoutRender(response.shippingId);
+}
+payloadExtractor();
 
-        const shipmentStates = shipmentViewState().SHIPMENT;
+function valueInitializer(response) {
+    const shippingId = document.getElementById('shipping-id');
+    const shippingFrom = document.getElementById('shipping-from');
+    const shippingTo = document.getElementById('shipping-to');
+    const deliveryDate = document.getElementById('delivery-date');
+    const createdAt = document.getElementById('created-at');
+    const updatedAt = document.getElementById('updated-at');
+    const updatedBy = document.getElementById('updated-by');
+    const customerId = document.getElementById('customer-id');
+    const cargoId = document.getElementById('cargo-id');
+    const statusId = document.getElementById('status-id');
 
-        previousPageNavigation(viewState);
-
-        if (viewState !== shipmentStates.READ) {
-            const createShipmentBtn = document.querySelector('.create-shipment-btn');
-            if (createShipmentBtn) {
-                createShipmentBtn.remove();
-            }
-        }
-
-        if (viewState === shipmentStates.READ) {
-            const shipmentId = localStorage.getItem("shipmentId");
-
-            if (shipmentId) {
-                const url = `/logistic/shipment/fetch?shippingId=${shipmentId}`;
-                const methodType = 'GET';
-                const response = await ajaxCall(url, methodType, null);
-                LayoutRenderer(shipmentId, response);
-            }
-        }
+    if (!response.shippingId) {
+        alert('Shipment not available.');
+        return;
     }
-    PayloadExtractor();
-});
 
-function LayoutRenderer(shipmentId, response) {
-    const viewState = localStorage.getItem("viewState");
-    const shipmentShellWrapperBody = document.querySelector('.shipment-shell-wrapper-body');
+    shippingId.value = response.shippingId;
+    shippingFrom.value = response.shippingFrom;
+    shippingTo.value = response.shippingTo;
+    deliveryDate.value = response.deliveryDate;
+    createdAt.value = response.createdAt;
+    updatedAt.value = response.updatedAt;
+    updatedBy.value = response.updatedBy;
+    customerId.value = response.customerId;
+    cargoId.value = response.cargoId;
+    statusId.value = response.statusId;
 
-    Object.entries(response).forEach(([keyName, keyValue]) => {
-
-        if (keyName === "shipmentId") {
-            const updateShipmentBtn = document.querySelector('.update-shipment-btn');
-
-            if (updateShipmentBtn) updateShipmentBtn.setAttribute(`data-${camelToKebabCase(keyName)}`, keyValue);
-        }
-
-        if (keyName !== "customerId" && keyName !== "cargoId" && keyName !== "statusId") {
-            const elementDiv = document.createElement('div');
-            elementDiv.className = 'shipment-shell-inner-body';
-
-            const elementLabel = document.createElement('label');
-            elementLabel.htmlFor = camelToKebabCase(keyName);
-            elementLabel.textContent = `${keyName.charAt(0).toUpperCase() + whiteSpacedCamelCase(keyName).slice(1)}`;
-            elementDiv.append(elementLabel);
-
-            const elementInput = document.createElement('input');
-            elementInput.id = camelToKebabCase(keyName);
-            elementInput.value = keyValue;
-
-            if (keyName === "deliveryDate") {
-                elementInput.readOnly = false;
-            }else{
-                elementInput.readOnly = true;
-            }
-            elementDiv.append(elementInput);
-            shipmentShellWrapperBody.append(elementDiv);
-
-        } else if (keyName === "customerId" && keyName === "cargoId" && keyName === "statusId") {
-            const elementDiv = document.createElement('div');
-            elementDiv.className = 'shipment-shell-inner-body';
-
-            const elementBtn = document.createElement('button');
-            elementBtn.setAttribute('data-shipment-id', shipmentId);
-            elementBtn.setAttribute(`data-${camelToKebabCase(keyName)}`, keyValue);
-
-            if (keyName === "customerId") {
-                elementBtn.className = 'view-customer-btn';
-                elementBtn.setAttribute(`data-${camelToKebabCase(keyName)}`,keyValue);
-                elementBtn.textContent = "View customer";
-            } else if (keyName === "cargoId") {
-                elementBtn.className = 'view-cargo-btn';
-                elementBtn.setAttribute(`data-${camelToKebabCase(keyName)}`,keyValue);
-                elementBtn.textContent = "View cargo";
-            } else if (keyName === "statusId") {
-                elementBtn.className = 'view-status-btn';
-                elementBtn.setAttribute(`data-${camelToKebabCase(keyName)}`,keyValue);
-                elementBtn.textContent = "View status";
-            }
-            elementDiv.append(elementBtn);
-            shipmentShellWrapperBody.append(elementDiv);
-        }
-    });
-
-    ClickEventBinder(viewState, response);
+    const viewCustomerBtn = document.getElementById('view-customer-btn');
+    if (viewCustomerBtn) {
+        viewCustomerBtn.setAttribute('data-customer-id', response.customerId);
+        viewCustomerBtn.setAttribute('data-shipping-id', response.shippingId);
+    }
+    const viewCargoBtn = document.getElementById('view-cargo-btn');
+    if (viewCargoBtn) {
+        viewCargoBtn.setAttribute('data-cargo-id', response.cargoId);
+        viewCargoBtn.setAttribute('data-shipping-id', response.shippingId);
+    }
+    const viewStatusBtn = document.getElementById('view-status-btn');
+    if (viewStatusBtn) {
+        viewStatusBtn.setAttribute('data-status-id', response.statusId);
+        viewStatusBtn.setAttribute('data-shipping-id', response.shippingId);
+    }
 }
 
-function ClickEventBinder(viewState, response) {
-    const shipmentStates = shipmentViewState().SHIPMENT;
-    const statusStates = statusViewState().SHIPMENT_STATUS;
+function dynamicLayoutRender(shippingId) {
+    const userAction = params.get("userAction");
 
-    const dashboardBtn = document.querySelector('.dashboard-btn');
-    dashboardBtn.addEventListener('click', function () {
-        window.location.href = "/views/dashboard.html";
-    },{once : true});
-
-    if(viewState === shipmentStates.READ){
-        const customerBtn = document.querySelector('.view-customer-btn');
-        if(customerBtn) {
-            customerBtn.addEventListener('click', function () {
-                localStorage.setItem("customerId", this.dataset.customerId);
-                localStorage.setItem("shipmentId", this.dataset.shipmentId);
-                localStorage.setItem("viewState", shipmentStates.CUSTOMER.READ);
-                window.location.href = "../../views/shipment/customer.html";
-            },{once : true});
+    if (userAction === 'Read shipment') {
+        const shipmentHeaderActionsDivB = document.getElementById('shipment-header-actions-b');
+        if (shipmentHeaderActionsDivB) {
+            shipmentHeaderActionsDivB.remove();
+        }
+        const shipmentBodyCommonActionsDiv = document.getElementById('shipment-body-common-actions');
+        if (shipmentBodyCommonActionsDiv) {
+            shipmentBodyCommonActionsDiv.remove();
         }
 
-        const cargoBtn = document.querySelector('.view-cargo-btn');
-        if(cargoBtn){
-            cargoBtn.addEventListener('click', function () {
-                localStorage.setItem("cargoId", this.dataset.cargoId);
-                localStorage.setItem("shipmentId", this.dataset.shipmentId);
-                localStorage.setItem("viewState", shipmentStates.CARGO.READ);
-                window.location.href = "../../views/shipment/cargo.html";
-            },{once : true});
-        }
-
-
-        const statusBtn = document.querySelector('.view-status-btn');
-        if(statusBtn){
-            statusBtn.addEventListener('click', function () {
-                localStorage.setItem("statusId", this.dataset.statusId);
-                localStorage.setItem("shipmentId", this.dataset.shipmentId);
-                localStorage.setItem("viewState", statusStates.READ);
-                window.location.href = "../../views/status/status.html";
-            },{once : true});
-        }
-
-        const createShipmentBtn = document.querySelector('.create-shipment-btn');
-        if(createShipmentBtn){
-            createShipmentBtn.addEventListener('click', function () {
-                localStorage.setItem("viewState", shipmentStates.CREATE);
-                window.location.href = "../../views/operator/transport-type.html";
-            },{once : true});
-        }
-
-        const updateShipmentBtn = document.querySelector('.update-shipment-btn');
-        if(updateShipmentBtn){
-            updateShipmentBtn.addEventListener('click', async function () {
-                const payload = {};
-                Object.keys(response).forEach((key) => {
-                    const kebabCaseKey = camelToKebabCase(key);
-                    const domElementInput = document.getElementById(`${kebabCaseKey}`);
-                    if (domElementInput) {
-                        const elementInputValue = domElementInput.value.trim();
-
-                        if (key === "shipmentId" || key === "customerId" || key === "cargoId" || key === "statusId" || key === "updatedBy") {
-                            payload[key] = elementInputValue ? parseInt(elementInputValue, 10) : null;
-                        } else {
-                            payload[key] = elementInputValue || null;
-                        }
-                    }
-                });
-                const fallbackResponse = await ajaxCall(`/logistic/shipment/save`, 'POST', payload);
-                if(fallbackResponse){
-                    alert(fallbackResponse);
-                }
-            });
+        const updateBtn = document.getElementById('update-btn');
+        if (updateBtn) {
+            updateBtn.setAttribute('data-shipping-id', shippingId);
         }
     }
 }
 
+function clickEventBinder() {
+    const userAction = params.get("userAction");
 
-function previousPageNavigation(viewState) {
+    const dashboardBtn = document.getElementById('dashboard-btn');
+    if (dashboardBtn) {
+        dashboardBtn.addEventListener('click', function () {
+            window.location.href = "/views/dashboard.html";
+        }, {once: true});
+    }
 
-    const previousFormBtn = document.querySelector('.previous-form-btn');
+    const shipmentListBtn = document.getElementById('shipment-list-btn');
+    if (shipmentListBtn) {
+        shipmentListBtn.addEventListener('click', function () {
+            window.location.href = `../../views/shipment/shipment-list.html?userAction=${userAction}`;
+        }, {once: true});
+    }
 
-    if (!previousFormBtn) return;
+    const viewCustomerBtn = document.getElementById('view-customer-btn');
+    if (viewCustomerBtn) {
+        viewCustomerBtn.addEventListener('click', function () {
+            const customerId = this.dataset.customerId;
+            const shippingId = this.dataset.shippingId;
+            window.location.href = `../../views/shipment/customer.html?userAction=${userAction}&customerId=${customerId}&shippingId=${shippingId}`;
+        }, {once: true});
+    }
 
-    if (window.history.length <= 1) {
-        previousFormBtn.disabled = true;
-    } else {
-        previousFormBtn.disabled = false;
+    const viewCargoBtn = document.getElementById('view-cargo-btn');
+    if (viewCargoBtn) {
+        viewCargoBtn.addEventListener('click', function () {
+            const cargoId = this.dataset.cargoId;
+            const shippingId = this.dataset.shippingId;
+            window.location.href = `../../views/shipment/cargo.html?userAction=${userAction}&cargoId=${cargoId}&shippingId=${shippingId}`;
+        }, {once: true});
+    }
 
-        previousFormBtn.addEventListener('click', function () {
-            localStorage.setItem("viewState", viewState);
-            window.history.back();
-        }, { once: true });
+    const viewStatusBtn = document.getElementById('view-status-btn');
+    if (viewStatusBtn) {
+        viewStatusBtn.addEventListener('click', function () {
+            const statusId = this.dataset.statusId;
+            const shippingId = this.dataset.shippingId;
+            window.location.href = `../../views/status/status.html?userAction=${userAction}&statusId=${statusId}&shippingId=${shippingId}`;
+        }, {once: true});
+    }
+
+    const updateBtn = document.getElementById('update-btn');
+    if (updateBtn) {
+        updateBtn.addEventListener('click', async function () {
+            const shippingId = document.getElementById('shipping-id').value.trim();
+            const shippingFrom = document.getElementById('shipping-from').value.trim();
+            const shippingTo = document.getElementById('shipping-to').value.trim();
+            const deliveryDate = document.getElementById('delivery-date').value.trim();
+            const createdAt = document.getElementById('created-at').value.trim();
+            const updatedAt = document.getElementById('updated-at').value.trim();
+            const updatedBy = document.getElementById('updated-by').value.trim();
+            const customerId = document.getElementById('customer-id').value.trim();
+            const cargoId = document.getElementById('cargo-id').value.trim();
+            const statusId = document.getElementById('status-id').value.trim();
+
+            if (shippingId === '') {
+                alert('Shipping ID not available.');
+            } else if (shippingFrom === '') {
+                alert('Shipping from not available.');
+            } else if (shippingTo === '') {
+                alert('Shipping to not available.');
+            } else if (deliveryDate === '') {
+                alert('Delivery date not entered.');
+            } else if (createdAt === '') {
+                alert('Created date not available.');
+            } else if (updatedAt === '') {
+                alert('Updated date not entered.');
+            } else if (updatedBy === '') {
+                alert('Updated by not entered.');
+            }
+
+            const payload = {
+                "shippingId": parseInt(shippingId, 10),
+                "shippingFrom": shippingFrom,
+                "shippingTo": shippingTo,
+                "deliveryDate": deliveryDate,
+                "customerId": parseInt(customerId, 10),
+                "cargoId": parseInt(cargoId, 10),
+                "statusId": parseInt(statusId, 10),
+                "createdAt": createdAt,
+                "updatedAt": updatedAt,
+                "updatedBy": parseInt(updatedBy, 10)
+            };
+
+            const response = await ajaxCall(`/logistic/shipment/update`, 'PUT', payload);
+            if (response) {
+                alert(response);
+            }
+        });
     }
 }
+clickEventBinder();

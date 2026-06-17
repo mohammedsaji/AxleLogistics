@@ -62,11 +62,11 @@ public class AccountVO {
 
     // --- Original Methods Preserved ---
 
-    public void setEmployeeInfo(EmployeeVO employeeVO){
+    public void setEmployeeVO(EmployeeVO employeeVO){
         this.employeeVO = employeeVO;
     }
 
-    public EmployeeVO getEmployeeInfo(){
+    public EmployeeVO getEmployeeVO(){
         return employeeVO;
     }
 

@@ -1,99 +1,59 @@
-document.addEventListener('DOMContentLoaded', function (event) {
-    async function PayloadExtractor() {
+const params = new URLSearchParams(window.location.search);
 
-        const viewState = localStorage.getItem("viewState");
-        const shipmentStates = shipmentViewState().SHIPMENT;
+async function payloadExtractor() {
+    const customerId = params.get("customerId");
+    const url = `/logistic/customer/fetch?customerId=${customerId}`;
+    const methodType = 'GET';
+    const response = await ajaxCall(url, methodType, null);
+    valueInitializer(response);
+    dynamicLayoutRender(params.get("shippingId"));
+}
+payloadExtractor();
 
-         previousPageNavigation(viewState);
+function valueInitializer(response) {
+    const customerId = document.getElementById('customer-id');
+    const customerName = document.getElementById('customer-name');
+    const customerEmail = document.getElementById('customer-email');
+    const customerPhoneno = document.getElementById('customer-phoneno');
+    const createdAt = document.getElementById('created-at');
+    const createdBy = document.getElementById('created-by');
 
-        if (viewState === shipmentStates.CUSTOMER.READ) {
-            const customerId = localStorage.getItem("customerId");
-            const shipmentId = localStorage.getItem("shipmentId");
-
-            if (customerId) {
-                const url = `/logistic/customer/fetch?customerId=${customerId}`;
-                const methodType = 'GET';
-                const response = await ajaxCall(url, methodType, null);
-                LayoutRenderer(customerId, shipmentId, response);
-            }
-        }
+    if (!response.customerId) {
+        alert('Customer not available.');
+        return;
     }
 
-    PayloadExtractor();
-});
-
-function LayoutRenderer(customerId, shipmentId, response) {
-
-    const customerShellWrapperBody = document.querySelector('.customer-shell-wrapper-body');
-
-    if (customerShellWrapperBody) {
-        customerShellWrapperBody.innerHTML = '';
-    }
-
-    Object.entries(response).forEach(([keyName, keyValue]) => {
-
-        const elementDiv = document.createElement('div');
-        elementDiv.className = 'customer-shell-inner-body';
-
-        const elementLabel = document.createElement('label');
-        elementLabel.htmlFor = camelToKebabCase(keyName);
-        elementLabel.textContent = `${keyName.charAt(0).toUpperCase() + whiteSpacedCamelCase(keyName).slice(1)}`;
-        elementDiv.append(elementLabel);
-
-        const elementInput = document.createElement('input');
-        elementInput.id = camelToKebabCase(keyName);
-        elementInput.value = keyValue != null ? keyValue : "";
-        elementInput.readOnly = true;
-        elementDiv.append(elementInput);
-
-        customerShellWrapperBody.append(elementDiv);
-    });
-
-    const backToShipmentBtn = document.createElement('button');
-    backToShipmentBtn.className = 'back-to-shipment-btn';
-    backToShipmentBtn.setAttribute('data-shipment-id', shipmentId);
-    backToShipmentBtn.textContent = "Back to shipment";
-    customerShellWrapperBody.append(backToShipmentBtn);
-
-    ClickEventBinder();
+    customerId.value = response.customerId;
+    customerName.value = response.customerName;
+    customerEmail.value = response.customerEmail;
+    customerPhoneno.value = response.customerPhoneno;
+    createdAt.value = response.createdAt;
+    createdBy.value = response.createdBy;
 }
 
-function ClickEventBinder() {
-    const shipmentStates = shipmentViewState().SHIPMENT;
+function dynamicLayoutRender(shippingId) {
+    const returnToShipmentBtn = document.getElementById('return-to-shipment-btn');
+    if (returnToShipmentBtn) {
+        returnToShipmentBtn.setAttribute('data-shipping-id', shippingId);
+    }
+}
 
-    const dashboardBtn = document.querySelector('.dashboard-btn');
+function clickEventBinder() {
+    const userAction = params.get("userAction");
+
+    const dashboardBtn = document.getElementById('dashboard-btn');
     if (dashboardBtn) {
         dashboardBtn.addEventListener('click', function () {
-            localStorage.setItem("viewState", dashboardViewState().DASHBOARD);
             window.location.href = "/views/dashboard.html";
-        },{once : true});
+        }, {once: true});
     }
 
-    const backToListBtn = document.querySelector('.back-to-shipment-btn');
-    if (backToListBtn) {
-        backToListBtn.addEventListener('click', function () {
-            localStorage.setItem("viewState", shipmentStates.READ);
-            localStorage.setItem("shipmentId", this.dataset.shipmentId);
-            window.location.href = "../../views/shipment/shipment.html";
-        },{once : true});
-    }
-}
-
-
-function previousPageNavigation(viewState) {
-
-    const previousFormBtn = document.querySelector('.previous-form-btn');
-
-    if (!previousFormBtn) return;
-
-    if (window.history.length <= 1) {
-        previousFormBtn.disabled = true;
-    } else {
-        previousFormBtn.disabled = false;
-
-        previousFormBtn.addEventListener('click', function () {
-            localStorage.setItem("viewState", viewState);
-            window.history.back();
-        }, { once: true });
+    const returnToShipmentBtn = document.getElementById('return-to-shipment-btn');
+    if (returnToShipmentBtn) {
+        returnToShipmentBtn.addEventListener('click', function () {
+            const shippingId = this.dataset.shippingId;
+            window.location.href = `../../views/shipment/shipment.html?userAction=${userAction}&shippingId=${shippingId}`;
+        }, {once: true});
     }
 }
+clickEventBinder();

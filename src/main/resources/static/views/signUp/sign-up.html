@@ -2,28 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Signup Screen</title>
+    <title>Sign up</title>
 </head>
 <body>
-<div class="sign-up-shell">
-    <div class="sign-up-shell-wrapper-form">
-        <label for="signup-username">Name</label>
-        <input type="text" id="signup-username" placeholder="Username"
-               required>
-        <label for="signup-email">Email</label>
-        <input type="email" id="signup-email" placeholder="Email Address"
-               required>
-        <label for="signup-password">Password</label>
-        <input type="password" id="signup-password" placeholder="Password"
-               required>
-        <label for="account-holder-role">Role</label>
-        <select id="account-holder-role" required>
-            <option value="">Select</option>
-        </select>
-        <button class="submit-btn">SignUp</button>
-    </div>
+<div class="sign-up">
+    <header class="sign-up-header">
+        <div class="sign-up-header-brand-icon">
+            <img class="sign-up-header-logo" src="" alt="AxleOS">
+        </div>
+    </header>
+    <main class="sign-up-body">
+        <div class="sign-up-body-sign-up-display">
+            <form class="sign-up-body-sign-up-form">
+                <label for="signup-username">Username</label>
+                <input type="text" id="signup-username" autocomplete="username" required>
+
+                <label for="signup-email">Email</label>
+                <input type="email" id="signup-email" autocomplete="email" required>
+
+                <label for="signup-password">Password</label>
+                <input type="password" id="signup-password" autocomplete="new-password" required>
+
+                <label for="account-holder-role">Role</label>
+                <select id="account-holder-role" required>
+                    <option value="" disabled selected>Select role</option>
+                    <option value="FEDERATE-MANAGER">Federate Manager</option>
+                    <option value="FEDERATE-DRIVER">Federate Driver</option>
+                    <option value="ADMIN">Admin</option>
+                    <option value="DEVELOPER">Developer</option>
+                    <option value="BUSINESS-ANALYST">Business Analyst</option>
+                    <option value="DATA-ENGINEER">Data Engineer</option>
+                    <option value="SOFTWARE ENGINEER">Software Engineer</option>
+                </select>
+
+                <button type="button" id="submit-btn">Sign up</button>
+            </form>
+        </div>
+    </main>
+    <footer class="sign-up-footer"></footer>
 </div>
-<script src="/js/viewStateConfig.js"></script>
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
 <script src="../../js/signUp/signUp.js"></script>
 </body>

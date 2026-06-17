@@ -2,29 +2,66 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>vehicle</title>
-    <link rel="stylesheet" href="../../styles/vehicle/vehicle.css">
+    <title>Vehicle screen</title>
 </head>
 <body>
-<div class="vehicle-shell">
-    <div class="vehicle-shell-wrapper-header">
-        <div class="vehicle-shell-inner-header">
-            <div class="vehicle-shell-group-header">
-                <button class="dashboard-btn">Dashboard</button>
+<div class="vehicle">
+    <header class="vehicle-header">
+        <div class="vehicle-header-brand-icon">
+            <img class="vehicle-header-logo" src="" alt="Vehicle">
+        </div>
+        <div class="vehicle-header-actions">
+            <div class="operator-header-section-a">
+                <button id="dashboard-btn">Dashboard</button>
             </div>
-            <div class="vehicle-shell-group-header">
-                <button class="create-vehicle-btn">Create vehicle</button>
-                <button class="delete-vehicle-btn">Delete vehicle</button>
+            <div class="operator-header-section-b">
+                <div id="vehicle-header-actions-a" class="vehicle-header-actions-a">
+                    <button id="vehicle-list-btn">Vehicle list</button>
+                    <button id="back-to-operator-btn">Back to operator</button>
+                </div>
+                <div id="vehicle-header-actions-b" class="vehicle-header-actions-b">
+                    <button id="entry-vehicle-btn">Entry vehicle</button>
+                </div>
             </div>
         </div>
+    </header>
+    <main class="vehicle-body">
+        <div class="vehicle-body-vehicle-display">
+            <form class="vehicle-body-vehicle-form">
+                <label for="vehicle-id">Vehicle ID</label>
+                <input type="text" id="vehicle-id" readonly>
 
-    </div>
-    <div class="vehicle-shell-wrapper-body">
+                <label for="vehicle-type">Vehicle type</label>
+                <input type="text" id="vehicle-type">
 
-    </div>
+                <label for="vehicle-number">Vehicle number</label>
+                <input type="text" id="vehicle-number">
+
+                <label for="operator-id">Operator ID</label>
+                <input type="text" id="operator-id" readonly>
+
+                <label for="created-at">Created at</label>
+                <input type="text" id="created-at" readonly>
+
+                <label for="updated-at">Updated at</label>
+                <input type="text" id="updated-at" readonly>
+
+                <label for="updated-by">Updated by</label>
+                <input type="text" id="updated-by" readonly>
+            </form>
+        </div>
+        <div id="vehicle-body-vehicle-actions" class="vehicle-body-vehicle-actions">
+            <button id="update-btn">Update vehicle</button>
+            <button id="delete-btn">Delete vehicle</button>
+        </div>
+        <div id="vehicle-body-common-actions" class="vehicle-body-common-actions">
+            <button id="proceed-btn">Proceed</button>
+        </div>
+    </main>
+    <footer class="vehicle-footer"></footer>
 </div>
-</body>
-<script src="../../js/viewStateConfig.js"></script>
+<script src="../../js/utility/utility.js"></script>
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
 <script src="../../js/vehicle/vehicle.js"></script>
+</body>
 </html>

@@ -26,6 +26,9 @@ import java.util.*;
 
 @Service
 public class AuthService {
+
+    private final EmployeeService employeeService;
+
     private final UserDetailServiceImplRepo userDetailServiceImplRepo;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -42,13 +45,15 @@ public class AuthService {
 
     Map<String, AccountVO> accountVOMap = new HashMap<>();
 
-    public AuthService(UserDetailServiceImplRepo userDetailServiceImplRepo,
+    public AuthService(EmployeeService employeeService,
+                        UserDetailServiceImplRepo userDetailServiceImplRepo,
                        BCryptPasswordEncoder bCryptPasswordEncoder,
                        ApiKeyGenerator apiKeyGenerator,
                        JwTokenUtilities jwTokenUtilities,
                        HttpServletResponse httpServletResponse,
                        ApiKeyCache apiKeyCache,
                        AccountRepo accountRepo) {
+        this.employeeService = employeeService;
         this.userDetailServiceImplRepo = userDetailServiceImplRepo;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.apiKeyGenerator = apiKeyGenerator;
@@ -174,6 +179,7 @@ public class AuthService {
         ResponseMessageDTO responseMessageDTO = new ResponseMessageDTO();
         responseMessageDTO.setStatusCode(200);
         responseMessageDTO.setValue("Role",roleList.toArray());
+        responseMessageDTO.setValue("employeeId",userDetails.getEmployeeId());
 
         return responseMessageDTO;
     }

@@ -2,34 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sign In</title>
-    <link rel="stylesheet" href="/styles/signIn/signin.css">
+    <title>Sign in</title>
 </head>
 <body>
-<div class="login-shell">
-    <div class="login-shell-wrapper-header">
-        <div class="axle-os-shell-inner-header">
-            <div class="axle-os-shell-logo-container">
-                <img src="" alt="AxleOS">
-            </div>
+<div class="sign-in">
+    <header class="sign-in-header">
+        <div class="sign-in-header-brand-icon">
+            <img class="sign-in-header-logo" src="" alt="AxleOS">
         </div>
-    </div>
-    <div class="login-shell-wrapper-header">
-        <button class="previous-form-btn">Previous form</button>
-    </div>
-    <div class="login-shell-wrapper-body">
-        <div class="login-shell-inner-body">
-            <form action="http://localhost:8080/logistic/auth/signin" method="POST">
+    </header>
+    <main class="sign-in-body">
+        <div class="sign-in-body-sign-in-display">
+            <form class="sign-in-body-sign-in-form" action="http://localhost:8080/logistic/auth/signin" method="POST">
                 <label for="username">Username</label>
-                <input id="username" name="accountUsername" autocomplete="username" type="text" required>
+                <input type="text" id="username" name="accountUsername" autocomplete="username" required>
+
                 <label for="password">Password</label>
-                <input id="password" name="accountPassword" autocomplete="current-password" type="password" required>
-                <button class="submit-btn">Submit</button>
+                <input type="password" id="password" name="accountPassword" autocomplete="current-password" required>
+
+                <button type="submit" id="submit-btn">Sign in</button>
             </form>
         </div>
-    </div>
+    </main>
+    <footer class="sign-in-footer"></footer>
 </div>
-<script src="/js/viewStateConfig.js"></script>
-<script src="../../js/signIn/signIn.js"></script>
 </body>
 </html>

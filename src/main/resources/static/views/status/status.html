@@ -5,24 +5,67 @@
     <title>Status screen</title>
 </head>
 <body>
-<div class="status-shell">
-    <div class="status-shell-wrapper-header">
-        <div class="status-shell-inner-header">
-            <div class="status-shell-group-header">
-                <button class="dashboard-btn">Dashboard</button>
-                <button class="previous-page-btn"></button>
+<div class="status">
+    <header class="status-header">
+        <div class="status-header-brand-icon">
+            <img class="status-header-logo" src="" alt="Status">
+        </div>
+        <div class="status-header-actions">
+            <div class="operator-header-section-a">
+                <button id="dashboard-btn">Dashboard</button>
             </div>
-            <div class="status-shell-group-header">
-                <button class="update-status-btn">Update status</button>
+            <div class="operator-header-section-b">
+                <div id="status-header-actions-a" class="status-header-actions-a">
+                    <button id="shipment-list-btn">Shipment list</button>
+                </div>
+                <div id="status-header-actions-b" class="status-header-actions-b">
+                </div>
             </div>
         </div>
+    </header>
+    <main class="status-body">
+        <div class="status-body-status-display">
+            <form class="status-body-status-form">
+                <label for="shipping-status-id">Shipping status ID</label>
+                <input type="text" id="shipping-status-id" readonly>
 
-    </div>
-    <div class="status-shell-wrapper-body">
+                <label for="current-location">Current location</label>
+                <input type="text" id="current-location">
 
-    </div>
+                <label for="shipping-status">Shipping status</label>
+                <select id="shipping-status">
+                    <option value="" disabled>Select status</option>
+                    <option value="SHIPPED">SHIPPED</option>
+                    <option value="IN-TRANSIT">IN-TRANSIT</option>
+                    <option value="DELAYED">DELAYED</option>
+                    <option value="ARRIVED">ARRIVED</option>
+                    <option value="OUT-FOR-DELIVERY">OUT-FOR-DELIVERY</option>
+                    <option value="DELIVERED">DELIVERED</option>
+                </select>
+
+                <label for="updated-at">Updated at</label>
+                <input type="text" id="updated-at" readonly>
+
+                <label for="updatedby">Updated by</label>
+                <input type="text" id="updatedby" readonly>
+
+                <input type="hidden" id="cargo-id" readonly>
+                <input type="hidden" id="operator-id" readonly>
+                <input type="hidden" id="driver-id" readonly>
+                <input type="hidden" id="vehicle-id" readonly>
+            </form>
+            <div class="status-body-dependents-list">
+                <button id="reassign-operator-btn">Reassign operator</button>
+                <button id="reassign-driver-btn">Reassign driver</button>
+                <button id="reassign-vehicle-btn">Reassign vehicle</button>
+            </div>
+        </div>
+        <div id="status-body-status-actions" class="status-body-status-actions">
+            <button id="update-btn">Update status</button>
+        </div>
+    </main>
+    <footer class="status-footer"></footer>
 </div>
-<script src="/js/viewStateConfig.js"></script>
 <script src="../../js/utility/utility.js"></script>
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
 <script src="../../js/status/status.js"></script>

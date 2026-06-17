@@ -1,171 +1,185 @@
-document.addEventListener("DOMContentLoaded", function () {
-    async function PayloadExtractor() {
+const params = new URLSearchParams(window.location.search);
+let currentPageNo = 1;
+let totalPages = 1;
+let currentResponse = null;
 
-        const viewState = localStorage.getItem("viewState");
+async function payloadExtractor() {
+    const userAction = params.get("userAction");
+    const operatorId = params.get("operatorId");
 
-        previousPageNavigation(viewState);
-
-        if (viewState === operatorViewState().OPERATOR.READ) {
-            const operatorId = localStorage.getItem("operatorId");
-            const pageNo = localStorage.getItem("pageNo") != null ? localStorage.getItem("pageNo") : 1;
-            const url = `/logistic/manager/fetchall?operatorId=${operatorId}&pageNo=${pageNo}`;
-            const methodType = 'GET';
-            const response = await ajaxCall(url, methodType, null);
-            LayoutRenderer(response, viewState);
-        }
+    if (!userAction || !operatorId) {
+        alert('Invalid parameters.');
+        return;
     }
-    PayloadExtractor();
-});
 
+    currentPageNo = 1;
+    await fetchManagerList(operatorId, currentPageNo);
+}
+payloadExtractor();
 
-function LayoutRenderer(response, viewState) {
-    let managerList = [];
+async function fetchManagerList(operatorId, pageNo) {
+    const url = `/logistic/manager/fetchall?operatorId=${operatorId}&pageNo=${pageNo}`;
+    const methodType = 'GET';
+    const response = await ajaxCall(url, methodType, null);
+
+    currentResponse = response;
 
     if (response && response.valueMap) {
-        managerList = response.valueMap.ManagerList || [];
-
-        localStorage.setItem("totalPages", response.valueMap.TotalPages || 1);
-        localStorage.setItem("totalElements", response.valueMap.TotalElements || 0);
-    } else {
-        managerList = Array.isArray(response) ? response : [response];
+        totalPages = response.valueMap.TotalPages || 1;
+        const managerList = response.valueMap.ManagerList || [];
+        renderManagerList(managerList);
+    } else if (Array.isArray(response)) {
+        renderManagerList(response);
+    } else if (response) {
+        renderManagerList([response]);
     }
-    const managerShellWrapperBody = document.querySelector('.manager-shell-wrapper-body');
+}
 
-    if (managerShellWrapperBody) {
-        managerShellWrapperBody.innerHTML = '';
+function renderManagerList(managerList) {
+    const listContainer = document.getElementById('manager-list-container');
+    if (listContainer) {
+        listContainer.innerHTML = '';
     }
 
     managerList.forEach(manager => {
-
         if (!manager) return;
 
-        const elementDiv = document.createElement('div');
-        elementDiv.className = 'manager-shell-inner-body';
+        const managerDiv = document.createElement('div');
+        managerDiv.className = 'manager-list-item';
+        managerDiv.setAttribute('data-manager-id', manager.managerId);
+        managerDiv.setAttribute('data-manager-name', manager.managerName);
 
-        Object.entries(manager).forEach(([keyName, keyValue]) => {
-            if (keyName === "operatorId" || keyName === "managerId" || keyName === "managerName" || keyName === "managerStatus") {
-                const elementP = document.createElement('p');
-                elementP.className = camelToKebabCase(keyName);
-                elementP.textContent = `${keyName.charAt(0).toUpperCase()+whiteSpacedCamelCase(keyName).slice(1)} : ${keyValue}`;
-                elementDiv.append(elementP);
-            }
-        });
+        const managerInfoDiv = document.createElement('div');
+        managerInfoDiv.className = 'manager-info';
 
-        const elementBtnDiv = document.createElement('div');
-        elementBtnDiv.className = 'manager-shell-event';
+        const managerIdP = document.createElement('p');
+        managerIdP.textContent = `Manager ID: ${manager.managerId}`;
+        managerInfoDiv.append(managerIdP);
 
-        const elementBtn = document.createElement('button');
-        elementBtn.className = 'view-btn';
-        elementBtn.setAttribute('data-operator-id', manager.operatorId);
-        elementBtn.setAttribute('data-manager-id', manager.managerId);
-        elementBtn.textContent = 'View';
-        elementBtnDiv.append(elementBtn);
+        const managerNameP = document.createElement('p');
+        managerNameP.className = 'manager-name-display';
+        managerNameP.textContent = `Manager Name: ${manager.managerName}`;
+        managerInfoDiv.append(managerNameP);
 
-        elementDiv.append(elementBtnDiv);
-        managerShellWrapperBody.append(elementDiv);
+        const managerStatusP = document.createElement('p');
+        managerStatusP.textContent = `Status: ${manager.managerStatus}`;
+        managerInfoDiv.append(managerStatusP);
+
+        const viewBtn = document.createElement('button');
+        viewBtn.className = 'view-btn';
+        viewBtn.setAttribute('data-manager-id', manager.managerId);
+        viewBtn.setAttribute('data-operator-id', manager.operatorId);
+        viewBtn.textContent = 'View';
+        managerInfoDiv.append(viewBtn);
+
+        managerDiv.append(managerInfoDiv);
+        listContainer.append(managerDiv);
     });
-    ClickEventBinder(viewState);
-    searchClickEvent(response, viewState);
+
+    clickEventBinder();
+    searchClickEvent();
 }
 
-function ClickEventBinder(viewState) {
-    const viewBtnArray = document.querySelectorAll('.view-btn');
+function clickEventBinder() {
+    const userAction = params.get("userAction");
+    const operatorId = params.get("operatorId");
 
-    viewBtnArray.forEach(current => {
-        current.addEventListener('click', function () {
-            localStorage.setItem("operatorId", this.dataset.operatorId);
-            localStorage.setItem("managerId", this.dataset.managerId);
-            localStorage.setItem("viewState", viewState);
-            window.location.href = "../../views/manager/manager.html";
+    const dashboardBtn = document.getElementById('dashboard-btn');
+    if (dashboardBtn) {
+        dashboardBtn.addEventListener('click', function () {
+            window.location.href = "/views/dashboard.html";
+        }, {once: true});
+    }
+
+    const createManagerBtn = document.getElementById('create-manager-btn');
+    if (createManagerBtn) {
+        createManagerBtn.addEventListener('click', function () {
+            window.location.href = `../../views/signUp/sign-up.html?userAction=Entry manager&operatorId=${operatorId}`;
+        }, {once: true});
+    }
+
+    const viewBtnArray = document.querySelectorAll('.view-btn');
+    viewBtnArray.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const managerId = this.getAttribute('data-manager-id');
+            const operatorId = this.getAttribute('data-operator-id');
+            window.location.href = `../../views/manager/manager.html?managerId=${managerId}&userAction=${userAction}&operatorId=${operatorId}`;
         }, {once: true});
     });
-}
 
-function searchClickEvent(response,viewState) {
-    const searchBtn = document.querySelector('.search-btn');
-
-    searchBtn.addEventListener('click', async function () {
-        const searchInput = document.getElementById('search').value.trim().toLowerCase();
-        const managerNameList = document.querySelectorAll('.manager-name');
-
-        managerNameList.forEach(function (manager) {
-            const managerName = manager.textContent.replace("Manager Name : ", "").trim().toLowerCase();
-            const parentElement = manager.closest('.manager-shell-inner-body');
-            if (parentElement) {
-                if (managerName !== searchInput && searchInput !== "") {
-                    parentElement.style.display = 'none';
-                } else {
-                    parentElement.style.display = '';
-                }
+    const previousPageBtn = document.getElementById('previous-page-btn');
+    if (previousPageBtn) {
+        previousPageBtn.addEventListener('click', async function () {
+            if (currentPageNo > 1) {
+                currentPageNo--;
+                await fetchManagerList(operatorId, currentPageNo);
             }
-        });
-        const activeElement = Array.from(document.querySelectorAll('.manager-shell-inner-body')).filter(element => element.style.display !== 'none');
-        if (activeElement.length === 0 && searchInput) {
-            const fallbackResponse = await ajaxCall(`/logistic/manager/fetchByName?managerName=${searchInput}`);
-            if (fallbackResponse) {
-                LayoutRenderer(fallbackResponse, viewState);
+        }, {once: true});
+    }
+
+    const nextPageBtn = document.getElementById('next-page-btn');
+    if (nextPageBtn) {
+        nextPageBtn.addEventListener('click', async function () {
+            if (currentPageNo < totalPages) {
+                currentPageNo++;
+                await fetchManagerList(operatorId, currentPageNo);
             }
-        }
-    });
-
-    const searchInput = document.getElementById('search');
-
-    searchInput.addEventListener('input', function () {
-        const searchValue = this.value.trim().toLowerCase();
-
-        if (!searchValue) {
-            LayoutRenderer(response, viewState);
-            return;
-        }
-
-    });
-}
-
-
-function previousPageNavigation(viewState) {
-
-    const previousFormBtn = document.querySelector('.previous-form-btn');
-
-    if (!previousFormBtn) return;
-
-    if (window.history.length <= 1) {
-        previousFormBtn.disabled = true;
-    } else {
-        previousFormBtn.disabled = false;
-
-        previousFormBtn.addEventListener('click', function () {
-            localStorage.setItem("viewState", viewState);
-            window.history.back();
-        }, { once: true });
+        }, {once: true});
     }
 }
 
+function searchClickEvent() {
+    const searchBtn = document.getElementById('search-btn');
+    const searchInput = document.getElementById('search');
 
-function recordPageEventBinding(){
+    if (searchBtn) {
+        searchBtn.addEventListener('click', async function () {
+            const searchValue = searchInput.value.trim().toLowerCase();
+            const managerItems = document.querySelectorAll('.manager-list-item');
+            let hasMatch = false;
 
-    const lastPage = parseInt(localStorage.getItem("totalPages")) || 1;
+            managerItems.forEach(item => {
+                const managerName = item.getAttribute('data-manager-name').toLowerCase();
+                if (managerName.includes(searchValue) || searchValue === '') {
+                    item.style.display = '';
+                    hasMatch = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
 
-    const previousRecordPageBtn = document.getElementById('previous-page-btn');
+            if (!hasMatch && searchValue !== '') {
+                const response = await ajaxCall(`/logistic/manager/fetchByName?managerName=${searchValue}`, 'GET', null);
+                if (response) {
+                    let managerList = [];
 
-    previousRecordPageBtn.addEventListener('click',function (){
-        let currentPage = parseInt(localStorage.getItem("pageNo")) || 1;
-        if(currentPage > 1){
-            const pageNo = currentPage-1;
-            localStorage.setItem("pageNo",pageNo);
-            window.location.href = "../../views/manager/manager-list.html";
-        }
-    }, {once: true});
+                    // Handle both response formats: valueMap wrapper and direct array
+                    if (response && response.valueMap) {
+                        managerList = response.valueMap.ManagerList || [];
+                    } else if (Array.isArray(response)) {
+                        managerList = response;
+                    } else if (response) {
+                        managerList = [response];
+                    }
 
-    const nextRecordPageBtn = document.getElementById('next-page-btn');
+                    if (managerList.length > 0) {
+                        renderManagerList(managerList);
+                    }
+                }
+            }
+        }, {once: true});
+    }
 
-    nextRecordPageBtn.addEventListener('click',function (){
-        let currentPage = parseInt(localStorage.getItem("pageNo")) || 1;
-        if(currentPage > 0 && currentPage < lastPage){
-            const pageNo = currentPage+1;
-            localStorage.setItem("pageNo",pageNo);
-            window.location.href = "../../views/manager/manager-list.html";
-        }
-    }, {once: true});
+    if (searchInput) {
+        searchInput.addEventListener('input', function () {
+            const searchValue = this.value.trim().toLowerCase();
 
+            if (!searchValue) {
+                const managerItems = document.querySelectorAll('.manager-list-item');
+                managerItems.forEach(item => {
+                    item.style.display = '';
+                });
+            }
+        });
+    }
 }
-recordPageEventBinding();

@@ -1,17 +1,9 @@
-document.addEventListener('DOMContentLoaded', function (){
-    function signingClickEvent(){
-
-        const signInBtn = document.querySelector('.sign-in-btn');
-
-        signInBtn.addEventListener('click',function(){
-            localStorage.setItem("viewState",dashboardViewState().DASHBOARD);
+function clickEventBinder() {
+    const signInBtn = document.getElementById('sign-in-btn');
+    if (signInBtn) {
+        signInBtn.addEventListener('click', function () {
             window.location.href = "/views/signIn/sign-in.html";
-        },{once : true});
-
-        previousPageNavigation(dashboardViewState().DASHBOARD);
-
+        }, { once: true });
     }
-    signingClickEvent();
-})
-
-v
+}
+clickEventBinder();

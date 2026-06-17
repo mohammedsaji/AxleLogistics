@@ -1,128 +1,93 @@
-document.addEventListener('DOMContentLoaded',function (){
-    async function payloadExtractor() {
+const params = new URLSearchParams(window.location.search);
 
-        const viewState = localStorage.getItem("viewState");
+async function payloadExtractor() {
+    const url = `/logistic/auth/role`;
+    const methodType = 'GET';
+    const response = await ajaxCall(url, methodType, null);
 
-        const dashboardState = dashboardViewState().DASHBOARD;
-
-         previousPageNavigation(viewState);
-
-        if(viewState === dashboardState){
-            const url = `/logistic/auth/role`;
-            const methodType = 'GET';
-            const response = await ajaxCall(url, methodType, null);
-
-            LayoutRender(response);
-        }
+    if (response && response.valueMap) {
+        const rolesArray = response.valueMap.Role || [];
+        const employeeId = response.valueMap.employeeId;
+        dynamicLayoutRender(rolesArray);
+        clickEventBinder(employeeId);
     }
-    payloadExtractor();
-});
-
-function LayoutRender(response){
-
-    const rolesArray = response.valueMap.Role;
-
-    const shipmentCreateEvent = document.querySelector('.dashboard-shell-btn-shipment-create');
-    const operatorReadEvent = document.querySelector('.dashboard-shell-btn-operator-read');
-    const federateAccEvent = document.querySelector('.dashboard-shell-btn-federate-acc');
-    const employeeCreateEvent = document.querySelector('.dashboard-shell-btn-employee-create');
-    const employeeAdminstrEvent = document.querySelector('.dashboard-shell-btn-employee-adminstr');
-
-    if(rolesArray.includes("Manager".toUpperCase()) || rolesArray.includes("Driver".toUpperCase())){
-        shipmentCreateEvent.remove();
-        federateAccEvent.remove();
-        employeeCreateEvent.remove();
-        employeeAdminstrEvent.remove();
-        operatorReadEvent.remove();
-    }else if(!rolesArray.includes("Admin".toUpperCase())){
-        shipmentCreateEvent.remove();
-        federateAccEvent.remove();
-        employeeCreateEvent.remove();
-        employeeAdminstrEvent.remove();
-        operatorReadEvent.remove();
-    }
-
-    ClickEventBinder();
 }
-function ClickEventBinder() {
-    const shipmentStates = shipmentViewState().SHIPMENT;
-    const operatorStates = operatorViewState().OPERATOR;
-    const federateStates = federateViewState().FEDERATE_ACC;
-    const employeeStates = employeeViewState();
+payloadExtractor();
 
-    const shipmentCreateEvent = document.querySelector('.dashboard-shell-btn-shipment-create');
-    if (shipmentCreateEvent) {
-        shipmentCreateEvent.addEventListener('click', function () {
-            localStorage.setItem("viewState", shipmentStates.CREATE);
-            window.location.href = "/views/operator/transport-type.html";
-        },{once : true});
-    }
+function dynamicLayoutRender(rolesArray) {
+    const isAdmin = rolesArray.includes("ADMIN");
+    const isManagerOrDriver = rolesArray.includes("MANAGER") || rolesArray.includes("DRIVER");
 
-    const shipmentListReadEvent = document.querySelector('.dashboard-shell-btn-shipment-list');
-    if (shipmentListReadEvent) {
-        shipmentListReadEvent.addEventListener('click', function () {
-            localStorage.setItem("viewState", shipmentStates.READ);
-            window.location.href = "/views/shipment/shipment-list.html";
-        },{once : true});
-    }
+    // Only ADMIN can see these buttons — remove for everyone else
+    if (isManagerOrDriver || !isAdmin) {
+        const shipmentCreateBtn = document.getElementById('dashboard-btn-shipment-create');
+        if (shipmentCreateBtn) shipmentCreateBtn.closest('.dashboard-body-card').remove();
 
-    const operatorReadEvent = document.querySelector('.dashboard-shell-btn-operator-read');
-    if (operatorReadEvent) {
-        operatorReadEvent.addEventListener('click', function () {
-            localStorage.setItem("viewState", operatorStates.READ);
-            window.location.href = "/views/operator/operator-list.html";
-        },{once : true});
-    }
+        const operatorReadBtn = document.getElementById('dashboard-btn-operator-read');
+        if (operatorReadBtn) operatorReadBtn.closest('.dashboard-body-card').remove();
 
-    const federateAccEvent = document.querySelector('.dashboard-shell-btn-federate-acc');
-    if (federateAccEvent) {
-        federateAccEvent.addEventListener('click', function () {
-            localStorage.setItem("viewState", federateStates.CREATE);
-            window.location.href = "/views/signUp/sign-up.html";
-        },{once : true});
-    }
+        const federateAccBtn = document.getElementById('dashboard-btn-federate-acc');
+        if (federateAccBtn) federateAccBtn.closest('.dashboard-body-card').remove();
 
-    const employeeCreateEvent = document.querySelector('.dashboard-shell-btn-employee-create');
-    if (employeeCreateEvent) {
-        employeeCreateEvent.addEventListener('click', function () {
-            localStorage.setItem("viewState", employeeStates.CREATE);
-            window.location.href = "/views/employee/employee-list.html";
-        },{once : true});
-    }
+        const employeeCreateBtn = document.getElementById('dashboard-btn-employee-create');
+        if (employeeCreateBtn) employeeCreateBtn.closest('.dashboard-body-card').remove();
 
-    const employeeAdminstrEvent = document.querySelector('.dashboard-shell-btn-employee-adminstr');
-    if (employeeAdminstrEvent) {
-        employeeAdminstrEvent.addEventListener('click', function () {
-            localStorage.setItem("viewState", employeeStates.ADMINSTR);
-            window.location.href = "/views/employee/employee-list.html";
-        },{once : true});
+        const employeeAdminstrBtn = document.getElementById('dashboard-btn-employee-adminstr');
+        if (employeeAdminstrBtn) employeeAdminstrBtn.closest('.dashboard-body-card').remove();
     }
 }
 
-function previousPageNavigation(viewState) {
-    const previousFormBtn = document.querySelector('.previous-form-btn');
-    if (!previousFormBtn) return;
-
-    // document.referrer = where user came from (free, no setup needed)
-    // fallback to history.back() only if referrer is missing
-    const previousPage = document.referrer;
-
-    if (!previousPage && window.history.length <= 1) {
-        // truly no way back — disable button
-        previousFormBtn.disabled = true;
-        return;
+function clickEventBinder(employeeId) {
+    const signOutBtn = document.getElementById('sign-out-btn');
+    if (signOutBtn) {
+        signOutBtn.addEventListener('click', async function () {
+            const url = `/logistic/auth/signout?employeeId=${employeeId}`;
+            const response = await ajaxCall(url, 'GET', null);
+            if (response) {
+                window.location.href = "/views/signIn/sign-in.html";
+            }
+        }, { once: true });
     }
 
-    previousFormBtn.disabled = false;
+    const shipmentCreateBtn = document.getElementById('dashboard-btn-shipment-create');
+    if (shipmentCreateBtn) {
+        shipmentCreateBtn.addEventListener('click', function () {
+            window.location.href = "/views/operator/transport-types.html?userAction=Entry shipping";
+        }, { once: true });
+    }
 
-    previousFormBtn.addEventListener('click', function () {
-        localStorage.setItem("viewState", viewState);
+    const shipmentListBtn = document.getElementById('dashboard-btn-shipment-list');
+    if (shipmentListBtn) {
+        shipmentListBtn.addEventListener('click', function () {
+            window.location.href = "/views/shipment/shipment-list.html?userAction=Read shipment";
+        }, { once: true });
+    }
 
-        if (previousPage) {
-            window.location.href = previousPage; // reliable path
-        } else {
-            window.history.back(); // last resort fallback
-        }
+    const operatorReadBtn = document.getElementById('dashboard-btn-operator-read');
+    if (operatorReadBtn) {
+        operatorReadBtn.addEventListener('click', function () {
+            window.location.href = "/views/operator/transport-types.html?userAction=Read operator";
+        }, { once: true });
+    }
 
-    }, { once: true });
+    const federateAccBtn = document.getElementById('dashboard-btn-federate-acc');
+    if (federateAccBtn) {
+        federateAccBtn.addEventListener('click', function () {
+            window.location.href = "/views/signUp/sign-up.html?userAction=Entry federate";
+        }, { once: true });
+    }
+
+    const employeeCreateBtn = document.getElementById('dashboard-btn-employee-create');
+    if (employeeCreateBtn) {
+        employeeCreateBtn.addEventListener('click', function () {
+            window.location.href = "/views/employee/employee-list.html?userAction=Entry employee";
+        }, { once: true });
+    }
+
+    const employeeAdminstrBtn = document.getElementById('dashboard-btn-employee-adminstr');
+    if (employeeAdminstrBtn) {
+        employeeAdminstrBtn.addEventListener('click', function () {
+            window.location.href = "/views/employee/employee-list.html?userAction=Administrate employee";
+        }, { once: true });
+    }
 }

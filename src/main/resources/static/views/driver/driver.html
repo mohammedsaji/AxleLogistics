@@ -3,36 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <title>Driver screen</title>
-    <link rel="stylesheet" href="../../styles/driver/driver.css">
 </head>
 <body>
-<div class="driver-shell">
-    <div class="driver-shell-wrapper-header">
-        <div class="axle-os-shell-inner-header">
-            <div class="axle-os-shell-logo-container">
-                <img src="" alt="AxleOS">
+<div class="driver">
+    <header class="driver-header">
+        <div class="driver-header-brand-icon">
+            <img class="driver-header-logo" src="" alt="Driver Logo">
+        </div>
+        <div class="driver-header-actions">
+            <div class="driver-header-section-a">
+                <button id="dashboard-btn">Dashboard</button>
+            </div>
+            <div class="driver-header-section-b">
+                <div class="driver-header-actions-a">
+                    <button id="driver-list-btn">Driver list</button>
+                    <button id="entry-driver-btn">Entry driver</button>
+                </div>
+                <div class="driver-header-actions-b">
+                </div>
             </div>
         </div>
-    </div>
-    <div class="driver-shell-wrapper-header">
-        <div class="driver-shell-inner-header">
-            <div class="driver-shell-group-header">
-                <button class="dashboard-btn">Dashboard</button>
-                <button class="previous-form-btn">Previous form</button>
-            </div>
-            <div class="driver-shell-group-header">
-                <button class="create-driver-btn">Create driver</button>
-                <button class="update-driver-btn">Update driver</button>
-                <button class="delete-driver-btn">Delete driver</button>
-            </div>
+    </header>
+    <main class="driver-body">
+        <div class="driver-body-driver-display">
+            <form>
+                <label for="driver-id">Driver ID :</label>
+                <input id="driver-id" type="number" readonly>
+
+                <label for="driver-name">Driver Name :</label>
+                <input id="driver-name" type="text" maxlength="250" required>
+
+                <label for="driver-phone-no">Driver Phone No :</label>
+                <input id="driver-phone-no" type="text" maxlength="25" required>
+
+                <label for="driver-license-no">Driver License No :</label>
+                <input id="driver-license-no" type="text" maxlength="20" required>
+
+                <label for="operator-id">Operator ID :</label>
+                <input id="operator-id" type="number" readonly required>
+
+                <label for="created-at">Driver created at :</label>
+                <input id="created-at" type="datetime-local" readonly required>
+
+                <label for="updated-at">Driver updated at :</label>
+                <input id="updated-at" type="datetime-local" readonly required>
+
+                <label for="updated-by">Updated by :</label>
+                <input id="updated-by" type="number" readonly required>
+            </form>
         </div>
+        <div class="driver-body-driver-actions">
+            <button id="update-btn">Update</button>
+            <button id="delete-btn">Delete</button>
+        </div>
+        <div class="driver-body-common-actions">
+            <button id="proceed-btn">Proceed</button>
+        </div>
+    </main>
+    <footer class="driver-footer">
 
-    </div>
-    <div class="driver-shell-wrapper-body">
-
-    </div>
+    </footer>
 </div>
-<script src="/js/viewStateConfig.js"></script>
+
 <script src="../../js/utility/utility.js"></script>
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
 <script src="../../js/driver/driver.js"></script>

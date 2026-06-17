@@ -1,0 +1,4496 @@
+2026-06-15T15:05:20.633+05:30  INFO 4244 --- [projectLogistics] [restartedMain] c.a.p.ProjectLogisticsApplication        : Starting ProjectLogisticsApplication using Java 17.0.18 with PID 4244 (C:\Users\lenovo\projectLogistics\code\projectLogistics\target\classes started by lenovo in C:\Users\lenovo\projectLogistics\code\projectLogistics)
+2026-06-15T15:05:20.640+05:30  INFO 4244 --- [projectLogistics] [restartedMain] c.a.p.ProjectLogisticsApplication        : The following 1 profile is active: "dev"
+2026-06-15T15:05:20.780+05:30  INFO 4244 --- [projectLogistics] [restartedMain] o.s.b.devtools.restart.ChangeableUrls    : The Class-Path manifest attribute in C:\Users\lenovo\.m2\repository\org\glassfish\jaxb\jaxb-runtime\2.3.1\jaxb-runtime-2.3.1.jar referenced one or more files that do not exist: file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.1/jaxb-api-2.3.1.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.1/txw2-2.3.1.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.1/istack-commons-runtime-3.0.7.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.1/stax-ex-1.8.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.1/FastInfoset-1.2.15.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.1/javax.activation-api-1.2.0.jar
+2026-06-15T15:05:20.781+05:30  INFO 4244 --- [projectLogistics] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-06-15T15:05:20.782+05:30  INFO 4244 --- [projectLogistics] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-06-15T15:05:23.754+05:30  INFO 4244 --- [projectLogistics] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-15T15:05:23.889+05:30  INFO 4244 --- [projectLogistics] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 125 ms. Found 13 JPA repository interfaces.
+2026-06-15T15:05:24.994+05:30  INFO 4244 --- [projectLogistics] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-06-15T15:05:25.010+05:30  INFO 4244 --- [projectLogistics] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-06-15T15:05:25.010+05:30  INFO 4244 --- [projectLogistics] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.26]
+2026-06-15T15:05:25.085+05:30  INFO 4244 --- [projectLogistics] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-06-15T15:05:25.086+05:30  INFO 4244 --- [projectLogistics] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4303 ms
+2026-06-15T15:05:25.272+05:30  INFO 4244 --- [projectLogistics] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-06-15T15:05:25.373+05:30  INFO 4244 --- [projectLogistics] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2026-06-15T15:05:25.423+05:30  INFO 4244 --- [projectLogistics] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-06-15T15:05:25.843+05:30  INFO 4244 --- [projectLogistics] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-15T15:05:25.890+05:30  INFO 4244 --- [projectLogistics] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-15T15:05:26.143+05:30  INFO 4244 --- [projectLogistics] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@66a21834
+2026-06-15T15:05:26.145+05:30  INFO 4244 --- [projectLogistics] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-15T15:05:26.241+05:30  WARN 4244 --- [projectLogistics] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-15T15:05:28.946+05:30  INFO 4244 --- [projectLogistics] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-15T15:05:29.389+05:30  INFO 4244 --- [projectLogistics] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-15T15:05:30.235+05:30  WARN 4244 --- [projectLogistics] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-15T15:05:30.274+05:30  INFO 4244 --- [projectLogistics] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailServiceImpl
+2026-06-15T15:05:30.841+05:30  WARN 4244 --- [projectLogistics] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2026-06-15T15:05:31.145+05:30  INFO 4244 --- [projectLogistics] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-06-15T15:05:31.232+05:30  INFO 4244 --- [projectLogistics] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-06-15T15:05:31.245+05:30  INFO 4244 --- [projectLogistics] [restartedMain] c.a.p.ProjectLogisticsApplication        : Started ProjectLogisticsApplication in 11.621 seconds (process running for 12.781)
+2026-06-15T15:06:19.086+05:30  INFO 4244 --- [projectLogistics] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-15T15:06:19.088+05:30  INFO 4244 --- [projectLogistics] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-06-15T15:06:19.090+05:30  INFO 4244 --- [projectLogistics] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-06-15T15:06:19.529+05:30  WARN 4244 --- [projectLogistics] [http-nio-8080-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/landing.css.]
+2026-06-15T15:06:19.623+05:30  WARN 4244 --- [projectLogistics] [http-nio-8080-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:06:21.468+05:30  WARN 4244 --- [projectLogistics] [http-nio-8080-exec-7] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/signIn/signin.css.]
+2026-06-15T15:06:21.493+05:30  WARN 4244 --- [projectLogistics] [http-nio-8080-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:07:27.582+05:30  WARN 4244 --- [projectLogistics] [http-nio-8080-exec-4] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/signIn/signin.css.]
+2026-06-15T15:07:27.607+05:30  WARN 4244 --- [projectLogistics] [http-nio-8080-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:07:30.131+05:30 DEBUG 4244 --- [projectLogistics] [http-nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:07:30.131+05:30 TRACE 4244 --- [projectLogistics] [http-nio-8080-exec-8] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:07:30.151+05:30 DEBUG 4244 --- [projectLogistics] [http-nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:07:30.151+05:30 TRACE 4244 --- [projectLogistics] [http-nio-8080-exec-8] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:07:30.795+05:30  WARN 4244 --- [projectLogistics] [http-nio-8080-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/dashboard.css.]
+2026-06-15T15:07:30.868+05:30 DEBUG 4244 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:07:30.868+05:30 TRACE 4244 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:07:30.868+05:30 DEBUG 4244 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:07:30.868+05:30 TRACE 4244 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:07:30.917+05:30 DEBUG 4244 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:07:30.917+05:30 TRACE 4244 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:07:30.917+05:30 DEBUG 4244 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:07:30.917+05:30 TRACE 4244 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:07:41.770+05:30  WARN 4244 --- [projectLogistics] [http-nio-8080-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:07:47.332+05:30  WARN 4244 --- [projectLogistics] [http-nio-8080-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:08:08.124+05:30 DEBUG 4244 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:08:08.126+05:30 TRACE 4244 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:08:08.126+05:30 DEBUG 4244 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:08:08.130+05:30 TRACE 4244 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:08:08.139+05:30 DEBUG 4244 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:08:08.141+05:30 TRACE 4244 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:08:08.142+05:30 DEBUG 4244 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:08:08.142+05:30 TRACE 4244 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:08:11.117+05:30 DEBUG 4244 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:08:11.117+05:30 TRACE 4244 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:08:11.118+05:30 DEBUG 4244 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:08:11.119+05:30 TRACE 4244 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:08:11.125+05:30 DEBUG 4244 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:08:11.126+05:30 TRACE 4244 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:08:11.127+05:30 DEBUG 4244 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:08:11.127+05:30 TRACE 4244 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:08:11.134+05:30  WARN 4244 --- [projectLogistics] [http-nio-8080-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:10:37.587+05:30  INFO 4244 --- [projectLogistics] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-15T15:10:37.593+05:30  INFO 4244 --- [projectLogistics] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-06-15T15:10:37.611+05:30  INFO 4244 --- [projectLogistics] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-06-15T15:10:50.030+05:30  INFO 5948 --- [projectLogistics] [restartedMain] c.a.p.ProjectLogisticsApplication        : Starting ProjectLogisticsApplication using Java 17.0.18 with PID 5948 (C:\Users\lenovo\projectLogistics\code\projectLogistics\target\classes started by lenovo in C:\Users\lenovo\projectLogistics\code\projectLogistics)
+2026-06-15T15:10:50.036+05:30  INFO 5948 --- [projectLogistics] [restartedMain] c.a.p.ProjectLogisticsApplication        : The following 1 profile is active: "dev"
+2026-06-15T15:10:50.122+05:30  INFO 5948 --- [projectLogistics] [restartedMain] o.s.b.devtools.restart.ChangeableUrls    : The Class-Path manifest attribute in C:\Users\lenovo\.m2\repository\org\glassfish\jaxb\jaxb-runtime\2.3.1\jaxb-runtime-2.3.1.jar referenced one or more files that do not exist: file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.1/jaxb-api-2.3.1.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.1/txw2-2.3.1.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.1/istack-commons-runtime-3.0.7.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.1/stax-ex-1.8.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.1/FastInfoset-1.2.15.jar,file:/C:/Users/lenovo/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.1/javax.activation-api-1.2.0.jar
+2026-06-15T15:10:50.123+05:30  INFO 5948 --- [projectLogistics] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-06-15T15:10:50.123+05:30  INFO 5948 --- [projectLogistics] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-06-15T15:10:51.728+05:30  INFO 5948 --- [projectLogistics] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-15T15:10:51.923+05:30  INFO 5948 --- [projectLogistics] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 184 ms. Found 13 JPA repository interfaces.
+2026-06-15T15:10:53.042+05:30  INFO 5948 --- [projectLogistics] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-06-15T15:10:53.057+05:30  INFO 5948 --- [projectLogistics] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-06-15T15:10:53.057+05:30  INFO 5948 --- [projectLogistics] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.26]
+2026-06-15T15:10:53.127+05:30  INFO 5948 --- [projectLogistics] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-06-15T15:10:53.127+05:30  INFO 5948 --- [projectLogistics] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3003 ms
+2026-06-15T15:10:53.308+05:30  INFO 5948 --- [projectLogistics] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-06-15T15:10:53.387+05:30  INFO 5948 --- [projectLogistics] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2026-06-15T15:10:53.431+05:30  INFO 5948 --- [projectLogistics] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-06-15T15:10:53.909+05:30  INFO 5948 --- [projectLogistics] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-15T15:10:53.965+05:30  INFO 5948 --- [projectLogistics] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-15T15:10:54.206+05:30  INFO 5948 --- [projectLogistics] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@10d58eb4
+2026-06-15T15:10:54.209+05:30  INFO 5948 --- [projectLogistics] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-15T15:10:54.278+05:30  WARN 5948 --- [projectLogistics] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-15T15:10:56.419+05:30  INFO 5948 --- [projectLogistics] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-15T15:10:56.736+05:30  INFO 5948 --- [projectLogistics] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-15T15:10:57.589+05:30  WARN 5948 --- [projectLogistics] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-15T15:10:57.635+05:30  INFO 5948 --- [projectLogistics] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailServiceImpl
+2026-06-15T15:10:58.302+05:30  WARN 5948 --- [projectLogistics] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2026-06-15T15:10:58.565+05:30  INFO 5948 --- [projectLogistics] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-06-15T15:10:58.645+05:30  INFO 5948 --- [projectLogistics] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-06-15T15:10:58.672+05:30  INFO 5948 --- [projectLogistics] [restartedMain] c.a.p.ProjectLogisticsApplication        : Started ProjectLogisticsApplication in 9.363 seconds (process running for 10.3)
+2026-06-15T15:19:13.628+05:30  INFO 5948 --- [projectLogistics] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-15T15:19:13.632+05:30  INFO 5948 --- [projectLogistics] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-06-15T15:19:13.639+05:30  INFO 5948 --- [projectLogistics] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
+2026-06-15T15:19:13.823+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/landing.css.]
+2026-06-15T15:19:13.871+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:19:15.875+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/signIn/signin.css.]
+2026-06-15T15:19:16.047+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-4] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:19:17.872+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:19:17.879+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:19:17.905+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:19:17.906+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:19:18.471+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/dashboard.css.]
+2026-06-15T15:19:18.521+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:19:18.602+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:19:18.602+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:19:18.602+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:19:18.602+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:19:18.606+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:19:18.606+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:19:18.610+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:19:18.616+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:19:18.685+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:19:18.685+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:19:18.687+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:19:18.687+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:19:18.687+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:19:18.687+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:19:18.689+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:19:18.689+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:19:18.698+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:19:20.670+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/operator/transportType.css.]
+2026-06-15T15:19:20.708+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:19:20.710+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:19:20.712+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:19:20.713+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:19:20.714+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:19:20.720+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-7] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:19:20.725+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:19:20.728+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:19:20.728+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:19:20.729+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:19:20.729+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:19:20.730+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:19:20.730+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:19:20.737+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:19:20.739+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:19:20.740+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:19:20.742+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:19:20.743+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:19:22.339+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/dashboard.css.]
+2026-06-15T15:19:22.365+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:19:22.408+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:19:22.409+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:19:22.411+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:19:22.412+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:19:22.420+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:19:22.421+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:19:22.422+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:19:22.423+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:19:22.432+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:19:24.436+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/dashboard.css.]
+2026-06-15T15:19:24.463+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:19:24.508+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:19:24.510+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:19:24.512+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:19:24.513+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:19:24.520+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:19:24.520+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:19:24.521+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:19:24.522+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:19:24.531+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-4] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:19:34.329+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/landing.css.]
+2026-06-15T15:19:34.359+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:19:34.378+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:19:34.381+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:19:34.383+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:19:34.384+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:19:34.391+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:19:34.391+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:19:34.393+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:19:34.393+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:19:34.406+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:19:37.400+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/signIn/signin.css.]
+2026-06-15T15:19:37.426+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:19:37.478+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:19:37.478+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:19:37.478+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:19:37.478+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:19:37.491+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:19:37.491+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:19:37.491+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:19:37.491+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:19:37.500+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:19:38.905+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:19:38.906+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:19:38.907+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:19:38.907+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:19:39.438+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/dashboard.css.]
+2026-06-15T15:19:39.476+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:19:39.478+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:19:39.481+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:19:39.483+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:19:39.486+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:19:39.486+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:19:39.487+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:19:39.487+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-4] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:19:39.487+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:19:39.494+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:19:39.495+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:19:39.496+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:19:39.498+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:19:39.503+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:19:39.504+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:19:39.507+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:19:39.509+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:19:39.520+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:19:41.798+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:19:41.848+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:19:41.850+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-8] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:19:41.852+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:19:41.852+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-8] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:19:41.863+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:19:41.864+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-8] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:19:41.864+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:19:41.865+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-8] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:19:41.872+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:20:19.716+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:20:19.718+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:20:19.720+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:20:19.721+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:20:19.735+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:20:19.737+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:20:19.738+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:20:19.739+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:20:19.748+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:20:22.660+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:20:41.417+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:20:41.419+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:20:41.419+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:20:41.419+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:20:41.435+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:20:41.435+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:20:41.435+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:20:41.435+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:21:25.000+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:21:25.001+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:21:25.003+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:21:25.004+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:21:25.004+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:21:25.004+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:21:25.004+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:21:25.004+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:22:46.072+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:22:46.073+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:22:46.075+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:22:46.076+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:22:46.082+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:22:46.082+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:22:46.083+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:22:46.084+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:22:46.092+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:22:48.532+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:23:03.361+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:23:03.363+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:23:03.363+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:23:03.363+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:23:03.388+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:23:03.388+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:23:03.388+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:23:03.388+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:23:03.609+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/operator/transportType.css.]
+2026-06-15T15:23:03.634+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:23:03.634+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:23:03.634+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:23:03.634+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:23:03.642+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:23:03.642+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:23:03.644+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:23:03.644+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:23:03.655+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:23:03.655+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:23:03.655+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:23:03.655+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:23:03.663+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:23:03.663+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:23:03.663+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:23:03.663+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:23:03.673+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-4] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:23:04.529+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:23:35.568+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/operator/operatorList.css.]
+2026-06-15T15:23:35.597+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:23:35.641+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:23:35.642+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:23:35.643+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:23:35.644+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:23:35.650+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:23:35.650+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:23:35.651+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:23:35.652+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:23:35.660+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:25:44.455+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:25:44.456+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:25:44.458+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:25:44.458+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:25:44.465+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:25:44.465+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:25:44.466+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:25:44.467+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:25:44.473+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:25:44.552+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:25:48.255+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:25:48.255+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:25:48.264+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:25:48.264+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:25:48.266+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:25:48.266+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:25:48.266+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:25:48.272+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:25:48.272+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:25:48.297+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:26:14.166+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/landing.css.]
+2026-06-15T15:26:14.188+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-4] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:26:14.258+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:26:14.260+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:26:14.261+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:26:14.262+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:26:14.268+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:26:14.268+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:26:14.270+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:26:14.270+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:26:14.278+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-7] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:26:15.769+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:26:15.800+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:26:15.801+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:26:15.802+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:26:15.803+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:26:15.808+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:26:15.809+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:26:15.810+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:26:15.810+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:26:15.815+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:26:20.573+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:26:20.573+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:26:20.577+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:26:20.577+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:26:21.171+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/dashboard.css.]
+2026-06-15T15:26:21.219+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:26:21.221+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:26:21.221+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:26:21.221+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:26:21.223+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:26:21.228+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:26:21.228+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:26:21.230+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:26:21.230+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:26:21.232+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:26:21.235+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:26:21.237+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:26:21.239+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:26:21.240+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:26:21.240+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:26:21.240+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:26:21.240+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:26:21.248+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:26:25.935+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:26:25.936+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:26:25.937+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:26:25.938+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:26:25.945+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:26:25.945+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:26:25.946+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:26:25.947+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-6] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:26:25.957+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:26:27.772+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:26:43.874+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:26:43.874+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:26:43.876+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:26:43.876+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:26:43.880+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:26:43.881+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:26:43.882+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:26:43.882+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:26:44.063+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:26:44.063+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:26:44.063+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:26:44.063+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:26:44.074+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:26:44.074+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:26:44.074+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:26:44.077+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:26:44.077+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:26:44.148+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:26:44.148+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:26:44.150+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:26:44.150+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:26:44.153+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:26:44.153+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:26:44.153+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:26:44.153+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:26:44.166+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-4] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:26:46.278+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:26:46.310+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:26:46.310+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:26:46.310+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:26:46.310+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:26:46.319+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:26:46.319+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:26:46.319+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:26:46.319+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:26:46.324+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:28:26.109+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:28:26.112+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:28:26.114+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:28:26.114+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:28:26.122+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:28:26.124+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:28:26.125+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:28:26.126+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:28:26.127+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-5] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:28:26.137+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:28:36.866+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:28:36.867+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:28:36.868+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:28:36.868+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:28:36.874+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:28:36.874+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:28:36.875+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:28:36.876+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:28:36.883+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-7] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:31:39.617+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:31:39.618+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:31:39.619+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:31:39.620+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:31:39.664+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:31:39.665+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:31:39.670+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:31:39.671+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-4] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:31:39.677+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-4] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:31:41.692+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-7] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:31:53.948+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:31:53.950+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:31:53.951+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:31:53.951+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:31:53.959+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:31:53.960+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:31:53.961+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:31:53.961+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-1] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:31:53.969+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:32:08.764+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:32:29.264+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:32:29.264+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:32:29.265+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:32:29.266+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:32:29.269+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:32:29.271+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:32:29.272+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:32:29.272+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:32:29.278+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:40:32.126+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:40:32.137+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:40:32.142+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:40:32.142+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:40:32.210+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:40:32.210+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:40:32.212+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:40:32.212+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-2] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:40:32.241+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource .well-known/appspecific/com.chrome.devtools.json.]
+2026-06-15T15:40:34.069+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:57:07.067+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:58:52.987+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:59:00.372+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/landing.css.]
+2026-06-15T15:59:00.473+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:59:02.885+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:59:06.706+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:59:06.715+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:59:06.743+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:59:06.743+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:59:07.467+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/dashboard.css.]
+2026-06-15T15:59:07.479+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:59:07.479+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:59:07.481+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:59:07.481+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:59:07.491+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:59:07.492+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:59:07.497+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:59:07.498+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-9] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:59:07.506+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-4] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:59:10.502+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:59:29.033+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:59:29.033+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:59:29.033+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:59:29.033+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:59:29.043+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:59:29.045+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:59:29.048+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:59:29.048+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:59:29.277+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:59:29.277+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:59:29.279+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:59:29.279+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:59:29.281+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:59:29.285+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:59:29.287+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:59:29.287+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:59:29.287+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-10] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:59:31.283+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:59:42.939+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:59:42.939+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:59:42.939+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:59:42.939+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:59:42.939+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:59:42.947+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:59:42.947+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:59:42.947+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:59:42.947+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:59:44.919+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:59:47.011+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:59:47.013+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:59:47.017+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:59:47.019+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:59:47.019+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:59:47.023+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:59:47.028+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:59:47.029+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:59:47.029+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-3] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:59:48.216+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:59:48.407+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-7] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/dashboard.css.]
+2026-06-15T15:59:48.425+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:59:49.201+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:59:50.115+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-7] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/landing.css.]
+2026-06-15T15:59:50.133+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:59:50.983+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:59:52.108+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/landing.css.]
+2026-06-15T15:59:52.119+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:59:53.223+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-4] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/landing.css.]
+2026-06-15T15:59:53.240+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:59:54.377+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:59:58.624+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:59:58.624+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-8] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:59:58.626+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:59:58.626+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-8] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:59:59.072+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/dashboard.css.]
+2026-06-15T15:59:59.091+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:59:59.091+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:59:59.092+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:59:59.092+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T15:59:59.096+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T15:59:59.096+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by 
+    from
+        accnt_mst av1_0 
+    where
+        av1_0.acc_username=?
+2026-06-15T15:59:59.097+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:VARCHAR) <- [Shajith]
+2026-06-15T15:59:59.098+05:30 DEBUG 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        ev1_0.emp_id,
+        av1_0.acc_id,
+        av1_0.accnt_email,
+        av1_0.acc_password,
+        av1_0.acc_role,
+        av1_0.acc_status,
+        av1_0.acc_username,
+        av1_0.created_at,
+        av1_0.updated_at,
+        av1_0.updated_by,
+        ev1_0.created_at,
+        ev1_0.emp_department,
+        ev1_0.emp_joining_date,
+        ev1_0.emp_name,
+        ev1_0.emp_phne_no,
+        ev1_0.emp_status,
+        ev1_0.reporting_manager_id,
+        ev1_0.updated_at,
+        ev1_0.updated_by 
+    from
+        emp_mst ev1_0 
+    left join
+        accnt_mst av1_0 
+            on av1_0.acc_id=ev1_0.acc_id 
+    where
+        ev1_0.acc_id=?
+2026-06-15T15:59:59.099+05:30 TRACE 5948 --- [projectLogistics] [http-nio-8080-exec-7] org.hibernate.orm.jdbc.bind              : binding parameter (1:INTEGER) <- [1]
+2026-06-15T16:00:05.043+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.]
+2026-06-15T17:31:04.027+05:30  WARN 5948 --- [projectLogistics] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=54m38s417ms111µs200ns).
+2026-06-15T17:56:51.302+05:30  WARN 5948 --- [projectLogistics] [http-nio-8080-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource styles/landing.css.]
+2026-06-15T19:09:54.157+05:30  WARN 5948 --- [projectLogistics] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=8m48s673ms630µs100ns).
+2026-06-15T20:47:25.628+05:30  WARN 5948 --- [projectLogistics] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=13m111ms908µs).
+2026-06-15T21:49:33.512+05:30  WARN 5948 --- [projectLogistics] [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=9m36s779ms111µs399ns).
+2026-06-15T22:06:37.757+05:30  INFO 5948 --- [projectLogistics] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-15T22:06:37.835+05:30  INFO 5948 --- [projectLogistics] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-06-15T22:06:37.853+05:30  INFO 5948 --- [projectLogistics] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

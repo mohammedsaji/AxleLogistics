@@ -5,26 +5,63 @@
     <title>Manager screen</title>
 </head>
 <body>
-<div class="manager-shell">
-    <div class="manager-shell-wrapper-header">
-        <div class="manager-shell-inner-header">
-            <div class="manager-shell-group-header">
-                <button class="dashboard-btn">Dashboard</button>
-                <button class="previous-form-btn">Previous form</button>
+<div class="manager">
+    <header class="manager-header">
+        <div class="manager-header-brand-icon">
+            <img class="manager-header-logo" src="" alt="Manager Logo">
+        </div>
+        <div class="manager-header-actions">
+            <div class="manager-header-section-a">
+                <button id="dashboard-btn">Dashboard</button>
             </div>
-            <div class="manager-shell-group-header">
-                <button class="create-manager-btn">Create manager</button>
-                <button class="update-manager-btn">Update manager</button>
-                <button class="delete-manager-btn">Delete manager</button>
+            <div class="manager-header-section-b">
+                <div class="manager-header-actions-a">
+                    <button id="manager-list-btn">Manager list</button>
+                    <button id="entry-manager-btn">Entry manager</button>
+                </div>
+                <div class="manager-header-actions-b">
+                </div>
             </div>
         </div>
+    </header>
+    <main class="manager-body">
+        <div class="manager-body-manager-display">
+            <form>
+                <label for="manager-id">Manager ID :</label>
+                <input id="manager-id" type="number" readonly>
 
-    </div>
-    <div class="manager-shell-wrapper-body">
+                <label for="manager-name">Manager Name :</label>
+                <input id="manager-name" type="text" maxlength="250" required>
 
-    </div>
+                <label for="manager-contact-no">Manager Contact No :</label>
+                <input id="manager-contact-no" type="text" maxlength="20" required>
+
+                <label for="operator-id">Operator ID :</label>
+                <input id="operator-id" type="number" readonly required>
+
+                <label for="manager-status">Manager Status :</label>
+                <input id="manager-status" type="text" maxlength="20" required>
+
+                <label for="created-at">Manager created at :</label>
+                <input id="created-at" type="datetime-local" readonly required>
+
+                <label for="updated-at">Manager updated at :</label>
+                <input id="updated-at" type="datetime-local" readonly required>
+
+                <label for="updated-by">Updated by :</label>
+                <input id="updated-by" type="number" readonly required>
+            </form>
+        </div>
+        <div class="manager-body-manager-actions">
+            <button id="update-btn">Update</button>
+            <button id="delete-btn">Delete</button>
+        </div>
+    </main>
+    <footer class="manager-footer">
+
+    </footer>
 </div>
-<script src="/js/viewStateConfig.js"></script>
+
 <script src="../../js/utility/utility.js"></script>
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
 <script src="../../js/manager/manager.js"></script>

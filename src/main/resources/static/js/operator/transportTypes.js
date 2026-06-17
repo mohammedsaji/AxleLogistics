@@ -1,76 +1,39 @@
-document.addEventListener('DOMContentLoaded', function () {
+const params = new URLSearchParams(window.location.search);
 
-    async function PayloadExtractor() {
+function payloadExtractor() {
+    const userAction = params.get("userAction");
 
-        const viewState = localStorage.getItem("viewState");
-
-        previousPageNavigation(viewState);
-
-        if( viewState === operatorViewState().OPERATOR.CREATE ||
-            viewState === operatorViewState().OPERATOR.READ ||
-            viewState === managerViewState().MANAGER_PROFILE.CREATE ||
-            viewState === driverViewState().DRIVER_PROFILE.CREATE ||
-            viewState === shipmentViewState().SHIPMENT.CREATE ||
-            viewState === statusViewState().SHIPMENT_ASSIGNMENT.OPERATOR_REASSIGN
-        ){
-
-            const url = '/logistic/operator/plans';
-            const response = await ajaxCall(url, 'GET', null);
-            LayoutRenderer(response, viewState);
-        }
+    if (!userAction) {
+        alert('Invalid parameters.');
+        return;
     }
-    PayloadExtractor();
-});
 
-function LayoutRenderer(response, viewState) {
-
-    const transportTypeShellWrapperBody = document.querySelector('.transport-type-shell-wrapper-body');
-
-    const transportTypes = response.carrierOptionEnumList;
-
-    transportTypes.forEach(current => {
-        const elementDiv = document.createElement('div');
-        elementDiv.className = `transport-type-shell-inner-body`;
-
-        const elementBtn = document.createElement('button');
-        elementBtn.className = `transport-type`;
-        elementBtn.setAttribute('data-operator-type', current);
-        elementBtn.textContent = current;
-
-        elementDiv.append(elementBtn);
-        transportTypeShellWrapperBody.append(elementDiv);
-    });
-
-    ClickEventBinder(viewState);
+    clickEventBinder();
 }
+payloadExtractor();
 
-function ClickEventBinder(viewState) {
-    const transportType = document.querySelectorAll('.transport-type');
-    transportType.forEach(current => {
+function clickEventBinder() {
+    const userAction = params.get("userAction");
+    const shippingStatusId = params.get("shippingStatusId");
 
-        current.addEventListener('click', async function () {
-            localStorage.setItem("transportType", this.dataset.operatorType);
-            localStorage.setItem("viewState", viewState);
-            window.location.href = "../../views/operator/operator-list.html";
-        },{once : true});
-    });
-}
-
-
-function previousPageNavigation(viewState) {
-
-    const previousFormBtn = document.querySelector('.previous-form-btn');
-
-    if (!previousFormBtn) return;
-
-    if (window.history.length <= 1) {
-        previousFormBtn.disabled = true;
-    } else {
-        previousFormBtn.disabled = false;
-
-        previousFormBtn.addEventListener('click', function () {
-            localStorage.setItem("viewState", viewState);
-            window.history.back();
+    const dashboardBtn = document.getElementById('dashboard-btn');
+    if (dashboardBtn) {
+        dashboardBtn.addEventListener('click', function () {
+            window.location.href = "/views/dashboard.html";
         }, { once: true });
     }
+
+    const transportTypeBtns = document.querySelectorAll('[data-transport-type]');
+    transportTypeBtns.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const transportType = this.getAttribute('data-transport-type');
+
+            if (userAction === 'Reassign operator') {
+                window.location.href = `../../views/operator/operator-list.html?userAction=${userAction}&transportType=${transportType}&shippingStatusId=${shippingStatusId}`;
+            } else {
+                // Read operator, Entry operator, Entry manager, Entry driver, Entry shipping
+                window.location.href = `../../views/operator/operator-list.html?userAction=${userAction}&transportType=${transportType}`;
+            }
+        }, { once: true });
+    });
 }

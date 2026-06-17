@@ -2,24 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Operator Screen</title>
+    <title>Operator entry form</title>
 </head>
 <body>
-<div class="operator-shell">
-    <div class="operator-shell-wrapper-header">
-        <div class="operator-shell-inner-header">
-            <div class="operator-shell-group-header">
-                <button class="dashboard-btn">Dashboard</button>
-                <button class="previous-form-btn">Previous form</button>
+
+<div class="operator">
+    <header class="operator-header">
+        <div class="operator-header-brand-icon">
+            <img class="operator-header-logo"  src="" alt="Operator Logo">
+        </div>
+        <div class="operator-header-actions">
+            <div class="operator-header-section-a">
+                <button id="dashboard-btn">Dashboard</button>
+            </div>
+            <div class="operator-header-section-b">
+                <button id="operator-list-btn">Operator list</button>
+                <button id="entry-operator-btn">Entry operator</button>
             </div>
         </div>
-    </div>
-    <div class="operator-shell-wrapper-body">
-
-    </div>
+    </header>
+    <main class="operator-body">
+        <div class="operator-body-form">
+            <form>
+                <label for="operator-name">Operator Name :</label>
+                <input id="operator-name" type="text" maxlength="250" required>
+                <label for="operator-transport-type">Transportation Mode :</label>
+                <select id="operator-transport-type" required>
+                    <option value="" selected>Select one</option>
+                    <option value="AIR">Air ways</option>
+                    <option value="SEA">Sea ways</option>
+                    <option value="RAIL">Rail ways</option>
+                    <option value="ROAD">Road ways</option>
+                </select>
+                <button type="submit" id="create-btn">Create</button>
+            </form>
+        </div>
+    </main>
+    <footer class="operator-footer">
+    </footer>
 </div>
-<script src="/js/viewStateConfig.js"></script>
-<script src="../../js/utility/utility.js"></script>
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
 <script src="../../js/operator/operatorCreationForm.js"></script>
 </body>

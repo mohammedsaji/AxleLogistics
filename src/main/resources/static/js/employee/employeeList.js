@@ -1,201 +1,183 @@
-document.addEventListener("DOMContentLoaded", function () {
-    async function PayloadExtractor() {
-        const viewState = localStorage.getItem("viewState");
+const params = new URLSearchParams(window.location.search);
+let currentPageNo = 1;
+let totalPages = 1;
+let currentResponse = null;
 
-        previousPageNavigation(viewState);
+async function payloadExtractor() {
+    const userAction = params.get("userAction");
+    const accountUserName = params.get("accountUserName");
 
-        if(viewState === employeeViewState().EMPLOYEE_ACCOUNT.READ || viewState === employeeViewState().EMPLOYEE_ACCOUNT.CREATE){
-            const pageNo = localStorage.getItem("pageNo") != null ? localStorage.getItem("pageNo") : 1;
-            const url = `/logistic/employee/fetchall?pageNo=${pageNo}`;
-            const methodType = 'GET';
-            const response = await ajaxCall(url, methodType, null);
-            LayoutRenderer(response, viewState);
-        }
+    if (!userAction) {
+        alert('Invalid parameters.');
+        return;
     }
-    PayloadExtractor();
-});
 
-function LayoutRenderer(response, viewState) {
-    let employeeList = [];
+    currentPageNo = 1;
+    await fetchEmployeeList(currentPageNo);
+}
+payloadExtractor();
+
+async function fetchEmployeeList(pageNo) {
+    const url = `/logistic/employee/fetchall?pageNo=${pageNo}`;
+    const methodType = 'GET';
+    const response = await ajaxCall(url, methodType, null);
+
+    currentResponse = response;
 
     if (response && response.valueMap) {
-        employeeList = response.valueMap.EmployeeList || [];
-
-        localStorage.setItem("totalPages", response.valueMap.TotalPages || 1);
-        localStorage.setItem("totalElements", response.valueMap.TotalElements || 0);
-    } else {
-        employeeList = Array.isArray(response) ? response : [response];
+        totalPages = response.valueMap.TotalPages || 1;
+        const employeeList = response.valueMap.EmployeeList || [];
+        renderEmployeeList(employeeList);
+    } else if (Array.isArray(response)) {
+        renderEmployeeList(response);
+    } else if (response) {
+        renderEmployeeList([response]);
     }
-    const employeeShellWrapperBody = document.querySelector('.employee-shell-wrapper-body');
+}
 
-    if (employeeShellWrapperBody) {
-        employeeShellWrapperBody.innerHTML = '';
+function renderEmployeeList(employeeList) {
+    const listContainer = document.getElementById('employee-list-container');
+    if (listContainer) {
+        listContainer.innerHTML = '';
     }
 
     employeeList.forEach(employee => {
-
         if (!employee) return;
 
-        const elementDiv = document.createElement('div');
-        elementDiv.className = 'employee-shell-inner-body';
+        const employeeDiv = document.createElement('div');
+        employeeDiv.className = 'employee-list-item';
+        employeeDiv.setAttribute('data-employee-id', employee.employeeId);
+        employeeDiv.setAttribute('data-employee-name', employee.employeeName);
 
-        Object.entries(employee).forEach(([keyName, keyValue]) => {
-            if (
-                keyName === "employeeId" ||
-                keyName === "employeeName" ||
-                keyName === "employeeDepartment"
-            ) {
-                const elementP = document.createElement('p');
-                elementP.className = camelToKebabCase(keyName);
-                elementP.textContent = `${keyName} : ${keyValue}`;
-                elementDiv.append(elementP);
-            }else if( keyName === "AccountVO"){
-                const accountDiv = document.createElement('div');
-                accountDiv.className = 'employee-shell-group-body'
-                Object.entries(keyValue).forEach(([innerKeyName,innerKeyValue])=>{
-                    const elementDiv = document.createElement('div');
-                    elementDiv.className = 'employee-shell-section-body';
-                    if (
-                        innerKeyName === "accountUsername" ||
-                        innerKeyName === "accountRole" ||
-                        innerKeyName === "accountStatus" ||
-                        innerKeyName === "accountEmail"
-                    ) {
-                        const elementLabel = document.createElement('label');
-                        elementLabel.htmlFor = camelToKebabCase(innerKeyName);
-                        elementLabel.textContent = `${innerKeyName.charAt(0).toUpperCase()+whiteSpacedCamelCase(innerKeyName).slice(1)}`;
-                        elementDiv.append(elementLabel);
+        const employeeInfoDiv = document.createElement('div');
+        employeeInfoDiv.className = 'employee-info';
 
-                        const elementInput = document.createElement('input');
-                        elementInput.id = camelToKebabCase(innerKeyName);
-                        elementInput.value = innerKeyValue != null ? innerKeyValue : "";
-                        elementInput.readOnly = false;
-                        elementInput.max = "50";
-                        elementDiv.append(elementInput);
-                    }
-                    accountDiv.append(elementDiv);
-                });
-                elementDiv.append(accountDiv);
-            }
-        });
+        const employeeIdP = document.createElement('p');
+        employeeIdP.textContent = `Employee ID: ${employee.employeeId}`;
+        employeeInfoDiv.append(employeeIdP);
 
-        const elementBtnDiv = document.createElement('div');
-        elementBtnDiv.className = 'employee-shell-event';
+        const employeeNameP = document.createElement('p');
+        employeeNameP.className = 'employee-name-display';
+        employeeNameP.textContent = `Employee Name: ${employee.employeeName}`;
+        employeeInfoDiv.append(employeeNameP);
 
-        const elementBtn = document.createElement('button');
-        elementBtn.className = 'view-btn';
-        elementBtn.setAttribute('data-account-id', employee.accountId);
-        elementBtn.setAttribute('data-employee-id', employee.employeeId);
-        elementBtn.textContent = 'View';
-        elementBtnDiv.append(elementBtn);
+        const employeeDepartmentP = document.createElement('p');
+        employeeDepartmentP.textContent = `Department: ${employee.employeeDepartment}`;
+        employeeInfoDiv.append(employeeDepartmentP);
 
-        elementDiv.append(elementBtnDiv);
-        employeeShellWrapperBody.append(elementDiv);
+        const viewBtn = document.createElement('button');
+        viewBtn.className = 'view-btn';
+        viewBtn.setAttribute('data-employee-id', employee.employeeId);
+        viewBtn.textContent = 'View';
+        employeeInfoDiv.append(viewBtn);
+
+        employeeDiv.append(employeeInfoDiv);
+        listContainer.append(employeeDiv);
     });
-    ClickEventBinder(viewState);
-    searchClickEvent(response, viewState);
+
+    clickEventBinder();
+    searchClickEvent();
 }
 
-function ClickEventBinder(viewState) {
+function clickEventBinder() {
+    const userAction = params.get("userAction");
+    const accountUserName = params.get("accountUserName");
+
+    const dashboardBtn = document.getElementById('dashboard-btn');
+    if (dashboardBtn) {
+        dashboardBtn.addEventListener('click', function () {
+            window.location.href = "/views/dashboard.html";
+        }, {once: true});
+    }
+
+    const createEmployeeBtn = document.getElementById('create-employee-btn');
+    if (createEmployeeBtn) {
+        createEmployeeBtn.addEventListener('click', function () {
+            window.location.href = `../../views/signUp/sign-up.html?userAction=Entry employee`;
+        }, {once: true});
+    }
+
     const viewBtnArray = document.querySelectorAll('.view-btn');
-
-    viewBtnArray.forEach(current => {
-        current.addEventListener('click', function () {
-            localStorage.setItem("employeeId", this.dataset.employeeId);
-            localStorage.setItem("viewState", viewState);
-            if (viewState === employeeViewState().EMPLOYEE_ACCOUNT.ADMINSTR) {
-                localStorage.setItem("accountId", this.dataset.accountId);
-            }
-            window.location.href = "../../views/employee/employee.html";
-        },{once : true});
-    });
-}
-
-function searchClickEvent(response, viewState) {
-    const searchBtn = document.querySelector('.search-btn');
-
-    searchBtn.addEventListener('click', async function () {
-        const searchInput = document.getElementById('search').value.trim().toLowerCase();
-        const employeeNameList = document.querySelectorAll('.employee-name');
-
-        employeeNameList.forEach(function (employee) {
-            const employeeName = employee.textContent.trim().toLowerCase();
-            const parentElement = employee.closest('.employee-shell-inner-body');
-            if (parentElement) {
-                if (employeeName !== searchInput && searchInput !== "") {
-                    parentElement.style.display = 'none';
-                } else {
-                    parentElement.style.display = '';
-                }
-            }
-        });
-        const activeElements = Array.from(document.querySelectorAll('.employee-shell-inner-body')).filter(element => element.style.display !== 'none');
-        if (activeElements.length === 0 && searchInput) {
-            const fetchEmployee = await ajaxCall(`/logistic/employee/fetchByName?employeeName=${searchInput}`);
-            if (fetchEmployee) {
-                LayoutRenderer(fetchEmployee);
-            }
-        }
+    viewBtnArray.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const employeeId = this.getAttribute('data-employee-id');
+            window.location.href = `../../views/employee/employee.html?employeeId=${employeeId}&userAction=${userAction}`;
+        }, {once: true});
     });
 
-    const searchInput = document.getElementById('search');
+    const previousPageBtn = document.getElementById('previous-page-btn');
+    if (previousPageBtn) {
+        previousPageBtn.addEventListener('click', async function () {
+            if (currentPageNo > 1) {
+                currentPageNo--;
+                await fetchEmployeeList(currentPageNo);
+            }
+        }, {once: true});
+    }
 
-    searchInput.addEventListener('input', function () {
-        const searchValue = this.value.trim().toLowerCase();
-
-        if (!searchValue) {
-            LayoutRenderer(response, viewState);
-            return;
-        }
-
-    });
-}
-
-
-function previousPageNavigation(viewState) {
-
-    const previousFormBtn = document.querySelector('.previous-form-btn');
-
-    if (!previousFormBtn) return;
-
-    if (window.history.length <= 1) {
-        previousFormBtn.disabled = true;
-    } else {
-        previousFormBtn.disabled = false;
-
-        previousFormBtn.addEventListener('click', function () {
-            localStorage.setItem("viewState", viewState);
-            window.history.back();
-        }, { once: true });
+    const nextPageBtn = document.getElementById('next-page-btn');
+    if (nextPageBtn) {
+        nextPageBtn.addEventListener('click', async function () {
+            if (currentPageNo < totalPages) {
+                currentPageNo++;
+                await fetchEmployeeList(currentPageNo);
+            }
+        }, {once: true});
     }
 }
 
+function searchClickEvent() {
+    const searchBtn = document.getElementById('search-btn');
+    const searchInput = document.getElementById('search');
 
-function recordPageEventBinding(){
+    if (searchBtn) {
+        searchBtn.addEventListener('click', async function () {
+            const searchValue = searchInput.value.trim().toLowerCase();
+            const employeeItems = document.querySelectorAll('.employee-list-item');
+            let hasMatch = false;
 
-    const lastPage = parseInt(localStorage.getItem("totalPages")) || 1;
+            employeeItems.forEach(item => {
+                const employeeName = item.getAttribute('data-employee-name').toLowerCase();
+                if (employeeName.includes(searchValue) || searchValue === '') {
+                    item.style.display = '';
+                    hasMatch = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
 
-    const previousRecordPageBtn = document.getElementById('previous-page-btn');
+            if (!hasMatch && searchValue !== '') {
+                const response = await ajaxCall(`/logistic/employee/fetchByName?employeeName=${searchValue}`, 'GET', null);
+                if (response) {
+                    let employeeList = [];
 
-    previousRecordPageBtn.addEventListener('click',function (){
-        let currentPage = parseInt(localStorage.getItem("pageNo")) || 1;
-        if(currentPage > 1){
-            const pageNo = currentPage-1;
-            localStorage.setItem("pageNo",pageNo);
-            window.location.href = "../../views/employee/employee-list.html";
-        }
-    }, {once: true});
+                    // Handle both response formats: valueMap wrapper and direct array
+                    if (response && response.valueMap) {
+                        employeeList = response.valueMap.EmployeeList || [];
+                    } else if (Array.isArray(response)) {
+                        employeeList = response;
+                    } else if (response) {
+                        employeeList = [response];
+                    }
 
-    const nextRecordPageBtn = document.getElementById('next-page-btn');
+                    if (employeeList.length > 0) {
+                        renderEmployeeList(employeeList);
+                    }
+                }
+            }
+        }, {once: true});
+    }
 
-    nextRecordPageBtn.addEventListener('click',function (){
-        let currentPage = parseInt(localStorage.getItem("pageNo")) || 1;
-        if(currentPage > 0 && currentPage < lastPage){
-            const pageNo = currentPage+1;
-            localStorage.setItem("pageNo",pageNo);
-            window.location.href = "../../views/employee/employee-list.html";
-        }
-    }, {once: true});
+    if (searchInput) {
+        searchInput.addEventListener('input', function () {
+            const searchValue = this.value.trim().toLowerCase();
 
+            if (!searchValue) {
+                const employeeItems = document.querySelectorAll('.employee-list-item');
+                employeeItems.forEach(item => {
+                    item.style.display = '';
+                });
+            }
+        });
+    }
 }
-recordPageEventBinding();

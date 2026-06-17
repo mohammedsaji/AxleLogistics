@@ -2,40 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Manager Planning</title>
+    <title>Manager list</title>
 </head>
 <body>
-<div class="manager-shell">
-    <div class="manager-shell-wrapper-header">
-        <div class="manager-shell-inner-header">
-            <div class="manager-shell-group-header">
-                <button class="previous-form-btn">Previous form</button>
+<div class="manager">
+    <header class="manager-header">
+        <div class="manager-header-brand-icon">
+            <img class="manager-header-logo" src="" alt="Manager Logo">
+        </div>
+        <div class="manager-header-actions">
+            <div class="manager-header-section-a">
+                <button id="dashboard-btn">Dashboard</button>
             </div>
-            <div class="manager-shell-group-header">
-                <div class="manager-shell-section-header">
-                    <input id="search" type="text" placeholder="Search by manager name" max="25">
-                </div>
-                <div class="manager-shell-section-header">
-                    <button class="search-btn">Search</button>
+            <div class="manager-header-section-b">
+                <div class="manager-header-actions-a">
+                    <button id="create-manager-btn">Create manager</button>
                 </div>
             </div>
         </div>
-        <div class="manager-shell-inner-header">
-            <button class="create-manager-btn">Create manager</button>
+    </header>
+    <main class="manager-body">
+        <div class="manager-body-search">
+            <input id="search" type="text" placeholder="Search by manager name" maxlength="250">
+            <button id="search-btn">Search</button>
         </div>
-    </div>
-    <div class="manager-shell-wrapper-pager">
-        <div class="manager-shell-inner-pager">
-            <button class="previous-page-btn">Previous page</button>
-            <button class="next-page-btn">Next page</button>
+        <div class="manager-body-list">
+            <div id="manager-list-container">
+                <!-- Manager items will be rendered here -->
+            </div>
         </div>
-    </div>
-    <div class="manager-shell-wrapper-body">
-
-    </div>
+        <div class="manager-body-pagination">
+            <button id="previous-page-btn">Previous page</button>
+            <button id="next-page-btn">Next page</button>
+        </div>
+    </main>
+    <footer class="manager-footer">
+    </footer>
 </div>
-<script src="/js/viewStateConfig.js"></script>
-<script src="../../js/utility/utility.js"></script>
+
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
 <script src="../../js/manager/managerList.js"></script>
 </body>

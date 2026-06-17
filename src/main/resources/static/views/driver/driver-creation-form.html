@@ -5,21 +5,41 @@
     <title>Driver form</title>
 </head>
 <body>
-<div class="driver-shell">
-    <div class="driver-shell-wrapper-header">
-        <div class="driver-shell-inner-header">
-            <div class="driver-shell-group-header">
-                <button class="dashboard-btn">Dashboard</button>
-                <button class="previous-form-btn">Previous form</button>
+<div class="driver">
+    <header class="driver-header">
+        <div class="driver-header-brand-icon">
+            <img class="driver-header-logo" src="" alt="Driver Logo">
+        </div>
+        <div class="driver-header-actions">
+            <div class="driver-header-section-a">
+                <button id="dashboard-btn">Dashboard</button>
             </div>
         </div>
-    </div>
-    <div class="driver-shell-wrapper-body">
+    </header>
+    <main class="driver-body">
+        <div class="driver-body-form">
+            <form>
+                <label for="driver-name">Driver Name :</label>
+                <input id="driver-name" type="text" maxlength="250" required>
 
-    </div>
+                <label for="driver-phone-no">Driver Phone No :</label>
+                <input id="driver-phone-no" type="text" maxlength="25" required>
+
+                <label for="driver-license-no">Driver License No :</label>
+                <input id="driver-license-no" type="text" maxlength="20" required>
+
+                <div id="operator-id-display" style="display:none;">
+                    <label for="operator-id">Operator ID :</label>
+                    <input id="operator-id" type="text" readonly>
+                </div>
+
+                <button type="submit" id="create-btn">Create</button>
+            </form>
+        </div>
+    </main>
+    <footer class="driver-footer">
+    </footer>
 </div>
-<script src="/js/viewStateConfig.js"></script>
-<script src="../../js/utility/utility.js"></script>
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
 <script src="../../js/driver/driverCreationForm.js"></script>
 </body>

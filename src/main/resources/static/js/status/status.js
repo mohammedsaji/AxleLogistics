@@ -1,215 +1,180 @@
-document.addEventListener('DOMContentLoaded', function (event) {
-    async function PayloadExtractor() {
+const params = new URLSearchParams(window.location.search);
 
-        const viewState = localStorage.getItem("viewState");
-        const statusStates = statusViewState().SHIPMENT_STATUS;
+async function payloadExtractor() {
+    const shippingStatusId = params.get("shippingStatusId");
+    const url = `/logistic/status/fetch?shippingStatusId=${shippingStatusId}`;
+    const methodType = 'GET';
+    const responseStatus = await ajaxCall(url, methodType, null);
+    const responseRole = await ajaxCall(`/logistic/auth/fetch/role`, 'GET', null);
+    valueInitializer(responseStatus);
+    dynamicLayoutRender(responseStatus.shippingStatusId, responseStatus.operatorId, responseRole);
+}
+payloadExtractor();
 
-         previousPageNavigation(viewState);
+function valueInitializer(response) {
+    const shippingStatusId = document.getElementById('shipping-status-id');
+    const currentLocation = document.getElementById('current-location');
+    const shippingStatus = document.getElementById('shipping-status');
+    const updatedAt = document.getElementById('updated-at');
+    const updatedby = document.getElementById('updatedby');
+    const cargoId = document.getElementById('cargo-id');
+    const operatorId = document.getElementById('operator-id');
+    const driverId = document.getElementById('driver-id');
+    const vehicleId = document.getElementById('vehicle-id');
 
-        if (viewState === statusStates.READ) {
-            const statusId = localStorage.getItem("statusId");
-            const operatorId = localStorage.getItem("operatorId");
-            const driverId = localStorage.getItem("driverId");
-            const vehicleId = localStorage.getItem("vehicleId");
-
-            if (statusId) {
-                const url = `/logistic/status/fetch?shippingStatusId=${statusId}`;
-                const methodType = 'GET';
-
-                const responseStatus = await ajaxCall(url, methodType, null);
-                const responseRole = await ajaxCall(`/logistic/auth/fetch/role`, 'GET', null);
-
-                LayoutRenderer(statusId, operatorId, driverId, vehicleId, responseStatus, responseRole, viewState);
-            }
-        } else {
-            window.location.href = "../views/dashboard.html";
-        }
+    if (!response.shippingStatusId) {
+        alert('Status not available.');
+        return;
     }
 
-    PayloadExtractor();
-});
+    shippingStatusId.value = response.shippingStatusId;
+    currentLocation.value = response.currentLocation;
+    updatedAt.value = response.updatedAt;
+    updatedby.value = response.updatedby;
+    cargoId.value = response.cargoId;
+    operatorId.value = response.operatorId;
+    driverId.value = response.driverId;
+    vehicleId.value = response.vehicleId;
 
-function LayoutRenderer(statusId, operatorId, driverId, vehicleId, responseStatus, responseRole, viewState) {
-
-    const roleArray = responseRole.valueMap.Role;
-
-    const statusShellWrapperBody = document.querySelector('.status-shell-wrapper-body');
-
-    const shipmentStatusOption = ["SHIPPED", "ARRIVED", "IN-TRANSIT", "DELAYED", "OUT-FOR-DELIVERY", "DELIVERED"];
-
-    Object.entries(responseStatus).forEach(([keyName, keyValue]) => {
-
-        if (keyName === "shippingStatusId") {
-            const updateStatusBtn = document.querySelector('.update-status-btn');
-
-            if (updateStatusBtn) updateStatusBtn.setAttribute(`data-${camelToKebabCase(keyName)}`, keyValue);
+    const shippingStatusOptions = shippingStatus.options;
+    for (let i = 0; i < shippingStatusOptions.length; i++) {
+        if (shippingStatusOptions[i].value === response.shippingStatus) {
+            shippingStatusOptions[i].selected = true;
+            break;
         }
-
-        const elementDiv = document.createElement('div');
-        elementDiv.className = 'status-shell-inner-body';
-
-        if (keyName === "shippingStatus") {
-            const elementSelect = document.createElement('select');
-            elementSelect.id = camelToKebabCase(keyName);
-            elementSelect.required = true;
-
-            const elementDefaultOption = document.createElement('option');
-            elementDefaultOption.value = "";
-            elementDefaultOption.textContent = "Select Status";
-            elementDefaultOption.disabled = true;
-            elementSelect.append(elementDefaultOption);
-
-            shipmentStatusOption.forEach(statusOption => {
-                const elementDBStatusOption = document.createElement('option');
-                elementDBStatusOption.value = statusOption;
-                elementDBStatusOption.textContent = statusOption;
-                if (statusOption === keyValue) elementDBStatusOption.selected = true;
-                elementSelect.append(elementDBStatusOption);
-            });
-            elementDiv.append(elementSelect);
-            statusShellWrapperBody.append(elementDiv);
-        } else if (keyName === "shippingStatusId" || keyName === "currentLocation") {
-            const elementLabel = document.createElement('label');
-            elementLabel.htmlFor = camelToKebabCase(keyName);
-            elementLabel.textContent = `${keyName.charAt(0).toUpperCase() + whiteSpacedCamelCase(keyName).slice(1)}`;
-            elementDiv.append(elementLabel);
-
-            const elementInput = document.createElement('input');
-            elementInput.id = camelToKebabCase(keyName);
-            elementInput.value = keyValue || "";
-
-            if (keyName === "currentLocation") {
-                elementInput.readOnly = false;
-            }else{
-                elementInput.readOnly = true;
-            }
-            elementDiv.append(elementInput);
-            statusShellWrapperBody.append(elementDiv);
-        } else if (keyName === "operatorId" || keyName === "driverId" || keyName === "vehicleId") {
-            const elementDiv = document.createElement('div');
-            elementDiv.className = 'status-shell-inner-body';
-
-            const elementLabel = document.createElement('label');
-            elementLabel.htmlFor = camelToKebabCase(keyName);
-            elementLabel.textContent = `${keyName.charAt(0).toUpperCase() + whiteSpacedCamelCase(keyName).slice(1)}`;
-            elementDiv.append(elementLabel);
-
-            const elementInput = document.createElement('input');
-            elementInput.id = camelToKebabCase(keyName);
-            elementInput.value = keyValue != null ? keyValue : null;
-            elementInput.readOnly = true;
-
-
-            elementDiv.append(elementInput);
-            statusShellWrapperBody.append(elementDiv);
-        }
-    });
-
-    if (responseStatus.operatorId || responseStatus.driverId || responseStatus.vehicleId) {
-        const elementDiv = document.createElement('div');
-        elementDiv.className = 'status-shell-inner-body';
-
-        if (roleArray.includes("ADMIN")) {
-            const operatorBtn = document.createElement('button');
-            operatorBtn.className = 'reassign-operator-btn';
-            operatorBtn.setAttribute("data-status-id", statusId);
-            operatorBtn.textContent = "Reassign operator";
-            elementDiv.append(operatorBtn);
-
-        } else if (roleArray.includes("MANAGER")) {
-            const driverBtn = document.createElement('button');
-            driverBtn.className = 'reassign-driver-btn';
-            driverBtn.setAttribute("data-operator-id", responseStatus.operatorId);
-            driverBtn.textContent = "Reassign driver";
-            elementDiv.append(driverBtn);
-
-            const vehicleBtn = document.createElement('button');
-            vehicleBtn.className = 'reassign-vehicle-btn';
-            vehicleBtn.setAttribute("data-operator-id", responseStatus.operatorId);
-            vehicleBtn.textContent = "Reassign vehicle";
-            elementDiv.append(vehicleBtn);
-        }
-        statusShellWrapperBody.append(elementDiv);
     }
-
-    ClickEventBinder(viewState, statusId, responseStatus);
 }
 
-function ClickEventBinder(viewState, statusId, response) {
-    const statusAssignmentStates = statusViewState().SHIPMENT_ASSIGNMENT;
+function dynamicLayoutRender(shippingStatusId, operatorId, responseRole) {
+    const userAction = params.get("userAction");
+    const roleArray = responseRole.valueMap.Role;
 
-    const dashboardBtn = document.querySelector('.dashboard-btn');
+    if (roleArray.includes("ADMIN")) {
+        const reassignDriverBtn = document.getElementById('reassign-driver-btn');
+        if (reassignDriverBtn) reassignDriverBtn.remove();
+
+        const reassignVehicleBtn = document.getElementById('reassign-vehicle-btn');
+        if (reassignVehicleBtn) reassignVehicleBtn.remove();
+
+        const reassignOperatorBtn = document.getElementById('reassign-operator-btn');
+        if (reassignOperatorBtn) {
+            reassignOperatorBtn.setAttribute('data-shipping-status-id', shippingStatusId);
+        }
+
+    } else if (roleArray.includes("MANAGER")) {
+        const reassignOperatorBtn = document.getElementById('reassign-operator-btn');
+        if (reassignOperatorBtn) reassignOperatorBtn.remove();
+
+        const reassignDriverBtn = document.getElementById('reassign-driver-btn');
+        if (reassignDriverBtn) {
+            reassignDriverBtn.setAttribute('data-operator-id', operatorId);
+            reassignDriverBtn.setAttribute('data-shipping-status-id', shippingStatusId);
+        }
+
+        const reassignVehicleBtn = document.getElementById('reassign-vehicle-btn');
+        if (reassignVehicleBtn) {
+            reassignVehicleBtn.setAttribute('data-operator-id', operatorId);
+            reassignVehicleBtn.setAttribute('data-shipping-status-id', shippingStatusId);
+        }
+
+    } else {
+        const reassignOperatorBtn = document.getElementById('reassign-operator-btn');
+        if (reassignOperatorBtn) reassignOperatorBtn.remove();
+
+        const reassignDriverBtn = document.getElementById('reassign-driver-btn');
+        if (reassignDriverBtn) reassignDriverBtn.remove();
+
+        const reassignVehicleBtn = document.getElementById('reassign-vehicle-btn');
+        if (reassignVehicleBtn) reassignVehicleBtn.remove();
+    }
+
+    const updateBtn = document.getElementById('update-btn');
+    if (updateBtn) {
+        updateBtn.setAttribute('data-shipping-status-id', shippingStatusId);
+    }
+}
+
+function clickEventBinder() {
+    const userAction = params.get("userAction");
+
+    const dashboardBtn = document.getElementById('dashboard-btn');
     if (dashboardBtn) {
         dashboardBtn.addEventListener('click', function () {
             window.location.href = "/views/dashboard.html";
-        },{once : true});
+        }, {once: true});
     }
 
-    const operatorBtn = document.querySelector('.reassign-operator-btn');
-    if (operatorBtn) {
-        operatorBtn.addEventListener('click', function () {
-            localStorage.setItem("shippingStatusId", this.dataset.statusId);
-            localStorage.setItem("viewState", statusAssignmentStates.OPERATOR_REASSIGN);
-            window.location.href = "../../views/operator/transport-type.html";
-        },{once : true});
+    const shipmentListBtn = document.getElementById('shipment-list-btn');
+    if (shipmentListBtn) {
+        shipmentListBtn.addEventListener('click', function () {
+            window.location.href = `../../views/shipment/shipment-list.html?userAction=${userAction}`;
+        }, {once: true});
     }
 
-    const driverBtn = document.querySelector('.reassign-driver-btn');
-    if (driverBtn) {
-        driverBtn.addEventListener('click', function () {
-            localStorage.setItem("operatorId", this.dataset.operatorId);
-            localStorage.setItem("viewState", statusAssignmentStates.DRIVER_REASSIGN);
-            window.location.href = "../../views/driver/driver-list.html";
-        },{once : true});
+    const reassignOperatorBtn = document.getElementById('reassign-operator-btn');
+    if (reassignOperatorBtn) {
+        reassignOperatorBtn.addEventListener('click', function () {
+            const shippingStatusId = this.dataset.shippingStatusId;
+            const userAction = 'Reassign operator';
+            window.location.href = `../../views/operator/transport-types.html?userAction=${userAction}&shippingStatusId=${shippingStatusId}`;
+        }, {once: true});
     }
 
-    const vehicleBtn = document.querySelector('.reassign-vehicle-btn');
-    if (vehicleBtn) {
-        vehicleBtn.addEventListener('click', function () {
-            localStorage.setItem("operatorId", this.dataset.operatorId);
-            localStorage.setItem("viewState", statusAssignmentStates.VEHICLE_REASSIGN);
-            window.location.href = "../../views/vehicle/vehicle-list.html";
-        },{once : true});
+    const reassignDriverBtn = document.getElementById('reassign-driver-btn');
+    if (reassignDriverBtn) {
+        reassignDriverBtn.addEventListener('click', function () {
+            const operatorId = this.dataset.operatorId;
+            const shippingStatusId = this.dataset.shippingStatusId;
+            const userAction  = 'Reassign driver';
+            window.location.href = `../../views/driver/driver-list.html?userAction=${userAction}&operatorId=${operatorId}&shippingStatusId=${shippingStatusId}`;
+        }, {once: true});
     }
 
-    const updateStatusBtn = document.querySelector('.update-status-btn');
-    if(updateStatusBtn){
-        updateStatusBtn.addEventListener('click', async function () {
-            const payload = {};
-            Object.keys(response).forEach((key) => {
-                const kebabCaseKey = camelToKebabCase(key);
-                const domElementInput = document.getElementById(`${kebabCaseKey}`);
-                if (domElementInput) {
-                    const elementInputValue = domElementInput.value.trim();
+    const reassignVehicleBtn = document.getElementById('reassign-vehicle-btn');
+    if (reassignVehicleBtn) {
+        reassignVehicleBtn.addEventListener('click', function () {
+            const operatorId = this.dataset.operatorId;
+            const shippingStatusId = this.dataset.shippingStatusId;
+            const userAction  = 'Reassign vehicle';
+            window.location.href = `../../views/vehicle/vehicle-list.html?userAction=${userAction}&operatorId=${operatorId}&shippingStatusId=${shippingStatusId}`;
+        }, {once: true});
+    }
 
-                    if (key === "shippingStatusId" || key === "cargoId" || key === "operatorId" || key === "driverId" || key === "vehicleId" || key === "updatedBy") {
-                        payload[key] = elementInputValue ? parseInt(elementInputValue, 10) : null;
-                    } else {
-                        payload[key] = elementInputValue || null;
-                    }
-                }
-            });
-            await ajaxCall(`/logistic/status/save`, 'POST', payload);
+    const updateBtn = document.getElementById('update-btn');
+    if (updateBtn) {
+        updateBtn.addEventListener('click', async function () {
+            const shippingStatusId = document.getElementById('shipping-status-id').value.trim();
+            const currentLocation = document.getElementById('current-location').value.trim();
+            const shippingStatus = document.getElementById('shipping-status').value.trim();
+            const updatedAt = document.getElementById('updated-at').value.trim();
+            const updatedby = document.getElementById('updatedby').value.trim();
+            const cargoId = document.getElementById('cargo-id').value.trim();
+            const operatorId = document.getElementById('operator-id').value.trim();
+            const driverId = document.getElementById('driver-id').value.trim();
+            const vehicleId = document.getElementById('vehicle-id').value.trim();
+
+            if (shippingStatusId === '') {
+                alert('Shipping status ID not available.');
+            } else if (currentLocation === '') {
+                alert('Current location not entered.');
+            } else if (shippingStatus === '') {
+                alert('Shipping status not selected.');
+            }
+
+            const payload = {
+                "shippingStatusId": parseInt(shippingStatusId, 10),
+                "currentLocation": currentLocation,
+                "shippingStatus": shippingStatus,
+                "updatedAt": updatedAt,
+                "updatedby": parseInt(updatedby, 10),
+                "cargoId": parseInt(cargoId, 10),
+                "operatorId": parseInt(operatorId, 10),
+                "driverId": parseInt(driverId, 10),
+                "vehicleId": parseInt(vehicleId, 10)
+            };
+
+            await ajaxCall(`/logistic/status/update`, 'PUT', payload);
         });
     }
 }
-
-
-
-function previousPageNavigation(viewState) {
-
-    const previousFormBtn = document.querySelector('.previous-form-btn');
-
-    if (!previousFormBtn) return;
-
-    if (window.history.length <= 1) {
-        previousFormBtn.disabled = true;
-    } else {
-        previousFormBtn.disabled = false;
-
-        previousFormBtn.addEventListener('click', function () {
-            localStorage.setItem("viewState", viewState);
-            window.history.back();
-        }, { once: true });
-    }
-}
+clickEventBinder();

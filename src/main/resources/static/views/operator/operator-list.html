@@ -2,40 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Operator Planning</title>
-    <link rel="stylesheet" href="../../styles/operator/operatorList.css">
+    <title>Operator list</title>
 </head>
 <body>
-<header class="dashboard-shell-wrapper-header">
-    <div class="dashboard-shell-inner-header">
-        <div class="dashboard-shell-group-header">
-            <div class="dashboard-shell-brand">
-                <img class="dashboard-shell-logo" src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=100" alt="Logo">
-            </div>
+<div class="operator">
+    <header class="operator-header">
+        <div class="operator-header-brand-icon">
+            <img class="operator-header-logo" src="" alt="Operator Logo">
         </div>
-    </div>
-</header>
-
-<div class="operator-shell">
-    <div class="operator-shell-wrapper-header">
-        <div class="operator-shell-inner-header">
-            <div class="operator-shell-group-header">
-                <div class="operator-shell-section-header">
-                    <input id="search" type="text" placeholder="Search by operator name" max="25">
-                    <button class="search-btn">Search</button>
+        <div class="operator-header-actions">
+            <div class="operator-header-section-a">
+                <button id="dashboard-btn">Dashboard</button>
+            </div>
+            <div class="operator-header-section-b">
+                <div class="operator-header-actions-a">
+                    <button id="create-operator-btn">Create operator</button>
                 </div>
             </div>
         </div>
-        <div class="operator-shell-inner-header">
-            <button class="create-operator-btn">Create operator</button>
+    </header>
+    <main class="operator-body">
+        <div class="operator-body-search">
+            <input id="search" type="text" placeholder="Search by operator name" maxlength="250">
+            <button id="search-btn">Search</button>
         </div>
-    </div>
-    <div class="operator-shell-wrapper-body">
-
-    </div>
+        <div class="operator-body-list">
+            <div id="operator-list-container">
+                <!-- Operator items will be rendered here -->
+            </div>
+        </div>
+        <div class="operator-body-pagination">
+            <button id="previous-page-btn">Previous page</button>
+            <button id="next-page-btn">Next page</button>
+        </div>
+    </main>
+    <footer class="operator-footer">
+    </footer>
 </div>
-<script src="/js/viewStateConfig.js"></script>
-<script src="../../js/utility/utility.js"></script>
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
 <script src="../../js/operator/operatorList.js"></script>
 </body>

@@ -2,40 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Shipment List</title>
+    <title>Shipment list</title>
 </head>
 <body>
-<div class="shipment-shell">
-    <div class="shipment-shell-wrapper-header">
-        <div class="shipment-shell-inner-header">
-            <div class="shipment-shell-group-header">
-                <button class="previous-form-btn">Previous form</button>
+<div class="shipment">
+    <header class="shipment-header">
+        <div class="shipment-header-brand-icon">
+            <img class="shipment-header-logo" src="" alt="Shipment Logo">
+        </div>
+        <div class="shipment-header-actions">
+            <div class="shipment-header-section-a">
+                <button id="dashboard-btn">Dashboard</button>
             </div>
-            <div class="shipment-shell-group-header">
-                <div class="shipment-shell-section-header">
-                    <input id="search" type="text" placeholder="Search by shipment name" max="25">
-                </div>
-                <div class="shipment-shell-section-header">
-                    <button class="search-btn">Search</button>
+            <div class="shipment-header-section-b">
+                <div class="shipment-header-actions-a">
+                    <button id="create-shipment-btn">Create shipment</button>
                 </div>
             </div>
         </div>
-        <div class="shipment-shell-inner-header">
-            <button class="create-shipment-btn">Create shipment</button>
+    </header>
+    <main class="shipment-body">
+        <div class="shipment-body-search">
+            <input id="search" type="text" placeholder="Search by shipping ID" maxlength="25">
+            <button id="search-btn">Search</button>
         </div>
-    </div>
-    <div class="shipment-shell-wrapper-pager">
-        <div class="shipment-shell-inner-pager">
-            <button class="previous-page-btn">Previous page</button>
-            <button class="next-page-btn">Next page</button>
+        <div class="shipment-body-list">
+            <div id="shipment-list-container">
+                <!-- Shipment items will be rendered here -->
+            </div>
         </div>
-    </div>
-    <div class="shipment-shell-wrapper-body">
-
-    </div>
+        <div class="shipment-body-pagination">
+            <button id="previous-page-btn">Previous page</button>
+            <button id="next-page-btn">Next page</button>
+        </div>
+    </main>
+    <footer class="shipment-footer">
+    </footer>
 </div>
-<script src="/js/viewStateConfig.js"></script>
-<script src="../../js/utility/utility.js"></script>
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
 <script src="../../js/shipment/shipmentList.js"></script>
 </body>

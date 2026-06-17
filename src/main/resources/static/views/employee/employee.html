@@ -5,26 +5,86 @@
     <title>Employee screen</title>
 </head>
 <body>
-<div class="employee-shell">
-    <div class="employee-shell-wrapper-header">
-        <div class="employee-shell-inner-header">
-            <div class="employee-shell-group-header">
-                <button class="dashboard-btn">Dashboard</button>
-                <button class="previous-form-btn">Previous form</button>
+<div class="employee">
+    <header class="employee-header">
+        <div class="employee-header-brand-icon">
+            <img class="employee-header-logo" src="" alt="Employee">
+        </div>
+        <div class="employee-header-actions">
+            <div class="operator-header-section-a">
+                <button id="dashboard-btn">Dashboard</button>
             </div>
-            <div class="employee-shell-group-header">
-                <button class="create-employee-btn">Create employee</button>
-                <button class="update-employee-btn">Update employee</button>
-                <button class="delete-employee-btn">Delete employee</button>
+            <div class="operator-header-section-b">
+                <div id="employee-header-actions-a" class="employee-header-actions-a">
+                    <button id="employee-list-btn">Employee list</button>
+                </div>
+                <div id="employee-header-actions-b" class="employee-header-actions-b">
+                </div>
             </div>
         </div>
+    </header>
+    <main class="employee-body">
+        <div class="employee-body-employee-display">
+            <form class="employee-body-employee-form">
+                <label for="employee-id">Employee ID</label>
+                <input type="text" id="employee-id" readonly>
 
-    </div>
-    <div class="employee-shell-wrapper-body">
+                <label for="employee-name">Employee name</label>
+                <input type="text" id="employee-name">
 
-    </div>
+                <label for="employee-phone-no">Employee phone no</label>
+                <input type="text" id="employee-phone-no">
+
+                <label for="employee-department">Employee department</label>
+                <input type="text" id="employee-department">
+
+                <label for="employee-joining-date">Employee joining date</label>
+                <input type="datetime-local" id="employee-joining-date" readonly>
+
+                <label for="employee-status">Employee status</label>
+                <input type="text" id="employee-status">
+
+                <label for="reporting-manager-id">Reporting manager ID</label>
+                <input type="number" id="reporting-manager-id">
+
+                <label for="account-id">Account ID</label>
+                <input type="text" id="account-id" readonly>
+
+                <label for="created-at">Created at</label>
+                <input type="text" id="created-at" readonly>
+
+                <label for="updated-at">Updated at</label>
+                <input type="text" id="updated-at" readonly>
+
+                <label for="updated-by">Updated by</label>
+                <input type="text" id="updated-by" readonly>
+            </form>
+            <div id="employee-body-account-display" class="employee-body-account-display">
+                <form class="employee-body-account-form">
+                    <label for="account-username">Account username</label>
+                    <input type="text" id="account-username" readonly>
+
+                    <label for="account-role">Account role</label>
+                    <input type="text" id="account-role" readonly>
+
+                    <label for="account-status">Account status</label>
+                    <input type="text" id="account-status" readonly>
+
+                    <label for="account-email">Account email</label>
+                    <input type="email" id="account-email" readonly>
+                </form>
+            </div>
+        </div>
+        <div id="employee-body-employee-actions" class="employee-body-employee-actions">
+            <button id="update-btn">Update employee</button>
+            <button id="delete-btn">Delete employee</button>
+        </div>
+        <div id="employee-body-common-actions" class="employee-body-common-actions">
+            <button id="proceed-btn">Proceed</button>
+        </div>
+    </main>
+    <footer class="employee-footer"></footer>
 </div>
-<script src="/js/viewStateConfig.js"></script>
 <script src="../../js/utility/utility.js"></script>
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
 <script src="../../js/employee/employee.js"></script>

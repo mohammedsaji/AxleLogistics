@@ -2,28 +2,70 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Shipment Screen</title>
+    <title>Shipment screen</title>
 </head>
 <body>
-<div class="shipment-shell">
-    <div class="shipment-shell-wrapper-header">
-        <div class="shipment-shell-inner-header">
-            <div class="shipment-shell-group-header">
-                <button class="dashboard-btn">Dashboard</button>
-                <button class="previous-form-btn">Previous form</button>
+<div class="shipment">
+    <header class="shipment-header">
+        <div class="shipment-header-brand-icon">
+            <img class="shipment-header-logo" src="" alt="Shipment">
+        </div>
+        <div class="shipment-header-actions">
+            <div class="operator-header-section-a">
+                <button id="dashboard-btn">Dashboard</button>
             </div>
-            <div class="shipment-shell-group-header">
-                <button class="create-shipment-btn">Create shipment</button>
-                <button class="update-shipment-btn">Update shipment</button>
+            <div class="operator-header-section-b">
+                <div id="shipment-header-actions-a" class="shipment-header-actions-a">
+                    <button id="shipment-list-btn">Shipment list</button>
+                </div>
+                <div id="shipment-header-actions-b" class="shipment-header-actions-b">
+                </div>
             </div>
         </div>
+    </header>
+    <main class="shipment-body">
+        <div class="shipment-body-shipment-display">
+            <form class="shipment-body-shipment-form">
+                <label for="shipping-id">Shipping ID</label>
+                <input type="text" id="shipping-id" readonly>
 
-    </div>
-    <div class="shipment-shell-wrapper-body">
+                <label for="shipping-from">Shipping from</label>
+                <input type="text" id="shipping-from" readonly>
 
-    </div>
+                <label for="shipping-to">Shipping to</label>
+                <input type="text" id="shipping-to" readonly>
+
+                <label for="delivery-date">Delivery date</label>
+                <input type="datetime-local" id="delivery-date">
+
+                <label for="created-at">Created at</label>
+                <input type="text" id="created-at" readonly>
+
+                <label for="updated-at">Updated at</label>
+                <input type="text" id="updated-at" readonly>
+
+                <label for="updated-by">Updated by</label>
+                <input type="text" id="updated-by" readonly>
+
+                <input type="hidden" id="customer-id" readonly>
+                <input type="hidden" id="cargo-id" readonly>
+                <input type="hidden" id="status-id" readonly>
+            </form>
+            <div class="shipment-body-dependents-list">
+                <button id="view-customer-btn">View customer</button>
+                <button id="view-cargo-btn">View cargo</button>
+                <button id="view-status-btn">View status</button>
+            </div>
+        </div>
+        <div id="shipment-body-shipment-actions" class="shipment-body-shipment-actions">
+            <button id="update-btn">Update shipment</button>
+        </div>
+        <div id="shipment-body-common-actions" class="shipment-body-common-actions">
+            <button id="proceed-btn">Proceed</button>
+        </div>
+    </main>
+    <footer class="shipment-footer"></footer>
 </div>
-<script src="/js/viewStateConfig.js"></script>
 <script src="../../js/utility/utility.js"></script>
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
 <script src="../../js/shipment/shipment.js"></script>

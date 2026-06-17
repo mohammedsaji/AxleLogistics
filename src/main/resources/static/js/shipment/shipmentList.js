@@ -1,180 +1,181 @@
-document.addEventListener("DOMContentLoaded", function () {
-    async function PayloadExtractor() {
+const params = new URLSearchParams(window.location.search);
+let currentPageNo = 1;
+let totalPages = 1;
+let currentResponse = null;
 
-        const viewState = localStorage.getItem("viewState");
-        const shipmentStates = shipmentViewState().SHIPMENT;
+async function payloadExtractor() {
+    const userAction = params.get("userAction");
 
-        previousPageNavigation(viewState);
-
-        if (viewState === shipmentStates.READ) {
-            const pageNo = localStorage.getItem("pageNo") != null ? localStorage.getItem("pageNo") : 1;
-            const url = `/logistic/shipment/fetchall?pageNo=${pageNo}`;
-            const methodType = 'GET';
-            const response = await ajaxCall(url, methodType, null);
-            LayoutRender(response, viewState);
-        }
+    if (!userAction) {
+        alert('Invalid parameters.');
+        return;
     }
 
-    PayloadExtractor();
-});
+    currentPageNo = 1;
+    await fetchShipmentList(currentPageNo);
+}
+payloadExtractor();
 
-function LayoutRender(response, viewState) {
-    let shipmentList = [];
+async function fetchShipmentList(pageNo) {
+    const url = `/logistic/shipment/fetchall?pageNo=${pageNo}`;
+    const methodType = 'GET';
+    const response = await ajaxCall(url, methodType, null);
+
+    currentResponse = response;
 
     if (response && response.valueMap) {
-        shipmentList = response.valueMap.ShipmentList || [];
-
-        localStorage.setItem("totalPages", response.valueMap.TotalPages || 1);
-        localStorage.setItem("totalElements", response.valueMap.TotalElements || 0);
-    } else {
-        shipmentList = Array.isArray(response) ? response : [response];
+        totalPages = response.valueMap.TotalPages || 1;
+        const shipmentList = response.valueMap.ShipmentList || [];
+        renderShipmentList(shipmentList);
+    } else if (Array.isArray(response)) {
+        renderShipmentList(response);
+    } else if (response) {
+        renderShipmentList([response]);
     }
-    const shipmentShellWrapperBody = document.querySelector('.shipment-shell-wrapper-body');
+}
 
-    if (shipmentShellWrapperBody) {
-        shipmentShellWrapperBody.innerHTML = '';
+function renderShipmentList(shipmentList) {
+    const listContainer = document.getElementById('shipment-list-container');
+    if (listContainer) {
+        listContainer.innerHTML = '';
     }
 
     shipmentList.forEach(shipment => {
         if (!shipment) return;
 
-        const elementDiv = document.createElement('div');
-        elementDiv.className = 'shipment-shell-inner-body';
+        const shipmentDiv = document.createElement('div');
+        shipmentDiv.className = 'shipment-list-item';
+        shipmentDiv.setAttribute('data-shipping-id', shipment.shippingId);
+        shipmentDiv.setAttribute('data-shipment-from', shipment.shipmentFrom);
+        shipmentDiv.setAttribute('data-shipment-to', shipment.shipmentTo);
 
-        Object.entries(shipment).forEach(([keyName, keyValue]) => {
-            if (keyName === "shippingId" || keyName === "shipmentFrom" || keyName === "shipmentTo") {
-                const elementP = document.createElement('p');
-                elementP.className = camelToKebabCase(keyName);
-                elementP.setAttribute(`data-${camelToKebabCase(keyName)}`, keyValue);
-                elementP.textContent = `${keyName.charAt(0).toUpperCase() + whiteSpacedCamelCase(keyName).slice(1)} : ${keyValue}`;
-                elementDiv.append(elementP);
-            }
-        });
+        const shipmentInfoDiv = document.createElement('div');
+        shipmentInfoDiv.className = 'shipment-info';
 
-        const elementBtnDiv = document.createElement('div');
-        elementBtnDiv.className = 'shipment-shell-event';
+        const shippingIdP = document.createElement('p');
+        shippingIdP.textContent = `Shipping ID: ${shipment.shippingId}`;
+        shipmentInfoDiv.append(shippingIdP);
 
-        const elementBtn = document.createElement('button');
-        elementBtn.className = 'view-btn';
-        elementBtn.setAttribute('data-shipment-id', shipment.shippingId);
-        elementBtn.textContent = 'View';
-        elementBtnDiv.append(elementBtn);
+        const shipmentFromP = document.createElement('p');
+        shipmentFromP.textContent = `From: ${shipment.shipmentFrom}`;
+        shipmentInfoDiv.append(shipmentFromP);
 
-        elementDiv.append(elementBtnDiv);
-        shipmentShellWrapperBody.append(elementDiv);
+        const shipmentToP = document.createElement('p');
+        shipmentToP.textContent = `To: ${shipment.shipmentTo}`;
+        shipmentInfoDiv.append(shipmentToP);
+
+        const viewBtn = document.createElement('button');
+        viewBtn.className = 'view-btn';
+        viewBtn.setAttribute('data-shipping-id', shipment.shippingId);
+        viewBtn.textContent = 'View';
+        shipmentInfoDiv.append(viewBtn);
+
+        shipmentDiv.append(shipmentInfoDiv);
+        listContainer.append(shipmentDiv);
     });
 
-    ClickEventBinder(viewState);
-    searchClickEvent(response, viewState)
+    clickEventBinder();
+    searchClickEvent();
 }
 
-function ClickEventBinder(viewState) {
+function clickEventBinder() {
+    const userAction = params.get("userAction");
 
-    if (viewState === shipmentViewState().SHIPMENT.READ) {
-        const viewBtnArray = document.querySelectorAll('.view-btn');
+    const dashboardBtn = document.getElementById('dashboard-btn');
+    if (dashboardBtn) {
+        dashboardBtn.addEventListener('click', function () {
+            window.location.href = "/views/dashboard.html";
+        }, { once: true });
+    }
 
-        viewBtnArray.forEach(current => {
-            current.addEventListener('click', function () {
-                localStorage.setItem("shipmentId", this.dataset.shipmentId);
-                localStorage.setItem("viewState", viewState);
-                window.location.href = "../../views/shipment/shipment.html";
-            },{once : true});
-        });
-
-        const createShipmentBtn = document.querySelector('.create-shipment-btn');
-
+    const createShipmentBtn = document.getElementById('create-shipment-btn');
+    if (createShipmentBtn) {
         createShipmentBtn.addEventListener('click', function () {
-            localStorage.setItem("viewState", shipmentViewState().SHIPMENT.CREATE);
-            window.location.href = "../../views/operator/transport-type.html";
-        },{once : true});
-    }
-}
-
-function searchClickEvent(response, viewState) {
-    const searchBtn = document.querySelector('.search-btn');
-    if(searchBtn){
-        searchBtn.addEventListener('click', async function () {
-            const searchInput = document.getElementById('search').value.trim().toLowerCase();
-            const shipmentFromList = document.querySelectorAll('.shipping-id');
-
-            shipmentFromList.forEach(function (shipment) {
-                const shipmentId = shipment.textContent.replace("Shipment Id : ", "").trim().toLowerCase();
-                const parentElement = shipment.closest('.operator-shell-inner-body');
-                if (parentElement) {
-                    if (parseInt(shipmentId,10) !== parseInt(searchInput,10) && searchInput !== "") {
-                        parentElement.style.display = 'none';
-                    } else {
-                        parentElement.style.display = '';
-                    }
-                }
-            });
-
-            const activeElements = Array.from(document.querySelectorAll('.shipment-shell-inner-body')).filter(element => element.style.display !== 'none');
-            if (activeElements.length === 0 && searchInput) {
-                const fallbackResponse = await ajaxCall(`/logistic/shipment/fetchbyid?shipmentId=${searchInput}`, 'GET', null);
-                if (fallbackResponse) {
-                    LayoutRenderer(fallbackResponse, localStorage.getItem("viewState"));
-                }
-            }
-        });
+            window.location.href = `../../views/operator/transport-types.html?userAction=Entry shipping`;
+        }, { once: true });
     }
 
-    const searchInput = document.getElementById('search');
-
-    searchInput.addEventListener('input', function () {
-        const searchValue = this.value.trim().toLowerCase();
-
-        if (!searchValue) {
-            LayoutRenderer(response, viewState);
-            return;
-        }
-
+    const viewBtnArray = document.querySelectorAll('.view-btn');
+    viewBtnArray.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const shippingId = this.getAttribute('data-shipping-id');
+            window.location.href = `../../views/shipment/shipment.html?shippingId=${shippingId}&userAction=${userAction}`;
+        }, { once: true });
     });
-}
 
-function previousPageNavigation(viewState) {
+    const previousPageBtn = document.getElementById('previous-page-btn');
+    if (previousPageBtn) {
+        previousPageBtn.addEventListener('click', async function () {
+            if (currentPageNo > 1) {
+                currentPageNo--;
+                await fetchShipmentList(currentPageNo);
+            }
+        }, { once: true });
+    }
 
-    const previousFormBtn = document.querySelector('.previous-form-btn');
-
-    if (!previousFormBtn) return;
-
-    if (window.history.length <= 1) {
-        previousFormBtn.disabled = true;
-    } else {
-        previousFormBtn.disabled = false;
-
-        previousFormBtn.addEventListener('click', function () {
-            localStorage.setItem("viewState", viewState);
-            window.history.back();
+    const nextPageBtn = document.getElementById('next-page-btn');
+    if (nextPageBtn) {
+        nextPageBtn.addEventListener('click', async function () {
+            if (currentPageNo < totalPages) {
+                currentPageNo++;
+                await fetchShipmentList(currentPageNo);
+            }
         }, { once: true });
     }
 }
 
-function recordPageEventBinding(){
+function searchClickEvent() {
+    const searchBtn = document.getElementById('search-btn');
+    const searchInput = document.getElementById('search');
 
-    const lastPage = parseInt(localStorage.getItem("totalPages")) || 1;
+    if (searchBtn) {
+        searchBtn.addEventListener('click', async function () {
+            const searchValue = searchInput.value.trim();
+            const shipmentItems = document.querySelectorAll('.shipment-list-item');
+            let hasMatch = false;
 
-    const previousRecordPageBtn = document.getElementById('previous-page-btn');
+            shipmentItems.forEach(item => {
+                const shippingId = item.getAttribute('data-shipping-id');
+                if (parseInt(shippingId, 10) === parseInt(searchValue, 10) || searchValue === '') {
+                    item.style.display = '';
+                    hasMatch = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
 
-    previousRecordPageBtn.addEventListener('click',function (){
-        let currentPage = parseInt(localStorage.getItem("pageNo")) || 1;
-        if(currentPage > 1){
-            const pageNo = currentPage-1;
-            localStorage.setItem("pageNo",pageNo);
-            window.location.href = "../../views/shipment/shipment-list.html";
-        }
-    }, {once: true});
+            if (!hasMatch && searchValue !== '') {
+                const response = await ajaxCall(`/logistic/shipment/fetchbyid?shippingId=${searchValue}`, 'GET', null);
+                if (response) {
+                    let shipmentList = [];
 
-    const nextRecordPageBtn = document.getElementById('next-page-btn');
+                    // Handle both response formats: valueMap wrapper and direct array
+                    if (response && response.valueMap) {
+                        shipmentList = response.valueMap.ShipmentList || [];
+                    } else if (Array.isArray(response)) {
+                        shipmentList = response;
+                    } else if (response) {
+                        shipmentList = [response];
+                    }
 
-    nextRecordPageBtn.addEventListener('click',function (){
-        let currentPage = parseInt(localStorage.getItem("pageNo")) || 1;
-        if(currentPage > 0 && currentPage < lastPage){
-            const pageNo = currentPage+1;
-            localStorage.setItem("pageNo",pageNo);
-            window.location.href = "../../views/shipment/shipment-list.html";
-        }
-    }, {once: true});
+                    if (shipmentList.length > 0) {
+                        renderShipmentList(shipmentList);
+                    }
+                }
+            }
+        }, { once: true });
+    }
 
+    if (searchInput) {
+        searchInput.addEventListener('input', function () {
+            const searchValue = this.value.trim();
+
+            if (!searchValue) {
+                const shipmentItems = document.querySelectorAll('.shipment-list-item');
+                shipmentItems.forEach(item => {
+                    item.style.display = '';
+                });
+            }
+        });
+    }
 }
-recordPageEventBinding();
