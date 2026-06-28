@@ -18,8 +18,7 @@ RESTful API layer with standardized pagination and response handling
 
 Frontend:
 
-Vanilla JavaScript with static HTML templates and URL-based routing
-CSS3 for responsive styling
+Vanilla JavaScript with static HTML templates
 
 Database:
 
