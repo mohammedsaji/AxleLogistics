@@ -1,4 +1,4 @@
-# Axle Logistics 🚛
+# Axle Logistics
 
 > Enterprise-grade Logistics Operations Management System built with Java & Spring Boot.  
 > Multi-role · JWT Secured · REST API Driven · PostgreSQL Backed
