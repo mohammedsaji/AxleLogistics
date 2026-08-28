@@ -1,6 +1,7 @@
 package com.app.logistics.auth.service;
 
 import com.app.logistics.auth.authUtils.AuthDetails;
+import com.app.logistics.auth.authUtils.AuthMapper;
 import com.app.logistics.auth.dto.AuthRequest;
 import com.app.logistics.auth.dto.AuthResponse;
 import com.app.logistics.common.dto.LoginRequest;
@@ -20,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -28,16 +28,18 @@ public class AuthService {
 
     private final EmployeeService employeeService;
     private final AuthRepo authRepo;
-    private final AccountRepo accountRepo;
+    private final AuthMapper authMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final APIKeyGenerator apiKeyGenerator;
     private final BearerTokenBuilder bearerTokenBuilder;
     private final HttpServletResponse httpServletResponse;
     private final ApiCacheCluster apiCacheCluster;
 
+    private final Map<String, Auth> accountVOMap = new HashMap<>();
+
     public AuthService(EmployeeService employeeService,
                        AuthRepo authRepo,
-                       AccountRepo accountRepo,
+                       AuthMapper authMapper,
                        BCryptPasswordEncoder bCryptPasswordEncoder,
                        APIKeyGenerator apiKeyGenerator,
                        BearerTokenBuilder bearerTokenBuilder,
@@ -45,12 +47,19 @@ public class AuthService {
                        ApiCacheCluster apiCacheCluster) {
         this.employeeService = employeeService;
         this.authRepo = authRepo;
-        this.accountRepo = accountRepo;
+        this.authMapper = authMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.apiKeyGenerator = apiKeyGenerator;
         this.bearerTokenBuilder = bearerTokenBuilder;
         this.httpServletResponse = httpServletResponse;
         this.apiCacheCluster = apiCacheCluster;
+    }
+
+    public void userAccountCache(Auth auth) {
+        if (auth == null || auth.getAccountUsername() == null) {
+            throw new APIException("Cannot cache null or incomplete Auth data", HttpStatus.BAD_REQUEST);
+        }
+        accountVOMap.put(auth.getAccountUsername(), auth);
     }
 
     public void loginUser(String accountUsername, String accountPassword) {
@@ -97,37 +106,25 @@ public class AuthService {
         apiCacheCluster.removeAPIKey(loginRequest.getUsername());
     }
 
-    public Auth dtoToVOConverter(String action, AuthRequest authRequest, CustomizedUserDetails userDetails) {
-
-        Auth auth = new Auth();
-        if (action.equalsIgnoreCase("UPDATE")) {
-            auth.setAccountId(authRequest.getAccountId());
-        }
-        auth.setAccountUsername(authRequest.getAccountUsername());
+    public AuthResponse signUpUser(AuthRequest authRequest, AuthDetails authDetails) {
+        Auth auth = authMapper.toVO(authRequest);
         auth.setAccountPassword(bCryptPasswordEncoder.encode(authRequest.getAccountPassword()));
-        auth.setAccountRole(authRequest.getAccountRole());
-        auth.setAccountStatus(authRequest.getAccountStatus());
-        auth.setAccountEmail(authRequest.getAccountEmail());
-
-        if (action.equalsIgnoreCase("SAVE")) {
-            auth.setCreatedAt(LocalDateTime.now());
-        } else if (action.equalsIgnoreCase("UPDATE")) {
-            auth.setCreatedAt(authRequest.getCreatedAt());
+        if (authDetails != null) {
+            auth.setUpdatedBy(authDetails.getEmployeeId());
         }
-        auth.setUpdatedAt(LocalDateTime.now());
-        auth.setUpdatedBy(userDetails.getEmployeeId());
-
-        return auth;
+        userAccountCache(auth);
+        return authMapper.toDTO(auth);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public AuthResponse signUpUser(AuthRequest authRequest, AuthDetails authDetails) {
-        Auth auth = dtoToVOConverter("SAVE", authRequest, authDetails);
-        Auth savedAuth = authRepo.save(auth);
-        AuthResponse authResponse = new AuthResponse();
-        authResponse.setAccountUsername(savedAuth.getAccountUsername());
-        authResponse.setAccountRole(savedAuth.getAccountRole());
-        return authResponse;
+    public Auth saveUser(String username) {
+        Auth cachedAuth = accountVOMap.get(username);
+        if (cachedAuth == null) {
+            throw new APIException("No pending sign-up data found for user: " + username, HttpStatus.NOT_FOUND);
+        }
+        Auth savedAuth = authRepo.save(cachedAuth);
+        accountVOMap.remove(username);
+        return savedAuth;
     }
 
     @Transactional(readOnly = true)

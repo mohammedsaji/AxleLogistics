@@ -4,6 +4,9 @@ import com.app.logistics.cargo.dto.CargoRequest;
 import com.app.logistics.cargo.dto.CargoResponse;
 import com.app.logistics.cargo.repo.CargoRepo;
 import com.app.logistics.cargo.entity.Cargo;
+import com.app.logistics.cargo.utils.CargoMapper;
+import com.app.logistics.common.exception.APIException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,73 +14,39 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CargoService {
 
-    private CargoRepo cargoRepo;
+    private final CargoRepo cargoRepo;
+    private final CargoMapper cargoMapper;
 
-    public CargoService(CargoRepo cargoRepo){
+    public CargoService(CargoRepo cargoRepo, CargoMapper cargoMapper) {
         this.cargoRepo = cargoRepo;
+        this.cargoMapper = cargoMapper;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public Cargo saveCargo(CargoRequest cargoRequest){
+    public Cargo saveCargo(CargoRequest cargoRequest) {
         if (cargoRequest == null) {
-            throw new IllegalArgumentException("Cargo request data payload cannot be null");
+            throw new APIException("Cargo request data payload cannot be null", HttpStatus.BAD_REQUEST);
         }
-        Cargo savingCargo = dtoToVOConverter(cargoRequest);
-        Cargo savedCargo = cargoRepo.save(savingCargo);
-        return savedCargo;
-    }
-
-    public Cargo dtoToVOConverter(CargoRequest cargoRequest){
-        if (cargoRequest == null) {
-            return new Cargo();
-        }
-        Cargo cargo = new Cargo();
-        cargo.setCargoId(cargoRequest.getCargoId());
-        cargo.setCargoName(cargoRequest.getCargoName());
-        cargo.setCargoQuantity(cargoRequest.getCargoQuantity());
-        cargo.setCargoWeight(cargoRequest.getCargoWeight());
-        cargo.setCargoType(cargoRequest.getCargoType());
-        cargo.setCargoDescription(cargoRequest.getCargoDescription());
-        cargo.setCreatedAt(cargoRequest.getCreatedAt());
-        cargo.setUpdatedAt(cargoRequest.getUpdatedAt());
-        cargo.setUpdatedBy(cargoRequest.getUpdatedBy());
-
-        return cargo;
-    }
-
-    public CargoResponse voToDtoConverter(Cargo cargo){
-        if (cargo == null) {
-            return new CargoResponse();
-        }
-        CargoResponse cargoResponse = new CargoResponse();
-        cargoResponse.setCargoId(cargo.getCargoId());
-        cargoResponse.setCargoName(cargo.getCargoName());
-        cargoResponse.setCargoType(cargo.getCargoType());
-        cargoResponse.setCargoDescription(cargo.getCargoDescription());
-        cargoResponse.setCargoQuantity(cargo.getCargoQuantity());
-        cargoResponse.setCargoWeight(cargo.getCargoWeight());
-        cargoResponse.setCreatedAt(cargo.getCreatedAt());
-        cargoResponse.setUpdatedAt(cargo.getUpdatedAt());
-        cargoResponse.setUpdatedBy(cargo.getUpdatedBy());
-
-        return cargoResponse;
+        Cargo savingCargo = cargoMapper.toVO(cargoRequest);
+        return cargoRepo.save(savingCargo);
     }
 
     @Transactional(readOnly = true)
-    public CargoResponse fetchCargo(Integer cargoId){
+    public CargoResponse fetchCargo(Integer cargoId) {
         if (cargoId == null) {
-            return new CargoResponse();
+            throw new APIException("Cargo ID cannot be null", HttpStatus.BAD_REQUEST);
         }
-        Cargo fetchCargo = cargoRepo.findById(cargoId).orElse(new Cargo());
-        return voToDtoConverter(fetchCargo);
+        Cargo cargo = cargoRepo.findById(cargoId)
+                .orElseThrow(() -> new APIException("Cargo not found for ID: " + cargoId, HttpStatus.NOT_FOUND));
+        return cargoMapper.toDTO(cargo);
     }
 
-    @Transactional (propagation = Propagation.REQUIRED)
-    public Cargo internalFetchService(Integer cargoId){
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Cargo internalFetchService(Integer cargoId) {
         if (cargoId == null) {
-            return new Cargo();
+            throw new APIException("Cargo ID cannot be null", HttpStatus.BAD_REQUEST);
         }
-        return cargoRepo.findById(cargoId).orElse(new Cargo());
+        return cargoRepo.findById(cargoId)
+                .orElseThrow(() -> new APIException("Cargo not found for ID: " + cargoId, HttpStatus.NOT_FOUND));
     }
-
 }

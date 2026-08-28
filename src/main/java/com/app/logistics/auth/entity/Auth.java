@@ -1,25 +1,25 @@
 package com.app.logistics.auth.entity;
 
+import com.app.logistics.common.entity.BaseEntity;
 import com.app.logistics.common.validations.OnCreate;
 import com.app.logistics.common.validations.OnUpdate;
 import com.app.logistics.employee.entity.Employee;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name="ACCNT_MST")
-public class Auth {
+@Table(name = "ACCNT_MST")
+public class Auth extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="employee-account-seq-gen")
-    @SequenceGenerator(name="employee-account-seq-gen",
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employee-account-seq-gen")
+    @SequenceGenerator(name = "employee-account-seq-gen",
             sequenceName = "ACCNT_MST_ACC_ID_SEQ",
             initialValue = 1,
             allocationSize = 50)
     @Null(groups = OnCreate.class)
     @NotNull(groups = OnUpdate.class)
-    @Column(name="ACC_ID")
+    @Column(name = "ACC_ID")
     private Integer accountId;
 
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
@@ -28,46 +28,38 @@ public class Auth {
     private String accountUsername;
 
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Column(name="ACC_PASSWORD")
+    @Column(name = "ACC_PASSWORD")
     private String accountPassword;
 
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
     @Pattern(regexp = "ADMIN|FEDERATE-DRIVER|FEDERATE-MANAGER|DEVELOPER|BUSINESS-ANALYST|DATA-ENGINEER|SOFTWARE ENGINEER")
-    @Column(name="ACC_ROLE")
+    @Column(name = "ACC_ROLE")
     private String accountRole;
 
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Pattern(regexp="ACTIVE|IN-ACTIVE")
-    @Column(name="ACC_STATUS")
+    @Pattern(regexp = "ACTIVE|IN-ACTIVE")
+    @Column(name = "ACC_STATUS")
     private String accountStatus;
 
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
     @Email(groups = {OnCreate.class, OnUpdate.class})
-    @Size(max=280)
-    @Column(name="ACCNT_EMAIL")
+    @Size(max = 280)
+    @Column(name = "ACCNT_EMAIL")
     private String accountEmail;
 
-    @Column(name="CREATED_AT")
-    private LocalDateTime createdAt;
-
-    @Column(name="UPDATED_AT")
-    private LocalDateTime updatedAt;
-
-    @Max(value=Integer.MAX_VALUE)
-    @Positive
-    @Column(name="UPDATED_BY")
+    @Max(value = Integer.MAX_VALUE, groups = {OnCreate.class, OnUpdate.class})
+    @Positive(groups = {OnCreate.class, OnUpdate.class})
+    @Column(name = "UPDATED_BY")
     private Integer updatedBy;
 
-    @OneToOne(mappedBy = "accountVO", fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "auth", fetch = FetchType.EAGER)
     private Employee employee;
 
-    // --- Original Methods Preserved ---
-
-    public void setEmployeeVO(Employee employee){
+    public void setEmployeeVO(Employee employee) {
         this.employee = employee;
     }
 
-    public Employee getEmployeeVO(){
+    public Employee getEmployeeVO() {
         return employee;
     }
 
@@ -117,22 +109,6 @@ public class Auth {
 
     public void setAccountEmail(String accountEmail) {
         this.accountEmail = accountEmail;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public Integer getUpdatedBy() {
