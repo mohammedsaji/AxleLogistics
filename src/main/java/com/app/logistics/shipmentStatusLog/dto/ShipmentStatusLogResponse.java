@@ -1,57 +1,19 @@
 package com.app.logistics.shipmentStatusLog.dto;
 
-import com.app.logistics.common.validations.OnCreate;
-import com.app.logistics.common.validations.OnUpdate;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import java.time.LocalDateTime;
 
-public class ShipmentStatusLogRequest {
+public class ShipmentStatusLogResponse {
 
-    @Null(groups = OnCreate.class)
-    @NotNull(groups = OnUpdate.class)
-    @Positive(groups = OnUpdate.class)
     private Integer shippingStatusLogId;
-
-    @Null(groups = OnCreate.class)
-    @NotNull(groups = OnUpdate.class)
-    @Positive(groups = OnUpdate.class)
     private Integer shippingStatusId;
-
-    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Size(min = 10, max = 50, groups = {OnCreate.class, OnUpdate.class})
     private String currentLocation;
-
-    @Null(groups = OnCreate.class)
-    @NotNull(groups = OnUpdate.class)
-    @Positive(groups = OnUpdate.class)
     private Integer cargoId;
-
-    @Null(groups = OnCreate.class)
-    @NotNull(groups = OnUpdate.class)
-    @Positive(groups = OnUpdate.class)
     private Integer operatorId;
-
-    @Null(groups = OnCreate.class)
-    @NotNull(groups = OnUpdate.class)
-    @Positive(groups = OnUpdate.class)
     private Integer driverId;
-
-    @Null(groups = OnCreate.class)
-    @NotNull(groups = OnUpdate.class)
-    @Positive(groups = OnUpdate.class)
     private Integer vehicleId;
-
-    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Pattern(
-            regexp = "SHIPPED|ARRIVED|IN-TRANSIT|DELAYED|OUT-FOR-DELIVERY|DELIVERED",
-            message = "Invalid shipping status",
-            groups = {OnCreate.class, OnUpdate.class}
-    )
     private String shippingStatus;
+    private LocalDateTime updatedAt;
+    private Integer updatedBy;
 
     public Integer getShippingStatusLogId() {
         return shippingStatusLogId;
@@ -115,5 +77,21 @@ public class ShipmentStatusLogRequest {
 
     public void setShippingStatus(String shippingStatus) {
         this.shippingStatus = shippingStatus;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Integer getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(Integer updatedBy) {
+        this.updatedBy = updatedBy;
     }
 }
