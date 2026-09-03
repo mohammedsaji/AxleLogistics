@@ -1,49 +1,19 @@
 package com.app.logistics.cargo.dto;
 
-import com.app.logistics.common.validations.OnCreate;
-import com.app.logistics.common.validations.OnUpdate;
-import jakarta.validation.constraints.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class CargoResponse {
 
-    @NotNull(groups = {OnUpdate.class, OnCreate.class})
     private Integer cargoId;
-
-    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Size(max = 300)
     private String cargoName;
-
-    @NotNull(groups = {OnCreate.class, OnUpdate.class})
-    @Digits(integer = 7, fraction = 2)
     private BigDecimal cargoWeight;
-
-    @NotNull(groups = {OnCreate.class, OnUpdate.class})
-    @Min(value = 1, message = "Quantity must be at least 1")
     private Integer cargoQuantity;
-
-    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Size(max = 50)
     private String cargoType;
-
     private String cargoDescription;
-
     private LocalDateTime createdAt;
-
     private LocalDateTime updatedAt;
-
-    @Max(value = Integer.MAX_VALUE)
     private Integer updatedBy;
-
-    public String getCargoDescription() {
-        return cargoDescription;
-    }
-
-    public void setCargoDescription(String cargoDescription) {
-        this.cargoDescription = cargoDescription;
-    }
 
     public Integer getCargoId() {
         return cargoId;
@@ -59,6 +29,14 @@ public class CargoResponse {
 
     public void setCargoName(String cargoName) {
         this.cargoName = cargoName;
+    }
+
+    public BigDecimal getCargoWeight() {
+        return cargoWeight;
+    }
+
+    public void setCargoWeight(BigDecimal cargoWeight) {
+        this.cargoWeight = cargoWeight;
     }
 
     public Integer getCargoQuantity() {
@@ -77,12 +55,12 @@ public class CargoResponse {
         this.cargoType = cargoType;
     }
 
-    public BigDecimal getCargoWeight() {
-        return cargoWeight;
+    public String getCargoDescription() {
+        return cargoDescription;
     }
 
-    public void setCargoWeight(BigDecimal cargoWeight) {
-        this.cargoWeight = cargoWeight;
+    public void setCargoDescription(String cargoDescription) {
+        this.cargoDescription = cargoDescription;
     }
 
     public LocalDateTime getCreatedAt() {

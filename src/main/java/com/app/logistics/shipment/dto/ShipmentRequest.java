@@ -2,7 +2,11 @@ package com.app.logistics.shipment.dto;
 
 import com.app.logistics.common.validations.OnCreate;
 import com.app.logistics.common.validations.OnUpdate;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
@@ -10,59 +14,41 @@ public class ShipmentRequest {
 
     @Null(groups = OnCreate.class)
     @NotNull(groups = OnUpdate.class)
+    @Positive(groups = OnUpdate.class)
     private Integer shippingId;
 
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Size(max = 50)
+    @Size(max = 50, groups = {OnCreate.class, OnUpdate.class})
     private String shippingFrom;
 
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Size(max = 50)
+    @Size(max = 50, groups = {OnCreate.class, OnUpdate.class})
     private String shippingTo;
 
     @Null(groups = OnCreate.class)
     @NotNull(groups = OnUpdate.class)
+    @Positive(groups = OnUpdate.class)
     private Integer customerId;
 
     @Null(groups = OnCreate.class)
     @NotNull(groups = OnUpdate.class)
+    @Positive(groups = OnUpdate.class)
     private Integer cargoId;
 
     @Null(groups = OnCreate.class)
     @NotNull(groups = OnUpdate.class)
+    @Positive(groups = OnUpdate.class)
     private Integer statusId;
 
     @NotNull(groups = {OnCreate.class, OnUpdate.class})
     private LocalDateTime deliveryDate;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
-    @Max(value = Integer.MAX_VALUE)
-    private Integer updatedBy;
-
-    public Integer getCargoId() {
-        return cargoId;
+    public Integer getShippingId() {
+        return shippingId;
     }
 
-    public void setCargoId(Integer cargoId) {
-        this.cargoId = cargoId;
-    }
-
-    public Integer getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
-    }
-
-    public Integer getStatusId() {
-        return statusId;
-    }
-
-    public void setStatusId(Integer statusId) {
-        this.statusId = statusId;
+    public void setShippingId(Integer shippingId) {
+        this.shippingId = shippingId;
     }
 
     public String getShippingFrom() {
@@ -73,14 +59,6 @@ public class ShipmentRequest {
         this.shippingFrom = shippingFrom;
     }
 
-    public Integer getShippingId() {
-        return shippingId;
-    }
-
-    public void setShippingId(Integer shippingId) {
-        this.shippingId = shippingId;
-    }
-
     public String getShippingTo() {
         return shippingTo;
     }
@@ -89,28 +67,28 @@ public class ShipmentRequest {
         this.shippingTo = shippingTo;
     }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
+    public Integer getCustomerId() {
+        return customerId;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
     }
 
-    public Integer getUpdatedBy() {
-        return updatedBy;
+    public Integer getCargoId() {
+        return cargoId;
     }
 
-    public void setUpdatedBy(Integer updatedBy) {
-        this.updatedBy = updatedBy;
+    public void setCargoId(Integer cargoId) {
+        this.cargoId = cargoId;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public Integer getStatusId() {
+        return statusId;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setStatusId(Integer statusId) {
+        this.statusId = statusId;
     }
 
     public LocalDateTime getDeliveryDate() {

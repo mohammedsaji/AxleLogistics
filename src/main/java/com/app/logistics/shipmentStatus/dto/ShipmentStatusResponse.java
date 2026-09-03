@@ -1,40 +1,26 @@
 package com.app.logistics.shipmentStatus.dto;
 
-import com.app.logistics.common.validations.OnCreate;
-import com.app.logistics.common.validations.OnUpdate;
-import jakarta.validation.constraints.*;
-
 import java.time.LocalDateTime;
 
 public class ShipmentStatusResponse {
 
-    @NotNull(groups = {OnUpdate.class, OnCreate.class})
     private Integer shippingStatusId;
-
-    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Size(min = 10, max = 50)
     private String currentLocation;
-
-    @NotNull(groups = {OnCreate.class, OnUpdate.class})
     private Integer cargoId;
-
-    @NotNull(groups = {OnCreate.class, OnUpdate.class})
     private Integer operatorId;
-
-    @NotNull(groups = {OnCreate.class, OnUpdate.class})
     private Integer driverId;
-
-    @NotNull(groups = {OnCreate.class, OnUpdate.class})
     private Integer vehicleId;
-
-    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Pattern(regexp = "SHIPPED|IN-TRANSIT|DELAYED|ARRIVED|OUT-FOR-DELIVERY|DELIVERED")
     private String shippingStatus;
-
     private LocalDateTime updatedAt;
+    private Integer updatedBy;
 
-    @Max(value = Integer.MAX_VALUE)
-    private Integer updatedby;
+    public Integer getShippingStatusId() {
+        return shippingStatusId;
+    }
+
+    public void setShippingStatusId(Integer shippingStatusId) {
+        this.shippingStatusId = shippingStatusId;
+    }
 
     public String getCurrentLocation() {
         return currentLocation;
@@ -52,20 +38,20 @@ public class ShipmentStatusResponse {
         this.cargoId = cargoId;
     }
 
-    public Integer getDriverId() {
-        return driverId;
-    }
-
-    public void setDriverId(Integer driverId) {
-        this.driverId = driverId;
-    }
-
     public Integer getOperatorId() {
         return operatorId;
     }
 
     public void setOperatorId(Integer operatorId) {
         this.operatorId = operatorId;
+    }
+
+    public Integer getDriverId() {
+        return driverId;
+    }
+
+    public void setDriverId(Integer driverId) {
+        this.driverId = driverId;
     }
 
     public Integer getVehicleId() {
@@ -84,14 +70,6 @@ public class ShipmentStatusResponse {
         this.shippingStatus = shippingStatus;
     }
 
-    public Integer getShippingStatusId() {
-        return shippingStatusId;
-    }
-
-    public void setShippingStatusId(Integer shippingStatusId) {
-        this.shippingStatusId = shippingStatusId;
-    }
-
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
@@ -100,12 +78,11 @@ public class ShipmentStatusResponse {
         this.updatedAt = updatedAt;
     }
 
-    public Integer getUpdatedby() {
-        return updatedby;
+    public Integer getUpdatedBy() {
+        return updatedBy;
     }
 
-    public void setUpdatedby(Integer updatedby) {
-        this.updatedby = updatedby;
+    public void setUpdatedBy(Integer updatedBy) {
+        this.updatedBy = updatedBy;
     }
-
 }

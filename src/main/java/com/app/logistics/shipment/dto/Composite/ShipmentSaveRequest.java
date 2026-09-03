@@ -7,26 +7,38 @@ import com.app.logistics.operator.dto.OperatorRequest;
 import com.app.logistics.shipment.dto.ShipmentRequest;
 import com.app.logistics.shipmentStatus.dto.ShipmentStatusRequest;
 import com.app.logistics.vehicle.dto.VehicleRequest;
-import org.springframework.stereotype.Component;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
-@Component
 public class ShipmentSaveRequest {
 
+    @Valid
+    @NotNull
     private CustomerRequest customerRequest;
+
+    @Valid
+    @NotNull
     private CargoRequest cargoRequest;
+
+    @Valid
+    @NotNull
     private ShipmentRequest shipmentRequest;
+
+    @Valid
+    @NotNull
     private ShipmentStatusRequest shipmentStatusRequest;
+
+    @Valid
+    @NotNull
     private OperatorRequest operatorRequest;
+
+    @Valid
+    @NotNull
     private DriverRequest driverRequest;
+
+    @Valid
+    @NotNull
     private VehicleRequest vehicleRequest;
-
-    public CargoRequest getCargoRequest() {
-        return cargoRequest;
-    }
-
-    public void setCargoRequest(CargoRequest cargoRequest) {
-        this.cargoRequest = cargoRequest;
-    }
 
     public CustomerRequest getCustomerRequest() {
         return customerRequest;
@@ -36,20 +48,12 @@ public class ShipmentSaveRequest {
         this.customerRequest = customerRequest;
     }
 
-    public DriverRequest getDriverRequest() {
-        return driverRequest;
+    public CargoRequest getCargoRequest() {
+        return cargoRequest;
     }
 
-    public void setDriverRequest(DriverRequest driverRequest) {
-        this.driverRequest = driverRequest;
-    }
-
-    public OperatorRequest getOperatorRequest() {
-        return operatorRequest;
-    }
-
-    public void setOperatorRequest(OperatorRequest operatorRequest) {
-        this.operatorRequest = operatorRequest;
+    public void setCargoRequest(CargoRequest cargoRequest) {
+        this.cargoRequest = cargoRequest;
     }
 
     public ShipmentRequest getShipmentRequest() {
@@ -66,6 +70,22 @@ public class ShipmentSaveRequest {
 
     public void setShipmentStatusRequest(ShipmentStatusRequest shipmentStatusRequest) {
         this.shipmentStatusRequest = shipmentStatusRequest;
+    }
+
+    public OperatorRequest getOperatorRequest() {
+        return operatorRequest;
+    }
+
+    public void setOperatorRequest(OperatorRequest operatorRequest) {
+        this.operatorRequest = operatorRequest;
+    }
+
+    public DriverRequest getDriverRequest() {
+        return driverRequest;
+    }
+
+    public void setDriverRequest(DriverRequest driverRequest) {
+        this.driverRequest = driverRequest;
     }
 
     public VehicleRequest getVehicleRequest() {

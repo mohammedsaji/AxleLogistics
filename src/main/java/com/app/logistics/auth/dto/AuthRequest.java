@@ -2,16 +2,16 @@ package com.app.logistics.auth.dto;
 
 import com.app.logistics.common.validations.OnCreate;
 import com.app.logistics.common.validations.OnUpdate;
-import jakarta.validation.constraints.*;
-import org.springframework.stereotype.Component;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
-import java.time.LocalDateTime;
-
-@Component
 public class AuthRequest {
 
     @Null(groups = OnCreate.class)
-    @NotNull(groups = OnUpdate.class)
+    @NotBlank(groups = OnUpdate.class)
     private Integer accountId;
 
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
@@ -19,33 +19,27 @@ public class AuthRequest {
     private String accountUsername;
 
     @NotBlank(groups = OnCreate.class)
-    @Size(max = 20)
+    @Size(min = 8, max = 20)
     private String accountPassword;
 
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Pattern(regexp = "ADMIN|FEDERATE-DRIVER|FEDERATE-MANAGER|DEVELOPER|BUSINESS-ANALYST|DATA-ENGINEER|SOFTWARE ENGINEER")
+    @Pattern(
+            regexp = "ADMIN|FEDERATE-DRIVER|FEDERATE-MANAGER|DEVELOPER|BUSINESS-ANALYST|DATA-ENGINEER|SOFTWARE ENGINEER",
+            message = "Invalid account role"
+    )
     private String accountRole;
 
-    @Pattern(regexp="ACTIVE|IN-ACTIVE", groups = {OnCreate.class, OnUpdate.class})
+    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
+    @Pattern(
+            regexp = "ACTIVE|IN-ACTIVE",
+            message = "Account status must be ACTIVE or IN-ACTIVE"
+    )
     private String accountStatus;
 
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
     @Email(groups = {OnCreate.class, OnUpdate.class})
+    @Size(max = 280)
     private String accountEmail;
-
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
-    @Max(value=Integer.MAX_VALUE)
-    private Integer updatedBy;
-
-    public String getAccountEmail() {
-        return accountEmail;
-    }
-
-    public void setAccountEmail(String accountEmail) {
-        this.accountEmail = accountEmail;
-    }
 
     public Integer getAccountId() {
         return accountId;
@@ -53,6 +47,14 @@ public class AuthRequest {
 
     public void setAccountId(Integer accountId) {
         this.accountId = accountId;
+    }
+
+    public String getAccountUsername() {
+        return accountUsername;
+    }
+
+    public void setAccountUsername(String accountUsername) {
+        this.accountUsername = accountUsername;
     }
 
     public String getAccountPassword() {
@@ -79,35 +81,11 @@ public class AuthRequest {
         this.accountStatus = accountStatus;
     }
 
-    public String getAccountUsername() {
-        return accountUsername;
+    public String getAccountEmail() {
+        return accountEmail;
     }
 
-    public void setAccountUsername(String accountUsername) {
-        this.accountUsername = accountUsername;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Integer getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(Integer updatedBy) {
-        this.updatedBy = updatedBy;
+    public void setAccountEmail(String accountEmail) {
+        this.accountEmail = accountEmail;
     }
 }

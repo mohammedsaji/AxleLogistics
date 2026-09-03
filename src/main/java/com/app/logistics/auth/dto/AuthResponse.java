@@ -1,44 +1,12 @@
 package com.app.logistics.auth.dto;
 
-import com.app.logistics.common.validations.OnCreate;
-import com.app.logistics.common.validations.OnUpdate;
-import jakarta.validation.constraints.*;
-
-import java.time.LocalDateTime;
-
 public class AuthResponse {
 
-    @NotNull(groups = {OnUpdate.class, OnCreate.class})
     private Integer accountId;
-
-    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Size(max = 63)
     private String accountUsername;
-
-    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Pattern(regexp = "ADMIN|FEDERATE-DRIVER|FEDERATE-MANAGER|DEVELOPER|BUSINESS-ANALYST|DATA-ENGINEER|SOFTWARE ENGINEER")
     private String accountRole;
-
-    @Pattern(regexp="ACTIVE|IN-ACTIVE", groups = {OnCreate.class, OnUpdate.class})
     private String accountStatus;
-
-    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Email(groups = {OnCreate.class, OnUpdate.class})
     private String accountEmail;
-
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
-    @Max(value=Integer.MAX_VALUE)
-    private Integer updatedBy;
-
-    public String getAccountEmail() {
-        return accountEmail;
-    }
-
-    public void setAccountEmail(String accountEmail) {
-        this.accountEmail = accountEmail;
-    }
 
     public Integer getAccountId() {
         return accountId;
@@ -46,6 +14,14 @@ public class AuthResponse {
 
     public void setAccountId(Integer accountId) {
         this.accountId = accountId;
+    }
+
+    public String getAccountUsername() {
+        return accountUsername;
+    }
+
+    public void setAccountUsername(String accountUsername) {
+        this.accountUsername = accountUsername;
     }
 
     public String getAccountRole() {
@@ -64,35 +40,11 @@ public class AuthResponse {
         this.accountStatus = accountStatus;
     }
 
-    public String getAccountUsername() {
-        return accountUsername;
+    public String getAccountEmail() {
+        return accountEmail;
     }
 
-    public void setAccountUsername(String accountUsername) {
-        this.accountUsername = accountUsername;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Integer getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(Integer updatedBy) {
-        this.updatedBy = updatedBy;
+    public void setAccountEmail(String accountEmail) {
+        this.accountEmail = accountEmail;
     }
 }

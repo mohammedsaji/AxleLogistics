@@ -1,67 +1,26 @@
 package com.app.logistics.shipment.dto;
 
-import com.app.logistics.common.validations.OnCreate;
-import com.app.logistics.common.validations.OnUpdate;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-
 import java.time.LocalDateTime;
 
 public class ShipmentResponse {
 
-    @NotNull(groups = {OnUpdate.class, OnCreate.class})
     private Integer shippingId;
-
-    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Size(max = 50)
     private String shippingFrom;
-
-    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Size(max = 50)
     private String shippingTo;
-
-    @NotNull(groups = {OnUpdate.class, OnCreate.class})
     private Integer customerId;
-
-    @NotNull(groups = {OnUpdate.class, OnCreate.class})
     private Integer cargoId;
-
-    @NotNull(groups = {OnUpdate.class, OnCreate.class})
     private Integer statusId;
-
-    @NotNull(groups = {OnCreate.class, OnUpdate.class})
     private LocalDateTime deliveryDate;
-
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-    @Max(value = Integer.MAX_VALUE)
     private Integer updatedBy;
 
-    public Integer getCargoId() {
-        return cargoId;
+    public Integer getShippingId() {
+        return shippingId;
     }
 
-    public void setCargoId(Integer cargoId) {
-        this.cargoId = cargoId;
-    }
-
-    public Integer getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
-    }
-
-    public Integer getStatusId() {
-        return statusId;
-    }
-
-    public void setStatusId(Integer statusId) {
-        this.statusId = statusId;
+    public void setShippingId(Integer shippingId) {
+        this.shippingId = shippingId;
     }
 
     public String getShippingFrom() {
@@ -72,20 +31,52 @@ public class ShipmentResponse {
         this.shippingFrom = shippingFrom;
     }
 
-    public Integer getShippingId() {
-        return shippingId;
-    }
-
-    public void setShippingId(Integer shippingId) {
-        this.shippingId = shippingId;
-    }
-
     public String getShippingTo() {
         return shippingTo;
     }
 
     public void setShippingTo(String shippingTo) {
         this.shippingTo = shippingTo;
+    }
+
+    public Integer getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
+    }
+
+    public Integer getCargoId() {
+        return cargoId;
+    }
+
+    public void setCargoId(Integer cargoId) {
+        this.cargoId = cargoId;
+    }
+
+    public Integer getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(Integer statusId) {
+        this.statusId = statusId;
+    }
+
+    public LocalDateTime getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(LocalDateTime deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public LocalDateTime getUpdatedAt() {
@@ -102,21 +93,5 @@ public class ShipmentResponse {
 
     public void setUpdatedBy(Integer updatedBy) {
         this.updatedBy = updatedBy;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getDeliveryDate() {
-        return deliveryDate;
-    }
-
-    public void setDeliveryDate(LocalDateTime deliveryDate) {
-        this.deliveryDate = deliveryDate;
     }
 }

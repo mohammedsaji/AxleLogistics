@@ -2,40 +2,30 @@ package com.app.logistics.operator.dto;
 
 import com.app.logistics.common.validations.OnCreate;
 import com.app.logistics.common.validations.OnUpdate;
-import jakarta.validation.constraints.*;
-
-import java.time.LocalDateTime;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 public class OperatorRequest {
 
     @Null(groups = OnCreate.class)
     @NotNull(groups = OnUpdate.class)
+    @Positive(groups = OnUpdate.class)
     private Integer operatorId;
 
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Size(max = 250)
+    @Size(max = 250, groups = {OnCreate.class, OnUpdate.class})
     private String operatorName;
 
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Size(max = 20)
+    @Size(max = 20, groups = {OnCreate.class, OnUpdate.class})
     private String operatorTransportType;
 
     @NotNull(groups = {OnCreate.class, OnUpdate.class})
+    @Positive(groups = {OnCreate.class, OnUpdate.class})
     private Integer managerId;
-
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
-    @Max(value = Integer.MAX_VALUE)
-    private Integer updatedBy;
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
 
     public Integer getOperatorId() {
         return operatorId;
@@ -67,21 +57,5 @@ public class OperatorRequest {
 
     public void setManagerId(Integer managerId) {
         this.managerId = managerId;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Integer getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(Integer updatedBy) {
-        this.updatedBy = updatedBy;
     }
 }

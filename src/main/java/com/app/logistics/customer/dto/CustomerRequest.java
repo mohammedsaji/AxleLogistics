@@ -2,9 +2,11 @@ package com.app.logistics.customer.dto;
 
 import com.app.logistics.common.validations.OnCreate;
 import com.app.logistics.common.validations.OnUpdate;
-import jakarta.validation.constraints.*;
-
-import java.time.LocalDateTime;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.Size;
 
 public class CustomerRequest {
 
@@ -13,44 +15,17 @@ public class CustomerRequest {
     private Integer customerId;
 
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Size(max = 250)
+    @Size(max = 250, groups = {OnCreate.class, OnUpdate.class})
     private String customerName;
 
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Email(groups = {OnCreate.class, OnUpdate.class}) // Validates email format
-    @Size(max = 280)
+    @Email(groups = {OnCreate.class, OnUpdate.class})
+    @Size(max = 280, groups = {OnCreate.class, OnUpdate.class})
     private String customerEmail;
 
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Size(max = 25)
+    @Size(max = 25, groups = {OnCreate.class, OnUpdate.class})
     private String customerPhoneno;
-
-    private LocalDateTime createdAt;
-    private Integer createdBy;
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Integer getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(Integer createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public String getCustomerEmail() {
-        return customerEmail;
-    }
-
-    public void setCustomerEmail(String customerEmail) {
-        this.customerEmail = customerEmail;
-    }
 
     public Integer getCustomerId() {
         return customerId;
@@ -66,6 +41,14 @@ public class CustomerRequest {
 
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
+    }
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
     }
 
     public String getCustomerPhoneno() {

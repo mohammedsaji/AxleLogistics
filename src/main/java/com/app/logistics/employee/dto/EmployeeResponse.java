@@ -1,69 +1,20 @@
 package com.app.logistics.employee.dto;
 
-import com.app.logistics.auth.entity.Auth;
-import com.app.logistics.common.validations.OnCreate;
-import com.app.logistics.common.validations.OnUpdate;
-import jakarta.validation.constraints.*;
-
 import java.time.LocalDateTime;
 
 public class EmployeeResponse {
 
-    @NotNull(groups = {OnUpdate.class, OnCreate.class})
     private Integer employeeId;
-
-    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Size(max = 250)
     private String employeeName;
-
-    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Size(max = 25)
     private String employeePhoneNo;
-
-    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Size(max = 30)
     private String employeeDepartment;
-
-    @NotNull(groups = OnCreate.class)
     private LocalDateTime employeeJoiningDate;
-
-    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Pattern(regexp = "ACTIVE|IN-ACTIVE")
     private String employeeStatus;
-
-    @NotNull(groups = {OnCreate.class, OnUpdate.class})
-    @Positive
-    @Max(value = Integer.MAX_VALUE)
     private Integer reportingManagerId;
-
-    @NotNull(groups = OnCreate.class)
-    @Positive
-    @Max(value = Integer.MAX_VALUE)
     private Integer accountId;
-
-    private Auth auth;
-
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-    @Max(value = Integer.MAX_VALUE)
     private Integer updatedBy;
-
-    public Integer getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(Integer accountId) {
-        this.accountId = accountId;
-    }
-
-    public String getEmployeeDepartment() {
-        return employeeDepartment;
-    }
-
-    public void setEmployeeDepartment(String employeeDepartment) {
-        this.employeeDepartment = employeeDepartment;
-    }
 
     public Integer getEmployeeId() {
         return employeeId;
@@ -71,14 +22,6 @@ public class EmployeeResponse {
 
     public void setEmployeeId(Integer employeeId) {
         this.employeeId = employeeId;
-    }
-
-    public LocalDateTime getEmployeeJoiningDate() {
-        return employeeJoiningDate;
-    }
-
-    public void setEmployeeJoiningDate(LocalDateTime employeeJoiningDate) {
-        this.employeeJoiningDate = employeeJoiningDate;
     }
 
     public String getEmployeeName() {
@@ -97,6 +40,22 @@ public class EmployeeResponse {
         this.employeePhoneNo = employeePhoneNo;
     }
 
+    public String getEmployeeDepartment() {
+        return employeeDepartment;
+    }
+
+    public void setEmployeeDepartment(String employeeDepartment) {
+        this.employeeDepartment = employeeDepartment;
+    }
+
+    public LocalDateTime getEmployeeJoiningDate() {
+        return employeeJoiningDate;
+    }
+
+    public void setEmployeeJoiningDate(LocalDateTime employeeJoiningDate) {
+        this.employeeJoiningDate = employeeJoiningDate;
+    }
+
     public String getEmployeeStatus() {
         return employeeStatus;
     }
@@ -113,12 +72,12 @@ public class EmployeeResponse {
         this.reportingManagerId = reportingManagerId;
     }
 
-    public Auth getAccountVO() {
-        return auth;
+    public Integer getAccountId() {
+        return accountId;
     }
 
-    public void setAccountVO(Auth auth) {
-        this.auth = auth;
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
     }
 
     public LocalDateTime getCreatedAt() {
