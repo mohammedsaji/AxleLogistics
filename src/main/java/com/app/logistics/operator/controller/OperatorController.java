@@ -1,73 +1,127 @@
 package com.app.logistics.operator.controller;
 
-import com.app.logistics.dto.MessageDTO.ResponseMessageDTO;
-import com.app.logistics.dto.Operator.RQTOperatorDTO;
-import com.app.logistics.dto.Operator.RSPOperatorDTO;
-import com.app.logistics.common.dto.OperatorRequest;
-import com.app.logistics.operator.service.OperatorService;
-import com.app.logistics.authUtils.CustomizedUserDetails;
+import com.app.logistics.auth.authUtils.AuthDetails;
+import com.app.logistics.common.dto.ApiResponse;
 import com.app.logistics.common.validations.OnCreate;
 import com.app.logistics.common.validations.OnUpdate;
+import com.app.logistics.operator.dto.OperatorRequest;
+import com.app.logistics.operator.dto.OperatorResponse;
+import com.app.logistics.operator.service.OperatorService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.List;
+
+@RestController
 @RequestMapping("logistic/operator")
-public class  OperatorController {
+public class OperatorController {
 
     private final OperatorService operatorService;
 
-    public OperatorController(OperatorService operatorService){
+    public OperatorController(OperatorService operatorService) {
         this.operatorService = operatorService;
     }
 
     @GetMapping("/fetch")
-    @ResponseBody
-    public ResponseEntity<RSPOperatorDTO> fetchOperator(@RequestParam Integer operatorId){
-        RSPOperatorDTO result = operatorService.fetchOperator(operatorId);
-        return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
+    public ResponseEntity<ApiResponse<OperatorResponse>> fetchOperator(@RequestParam Integer operatorId) {
+        OperatorResponse result = operatorService.fetchOperator(operatorId);
+
+        ApiResponse<OperatorResponse> apiResponse = new ApiResponse
+                .Builder<OperatorResponse>(true, result)
+                .message("Operator fetched successfully.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @GetMapping("/fetchall")
-    @ResponseBody
-    public ResponseEntity<ResponseMessageDTO> fetchAllOperator(@RequestParam String operatorTransportType, @RequestParam(defaultValue = "1") int pageNo){
-        System.out.println("clicked operator type " + operatorTransportType);
-        ResponseMessageDTO result = operatorService.fetchAllOperator(operatorTransportType, pageNo);
-        return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
+    public ResponseEntity<ApiResponse<List<OperatorResponse>>> fetchAllOperator(
+            @RequestParam String operatorTransportType,
+            @RequestParam(defaultValue = "1") int pageNo) {
+
+        List<OperatorResponse> result = operatorService.fetchAllOperator(operatorTransportType, pageNo);
+
+        ApiResponse<List<OperatorResponse>> apiResponse = new ApiResponse
+                .Builder<List<OperatorResponse>>(true, result)
+                .message("Operator list fetched successfully.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @GetMapping("/fetchByName")
-    public ResponseEntity<RSPOperatorDTO> getOperatorByName(@RequestParam String operatorName) {
-        RSPOperatorDTO result = operatorService.fetchByOperatorName(operatorName);
-        return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
+    public ResponseEntity<ApiResponse<OperatorResponse>> getOperatorByName(@RequestParam String operatorName) {
+        OperatorResponse result = operatorService.fetchByOperatorName(operatorName);
+
+        ApiResponse<OperatorResponse> apiResponse = new ApiResponse
+                .Builder<OperatorResponse>(true, result)
+                .message("Operator fetched successfully.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @PostMapping("/save")
-    @ResponseBody
-    public RSPOperatorDTO saveOperator(@Validated(OnCreate.class) @RequestBody RQTOperatorDTO rqtOperatorDTO, @AuthenticationPrincipal CustomizedUserDetails userDetails){
-        return operatorService.saveOperator(rqtOperatorDTO, userDetails);
+    public ResponseEntity<ApiResponse<OperatorResponse>> saveOperator(
+            @Validated(OnCreate.class) @RequestBody OperatorRequest operatorRequest,
+            @AuthenticationPrincipal AuthDetails authDetails) {
+
+        OperatorResponse result = operatorService.saveOperator(operatorRequest, authDetails);
+
+        ApiResponse<OperatorResponse> apiResponse = new ApiResponse
+                .Builder<OperatorResponse>(true, result)
+                .message("Operator created successfully.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    @ResponseBody
-    public RSPOperatorDTO updateOperator(@Validated(OnUpdate.class) @RequestBody RQTOperatorDTO rqtOperatorDTO, @AuthenticationPrincipal CustomizedUserDetails userDetails){
-        return operatorService.updateOperator(rqtOperatorDTO, userDetails);
+    public ResponseEntity<ApiResponse<OperatorResponse>> updateOperator(
+            @Validated(OnUpdate.class) @RequestBody OperatorRequest operatorRequest,
+            @AuthenticationPrincipal AuthDetails authDetails) {
+
+        OperatorResponse result = operatorService.updateOperator(operatorRequest, authDetails);
+
+        ApiResponse<OperatorResponse> apiResponse = new ApiResponse
+                .Builder<OperatorResponse>(true, result)
+                .message("Operator updated successfully.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{operatorId}")
-    @ResponseBody
-    public ResponseEntity<String> deleteOperator(@PathVariable Integer operatorId){
-        return operatorService.deleteOperator(operatorId);
+    public ResponseEntity<ApiResponse<Void>> deleteOperator(@PathVariable Integer operatorId) {
+        operatorService.deleteOperator(operatorId);
+
+        ApiResponse<Void> apiResponse = new ApiResponse
+                .Builder<Void>(true, null)
+                .message("Operator deleted successfully.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @GetMapping("/plans")
-    @ResponseBody
-    public OperatorRequest fetchCarrierOptions(){
-        return operatorService.fetchCarrierOption();
+    public ResponseEntity<ApiResponse<com.app.logistics.common.dto.OperatorRequest>> fetchCarrierOptions() {
+        com.app.logistics.common.dto.OperatorRequest result = operatorService.fetchCarrierOption();
+
+        ApiResponse<com.app.logistics.common.dto.OperatorRequest> apiResponse = new ApiResponse
+                .Builder<com.app.logistics.common.dto.OperatorRequest>(true, result)
+                .message("Carrier options fetched successfully.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
-
-
 }

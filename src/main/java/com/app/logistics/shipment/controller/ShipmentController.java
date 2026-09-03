@@ -1,19 +1,20 @@
 package com.app.logistics.shipment.controller;
 
-import com.app.logistics.dto.Composite.ShipmentSaveDTO;
-import com.app.logistics.dto.MessageDTO.ResponseMessageDTO;
-import com.app.logistics.dto.Shipment.RSPShipmentDTO;
-import com.app.logistics.shipment.service.ShipmentService;
-import com.app.logistics.authUtils.CustomizedUserDetails;
+import com.app.logistics.auth.authUtils.AuthDetails;
+import com.app.logistics.common.dto.ApiResponse;
 import com.app.logistics.common.validations.OnCreate;
 import com.app.logistics.common.validations.OnUpdate;
+import com.app.logistics.shipment.dto.Composite.ShipmentSaveRequest;
+import com.app.logistics.shipment.dto.ShipmentResponse;
+import com.app.logistics.shipment.service.ShipmentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.List;
+
+@RestController
 @RequestMapping("logistic/shipment")
 public class ShipmentController {
 
@@ -24,35 +25,49 @@ public class ShipmentController {
     }
 
     @GetMapping("/fetchall")
-    @ResponseBody
-    public ResponseEntity<ResponseMessageDTO> fetchAllShipment(@RequestParam int pageNo){
-        ResponseMessageDTO result = shipmentService.fetchAllShipment(pageNo);
-        return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
+    public ResponseEntity<ApiResponse<List<ShipmentResponse>>> fetchAllShipment(@RequestParam int pageNo) {
+        List<ShipmentResponse> result = shipmentService.fetchAllShipment(pageNo);
+        return ResponseEntity.ok(new ApiResponse.Builder<>(true, result)
+                .message("Shipments fetched successfully")
+                .timeStamp()
+                .build());
     }
 
     @PostMapping("/save")
-    @ResponseBody
-    public RSPShipmentDTO saveShipment(@Validated(OnCreate.class) @RequestBody ShipmentSaveDTO shipmentSaveDTO, @AuthenticationPrincipal CustomizedUserDetails userDetails){
-        return shipmentService.saveShipment(shipmentSaveDTO,userDetails);
+    public ResponseEntity<ApiResponse<ShipmentResponse>> saveShipment(@Validated(OnCreate.class) @RequestBody ShipmentSaveRequest shipmentSaveRequest,
+                                                                      @AuthenticationPrincipal AuthDetails userDetails) {
+        ShipmentResponse result = shipmentService.saveShipment(shipmentSaveRequest, userDetails);
+        return ResponseEntity.ok(new ApiResponse.Builder<>(true, result)
+                .message("Shipment created successfully")
+                .timeStamp()
+                .build());
     }
 
     @PutMapping("/update")
-    @ResponseBody
-    public RSPShipmentDTO updateShipment(@Validated(OnUpdate.class) @RequestBody ShipmentSaveDTO shipmentSaveDTO, @AuthenticationPrincipal CustomizedUserDetails userDetails){
-        return shipmentService.updateShipment(shipmentSaveDTO,userDetails);
+    public ResponseEntity<ApiResponse<ShipmentResponse>> updateShipment(@Validated(OnUpdate.class) @RequestBody ShipmentSaveRequest shipmentSaveRequest,
+                                                                        @AuthenticationPrincipal AuthDetails userDetails) {
+        ShipmentResponse result = shipmentService.updateShipment(shipmentSaveRequest, userDetails);
+        return ResponseEntity.ok(new ApiResponse.Builder<>(true, result)
+                .message("Shipment updated successfully")
+                .timeStamp()
+                .build());
     }
 
     @GetMapping("/fetch")
-    @ResponseBody
-    public ResponseEntity<RSPShipmentDTO> fetchShipment(@RequestParam Integer shipmentId){
-        RSPShipmentDTO result = shipmentService.fetchShipment(shipmentId);
-        return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
+    public ResponseEntity<ApiResponse<ShipmentResponse>> fetchShipment(@RequestParam Integer shipmentId) {
+        ShipmentResponse result = shipmentService.fetchShipment(shipmentId);
+        return ResponseEntity.ok(new ApiResponse.Builder<>(true, result)
+                .message("Shipment fetched successfully")
+                .timeStamp()
+                .build());
     }
 
     @GetMapping("/fetchbyid")
-    @ResponseBody
-    public ResponseEntity<RSPShipmentDTO> fetchByShipmentId(@RequestParam Integer shipmentId){
-        RSPShipmentDTO result = shipmentService.fetchByShipmentId(shipmentId);
-        return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
+    public ResponseEntity<ApiResponse<ShipmentResponse>> fetchByShipmentId(@RequestParam Integer shipmentId) {
+        ShipmentResponse result = shipmentService.fetchByShipmentId(shipmentId);
+        return ResponseEntity.ok(new ApiResponse.Builder<>(true, result)
+                .message("Shipment fetched successfully")
+                .timeStamp()
+                .build());
     }
 }

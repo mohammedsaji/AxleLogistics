@@ -1,6 +1,7 @@
 package com.app.logistics.shipment.entity;
 
 import com.app.logistics.cargo.entity.Cargo;
+import com.app.logistics.common.entity.BaseEntity;
 import com.app.logistics.common.validations.OnCreate;
 import com.app.logistics.common.validations.OnUpdate;
 import com.app.logistics.customer.entity.Customer;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
         @Index( name="IDX_SHIPPNG_INFO_SHIPPNG_CRGO_ID", columnList="SHIPPNG_CRGO_ID"),
         @Index( name="IDX_SHIPPNG_INFO_CUSTMER_USR_ID" , columnList="CUSTMER_USR_ID")
 })
-public class Shipment {
+public class Shipment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shipping-info-seq_gen")
@@ -81,12 +82,6 @@ public class Shipment {
     @Column(name="EXPECTED_DELIVERY_DATE")
     private LocalDateTime deliveryDate;
 
-    @Column(name="CREATED_AT")
-    private LocalDateTime createdAt;
-
-    @Column(name="UPDATED_AT")
-    private LocalDateTime updatedAt;
-
     @Column(name = "UPDATED_BY")
     @Positive(groups = {OnCreate.class, OnUpdate.class})
     @Max(value = Integer.MAX_VALUE, groups = {OnCreate.class, OnUpdate.class})
@@ -116,28 +111,12 @@ public class Shipment {
         this.shippingTo = shippingTo;
     }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     public Integer getUpdatedBy() {
         return updatedBy;
     }
 
     public void setUpdatedBy(Integer updatedBy) {
         this.updatedBy = updatedBy;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
     }
 
     public LocalDateTime getDeliveryDate() {

@@ -1,62 +1,84 @@
 package com.app.logistics.employee.controller;
 
 import com.app.logistics.auth.authUtils.AuthDetails;
+import com.app.logistics.common.dto.ApiResponse;
+import com.app.logistics.common.validations.OnCreate;
 import com.app.logistics.employee.dto.EmployeeRequest;
 import com.app.logistics.employee.dto.EmployeeResponse;
-import com.app.logistics.dto.MessageDTO.ResponseMessageDTO;
 import com.app.logistics.employee.service.EmployeeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("logistic/employee")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeService employeeService){
+    public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
     @GetMapping("/fetch")
-    @ResponseBody
-    public ResponseEntity<EmployeeResponse> fetchEmployee(@RequestParam Integer employeeId){
+    public ResponseEntity<ApiResponse<EmployeeResponse>> fetchEmployee(@RequestParam Integer employeeId) {
         EmployeeResponse result = employeeService.fetchEmployee(employeeId);
-        return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
+
+        ApiResponse<EmployeeResponse> apiResponse = new ApiResponse
+                .Builder<EmployeeResponse>(true, result)
+                .message("Employee fetched successfully.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @GetMapping("/fetchall")
-    @ResponseBody
-    public ResponseMessageDTO fetchAllEmployee(@RequestParam int pageNo){
-        return employeeService.fetchAllEmployee(pageNo);
+    public ResponseEntity<ApiResponse<List<EmployeeResponse>>> fetchAllEmployee(
+            @RequestParam(defaultValue = "1") int pageNo) {
+
+        List<EmployeeResponse> result = employeeService.fetchAllEmployee(pageNo);
+
+        ApiResponse<List<EmployeeResponse>> apiResponse = new ApiResponse
+                .Builder<List<EmployeeResponse>>(true, result)
+                .message("Employee list fetched successfully.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @GetMapping("/fetchByName")
-    @ResponseBody
-    public ResponseEntity<EmployeeResponse> fetchByEmployeeName(@RequestParam String employeeName) {
+    public ResponseEntity<ApiResponse<EmployeeResponse>> fetchByEmployeeName(@RequestParam String employeeName) {
         EmployeeResponse result = employeeService.fetchByEmployeeName(employeeName);
-        return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
+
+        ApiResponse<EmployeeResponse> apiResponse = new ApiResponse
+                .Builder<EmployeeResponse>(true, result)
+                .message("Employee fetched successfully.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-
     @PostMapping("/save")
-    @ResponseBody
-    public ResponseEntity<String> saveEmployee(@RequestBody Map<String,Object> employeeDetails, @AuthenticationPrincipal AuthDetails authDetails) throws IOException {
+    public ResponseEntity<ApiResponse<EmployeeResponse>> saveEmployee(
+            @Validated(OnCreate.class) @RequestBody EmployeeRequest employeeRequest,
+            @RequestParam String accountUserName,
+            @AuthenticationPrincipal AuthDetails authDetails) {
 
-        EmployeeRequest employeeRequest = new EmployeeRequest();
-        employeeRequest.setEmployeeName(employeeDetails.get("employeeName").toString());
-        employeeRequest.setEmployeePhoneNo(employeeDetails.get("employeePhoneNo").toString());
-        employeeRequest.setEmployeeDepartment(employeeDetails.get("employeeDepartment").toString());
-        employeeRequest.setReportingManagerId(Integer.valueOf(employeeDetails.get("reportingManagerId").toString()));
-        employeeRequest.setEmployeeStatus(employeeDetails.get("employeeStatus").toString());
+        EmployeeResponse result = employeeService.saveEmployee(employeeRequest, accountUserName, authDetails);
 
-        String username = employeeDetails.get("accountUserName").toString();
+        ApiResponse<EmployeeResponse> apiResponse = new ApiResponse
+                .Builder<EmployeeResponse>(true, result)
+                .message("Employee created successfully.")
+                .timeStamp()
+                .build();
 
-        return employeeService.saveEmployee(employeeRequest,username,authDetails);
+        return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
 }

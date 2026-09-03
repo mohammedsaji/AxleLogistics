@@ -1,13 +1,14 @@
 package com.app.logistics.manager.service;
 
-import com.app.logistics.auth.service.AuthService;
-import com.app.logistics.dto.Manager.RQTManagerDTO;
-import com.app.logistics.dto.Manager.RSPManagerDTO;
-import com.app.logistics.dto.MessageDTO.ResponseMessageDTO;
-import com.app.logistics.manager.repo.ManagerRepo;
-import com.app.logistics.authUtils.CustomizedUserDetails;
+import com.app.logistics.auth.authUtils.AuthDetails;
 import com.app.logistics.auth.entity.Auth;
+import com.app.logistics.auth.service.AuthService;
+import com.app.logistics.common.exception.APIException;
+import com.app.logistics.manager.dto.ManagerRequest;
+import com.app.logistics.manager.dto.ManagerResponse;
 import com.app.logistics.manager.entity.Manager;
+import com.app.logistics.manager.repo.ManagerRepo;
+import com.app.logistics.manager.utils.ManagerMapper;
 import com.app.logistics.operator.entity.Operator;
 import com.app.logistics.operator.service.OperatorService;
 import org.springframework.context.annotation.Lazy;
@@ -15,150 +16,113 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ManagerService {
 
     private final ManagerRepo managerRepo;
-
+    private final ManagerMapper managerMapper;
     private final OperatorService operatorService;
-
     private final AuthService authService;
 
     public ManagerService(ManagerRepo managerRepo,
+                          ManagerMapper managerMapper,
                           @Lazy OperatorService operatorService,
-                          @Lazy AuthService authService){
+                          @Lazy AuthService authService) {
         this.managerRepo = managerRepo;
+        this.managerMapper = managerMapper;
         this.operatorService = operatorService;
         this.authService = authService;
     }
 
-    public Manager dtoToVOConverter(String action, RQTManagerDTO rqtManagerDTO, CustomizedUserDetails userDetails){
-        if (action == null || rqtManagerDTO == null || userDetails == null) {
-            return new Manager();
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public ManagerResponse saveManager(ManagerRequest managerRequest, String username, AuthDetails authDetails) {
+        if (managerRequest == null || username == null || authDetails == null) {
+            throw new APIException("Required metadata or payload context is missing", HttpStatus.BAD_REQUEST);
         }
 
-        Manager manager = new Manager();
-        if(action.equalsIgnoreCase("Update")){
-            manager.setManagerId(rqtManagerDTO.getManagerId());
-        }
-        manager.setManagerName(rqtManagerDTO.getManagerName());
-        manager.setManagerContactNo(rqtManagerDTO.getManagerContactNo());
-        manager.setManagerStatus(rqtManagerDTO.getManagerStatus());
-        if(action.equalsIgnoreCase("Save")) {
-            manager.setCreatedAt(LocalDateTime.now());
-        }else{
-            manager.setCreatedAt(rqtManagerDTO.getCreatedAt());
-        }
-        manager.setUpdatedAt(LocalDateTime.now());
-        manager.setUpdatedBy(userDetails.getEmployeeId());
-        return manager;
-    }
+        Auth linkedAuth = authService.saveUser(username);
 
-    public RSPManagerDTO voToDTOConverter(Manager manager){
-        if (manager == null) {
-            return new RSPManagerDTO();
-        }
-        RSPManagerDTO rspManagerDTO = new RSPManagerDTO();
-        rspManagerDTO.setManagerId(manager.getManagerId());
-        rspManagerDTO.setManagerName(manager.getManagerName());
-        rspManagerDTO.setManagerStatus(manager.getManagerStatus());
-        rspManagerDTO.setManagerContactNo(manager.getManagerContactNo());
-        rspManagerDTO.setCreatedAt(manager.getCreatedAt());
-        rspManagerDTO.setUpdatedAt(manager.getUpdatedAt());
-        rspManagerDTO.setUpdatedBy(manager.getUpdatedBy());
-        return rspManagerDTO;
-    }
-
-    @Transactional (propagation = Propagation.REQUIRES_NEW)
-    public ResponseEntity<String> saveManager(RQTManagerDTO rqtManagerDTO, String username, CustomizedUserDetails userDetails){
-
-        Auth savedAuth =  authService.saveUser(username);
-
-        if(savedAuth != null){
-
-            Manager savingManager = dtoToVOConverter("Save", rqtManagerDTO, userDetails);
-            savingManager.setAccountVO(savedAuth);
-
-            Operator getOperator = operatorService.internalFetchService(rqtManagerDTO.getOperatorId());
-            if(getOperator != null && getOperator.getOperatorId() > 0){
-                savingManager.setOperatorVO(getOperator);
-            }else{
-                return ResponseEntity.status(400).body("Error: Operator ID " + rqtManagerDTO.getOperatorId() + " does not exist in the system.");
-            }
-
-            Manager savedManager = managerRepo.save(savingManager);
-
-            if(savedManager.getManagerId() != null && savedManager.getManagerId() > 0){
-                return ResponseEntity.status(200).body("Account created Successfully.");
-            }else{
-                return ResponseEntity.status(400).body("Invalid or Bad Request");
-            }
+        Operator operator = operatorService.internalFetchService(managerRequest.getOperatorId());
+        if (operator == null) {
+            throw new APIException("Operator ID " + managerRequest.getOperatorId() + " does not exist in the system.", HttpStatus.BAD_REQUEST);
         }
 
-        return ResponseEntity.status(500).body("Internal server error");
+        Manager savingManager = managerMapper.toVO(managerRequest);
+        savingManager.setAccountVO(linkedAuth);
+        savingManager.setOperatorVO(operator);
+        savingManager.setUpdatedBy(authDetails.getEmployeeId());
+
+        Manager savedManager = managerRepo.save(savingManager);
+        return managerMapper.toDTO(savedManager);
     }
 
     @Transactional(readOnly = true)
-    public ResponseMessageDTO fetchAllManager(Integer operatorId, int pageNo) {
+    public List<ManagerResponse> fetchAllManager(Integer operatorId, int pageNo) {
         if (pageNo < 1) {
             pageNo = 1;
         }
         int elementCount = 10;
-        Pageable pageable = PageRequest.of(pageNo-1,elementCount,Sort.by("managerId"));
+        Pageable pageable = PageRequest.of(pageNo - 1, elementCount, Sort.by("managerId"));
         Page<Manager> page = managerRepo.findByOperatorVO_OperatorId(operatorId, pageable);
-        List<Manager> managerList = page.getContent();
-        List<RSPManagerDTO> rspManagerDTOList = new ArrayList<>();
 
-        for(Manager manager : managerList){
-            rspManagerDTOList.add(voToDTOConverter(manager));
-        }
-        ResponseMessageDTO responseMessageDTO = new ResponseMessageDTO();
-        responseMessageDTO.setStatusCode(200);
-        responseMessageDTO.setValue("ManagerList",rspManagerDTOList);
-        responseMessageDTO.setValue("TotalPages",page.getTotalPages());
-        responseMessageDTO.setValue("TotalElements",page.getTotalElements());
-        return responseMessageDTO;
+        return page.getContent().stream()
+                .map(managerMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
-    public ResponseEntity<String> deleteManager(RQTManagerDTO rqtManagerDTO) {
-        if (rqtManagerDTO == null || rqtManagerDTO.getManagerId() == null) {
-            return ResponseEntity.status(400).body("Manager ID parameter cannot be null");
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void deleteManager(Integer managerId) {
+        if (managerId == null) {
+            throw new APIException("Manager ID parameter cannot be null", HttpStatus.BAD_REQUEST);
         }
-        managerRepo.deleteById(rqtManagerDTO.getManagerId());
-        return ResponseEntity.status(200).body("Manager deleted successfully.");
+        if (!managerRepo.existsById(managerId)) {
+            throw new APIException("Manager not found for ID: " + managerId, HttpStatus.NOT_FOUND);
+        }
+        managerRepo.deleteById(managerId);
     }
 
-    public RSPManagerDTO updateManager(RQTManagerDTO rqtManagerDTO, CustomizedUserDetails userDetails) {
-        if (rqtManagerDTO == null) {
-            return new RSPManagerDTO();
+    @Transactional(propagation = Propagation.REQUIRED)
+    public ManagerResponse updateManager(ManagerRequest managerRequest, AuthDetails authDetails) {
+        if (managerRequest == null) {
+            throw new APIException("Manager request data payload cannot be null", HttpStatus.BAD_REQUEST);
         }
-        Manager mutatedManager = dtoToVOConverter("Update", rqtManagerDTO, userDetails);
+
+        Operator operator = operatorService.internalFetchService(managerRequest.getOperatorId());
+        if (operator == null) {
+            throw new APIException("Operator ID " + managerRequest.getOperatorId() + " does not exist in the system.", HttpStatus.BAD_REQUEST);
+        }
+
+        Manager mutatedManager = managerMapper.toVO(managerRequest);
+        mutatedManager.setOperatorVO(operator);
+        if (authDetails != null) {
+            mutatedManager.setUpdatedBy(authDetails.getEmployeeId());
+        }
+
         activeManagerOneness(mutatedManager);
         Manager updatedManager = managerRepo.save(mutatedManager);
-        return voToDTOConverter(updatedManager);
+        return managerMapper.toDTO(updatedManager);
     }
 
-    @Transactional ( propagation = Propagation.REQUIRED )
-    public void activeManagerOneness(Manager mutatedManager){
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void activeManagerOneness(Manager mutatedManager) {
         if (mutatedManager == null || mutatedManager.getOperatorVO() == null || mutatedManager.getOperatorVO().getOperatorId() == null) {
             return;
         }
         List<Manager> managerList = managerRepo.findByOperatorVO_OperatorId(mutatedManager.getOperatorVO().getOperatorId());
 
-        for(Manager manager : managerList){
-            if(manager.getManagerId() != null && manager.getManagerId().equals(mutatedManager.getManagerId())){
+        for (Manager manager : managerList) {
+            if (manager.getManagerId() != null && manager.getManagerId().equals(mutatedManager.getManagerId())) {
                 manager.setManagerStatus("ACTIVE");
                 mutatedManager.setManagerStatus("ACTIVE");
-            }else{
+            } else {
                 manager.setManagerStatus("IN_ACTIVE");
             }
         }
@@ -166,21 +130,24 @@ public class ManagerService {
     }
 
     @Transactional(readOnly = true)
-    public RSPManagerDTO fetchManager(Integer managerId) {
-        Manager fetchManager = managerRepo.findById(managerId).orElse(null);
-        return voToDTOConverter(fetchManager);
+    public ManagerResponse fetchManager(Integer managerId) {
+        if (managerId == null) {
+            throw new APIException("Manager ID cannot be null", HttpStatus.BAD_REQUEST);
+        }
+        Manager manager = managerRepo.findById(managerId)
+                .orElseThrow(() -> new APIException("Manager not found for ID: " + managerId, HttpStatus.NOT_FOUND));
+        return managerMapper.toDTO(manager);
     }
 
     @Transactional(readOnly = true)
-    public RSPManagerDTO fetchByManagerName(String managerName) {
+    public ManagerResponse fetchByManagerName(String managerName) {
         if (managerName == null || managerName.trim().isEmpty()) {
-            return new RSPManagerDTO();
+            throw new APIException("Manager name cannot be empty", HttpStatus.BAD_REQUEST);
         }
-
-        Manager fetchManager = managerRepo.findByManagerName(managerName);
-        if(fetchManager != null){
-            return voToDTOConverter(fetchManager);
+        Manager manager = managerRepo.findByManagerName(managerName);
+        if (manager == null) {
+            throw new APIException("Manager not found for name: " + managerName, HttpStatus.NOT_FOUND);
         }
-        return null;
+        return managerMapper.toDTO(manager);
     }
 }

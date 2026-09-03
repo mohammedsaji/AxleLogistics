@@ -1,17 +1,17 @@
 package com.app.logistics.shipmentStatus.controller;
 
-import com.app.logistics.dto.ShipmentStatus.RQTShipmentStatusDTO;
-import com.app.logistics.dto.ShipmentStatus.RSPShipmentStatusDTO;
-import com.app.logistics.shipmentStatus.service.ShipmentStatusService;
-import com.app.logistics.authUtils.CustomizedUserDetails;
+import com.app.logistics.auth.authUtils.AuthDetails;
+import com.app.logistics.common.dto.ApiResponse;
 import com.app.logistics.common.validations.OnCreate;
+import com.app.logistics.shipmentStatus.dto.ShipmentStatusResponse;
+import com.app.logistics.shipmentStatus.dto.ShipmentStatusRequest;
+import com.app.logistics.shipmentStatus.service.ShipmentStatusService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("logistic/status")
 public class ShipmentStatusController {
 
@@ -22,15 +22,21 @@ public class ShipmentStatusController {
     }
 
     @GetMapping("/fetch")
-    @ResponseBody
-    public ResponseEntity<RSPShipmentStatusDTO> fetchSpecificStatus(@RequestBody RQTShipmentStatusDTO rqtShipmentStatusDTO){
-        RSPShipmentStatusDTO result = shipmentStatusService.fetchStatus(rqtShipmentStatusDTO);
-        return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
+    public ResponseEntity<ApiResponse<ShipmentStatusResponse>> fetchSpecificStatus(@RequestParam Integer shippingStatusId){
+        ShipmentStatusResponse result = shipmentStatusService.fetchStatus(shippingStatusId);
+        return ResponseEntity.ok(new ApiResponse.Builder<>(true, result)
+                .message("Shipment status fetched successfully")
+                .timeStamp()
+                .build());
     }
 
     @PutMapping("/update")
-    @ResponseBody
-    public RSPShipmentStatusDTO updateStatus(@Validated(OnCreate.class) @RequestBody RQTShipmentStatusDTO rqtShipmentStatusDTO, @AuthenticationPrincipal CustomizedUserDetails userDetails){
-        return shipmentStatusService.updateStatus(rqtShipmentStatusDTO,userDetails);
+    public ResponseEntity<ApiResponse<ShipmentStatusResponse>> updateStatus(@Validated(OnCreate.class) @RequestBody ShipmentStatusRequest shipmentStatusRequest,
+                                                                            @AuthenticationPrincipal AuthDetails userDetails){
+        ShipmentStatusResponse result = shipmentStatusService.updateStatus(shipmentStatusRequest, userDetails);
+        return ResponseEntity.ok(new ApiResponse.Builder<>(true, result)
+                .message("Shipment status updated successfully")
+                .timeStamp()
+                .build());
     }
 }

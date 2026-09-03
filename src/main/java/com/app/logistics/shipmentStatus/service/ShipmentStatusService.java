@@ -1,20 +1,23 @@
 package com.app.logistics.shipmentStatus.service;
 
+import com.app.logistics.auth.authUtils.AuthDetails;
 import com.app.logistics.cargo.entity.Cargo;
 import com.app.logistics.cargo.service.CargoService;
+import com.app.logistics.common.exception.APIException;
 import com.app.logistics.driver.entity.Driver;
 import com.app.logistics.driver.service.DriverService;
-import com.app.logistics.dto.ShipmentStatus.RQTShipmentStatusDTO;
-import com.app.logistics.dto.ShipmentStatus.RSPShipmentStatusDTO;
 import com.app.logistics.operator.entity.Operator;
 import com.app.logistics.operator.service.OperatorService;
+import com.app.logistics.shipmentStatus.dto.ShipmentStatusRequest;
+import com.app.logistics.shipmentStatus.dto.ShipmentStatusResponse;
 import com.app.logistics.shipmentStatus.entity.ShipmentStatus;
 import com.app.logistics.shipmentStatus.repo.StatusRepo;
-import com.app.logistics.authUtils.CustomizedUserDetails;
+import com.app.logistics.shipmentStatus.utils.ShipmentStatusMapper;
 import com.app.logistics.shipmentStatusLog.service.ShipmentStatusLogService;
 import com.app.logistics.vehicle.entity.Vehicle;
 import com.app.logistics.vehicle.service.VehicleService;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,102 +33,82 @@ public class ShipmentStatusService {
     private final OperatorService operatorService;
     private final DriverService driverService;
     private final VehicleService vehicleService;
+    private final ShipmentStatusMapper shipmentStatusMapper;
 
     public ShipmentStatusService(StatusRepo statusRepo,
                                  @Lazy ShipmentStatusLogService shipmentStatusLogService,
                                  CargoService cargoService,
                                  OperatorService operatorService,
                                  DriverService driverService,
-                                 VehicleService vehicleService){
+                                 VehicleService vehicleService,
+                                 ShipmentStatusMapper shipmentStatusMapper){
         this.statusRepo = statusRepo;
         this.shipmentStatusLogService = shipmentStatusLogService;
         this.cargoService = cargoService;
         this.operatorService = operatorService;
         this.driverService = driverService;
         this.vehicleService = vehicleService;
+        this.shipmentStatusMapper = shipmentStatusMapper;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public ShipmentStatus saveShipmentStatus(Cargo cargo,
-                                             Operator operator,
+    public ShipmentStatus saveShipmentStatus(Operator operator,
                                              Driver driver,
                                              Vehicle vehicleVO,
-                                             CustomizedUserDetails userDetails,
-                                             RQTShipmentStatusDTO rqtShipmentStatusDTO){
-        if (rqtShipmentStatusDTO == null || userDetails == null) {
-            throw new IllegalArgumentException("Payload request and user context are required for creating status tracking states");
+                                             Cargo cargo,
+                                             Integer updatedBy,
+                                             ShipmentStatusRequest shipmentStatusRequest){
+        if (shipmentStatusRequest == null || updatedBy == null) {
+            throw new APIException("Payload request and user context are required for creating status tracking states", HttpStatus.BAD_REQUEST);
         }
-        ShipmentStatus savingShipmentStatus = dtoToVOConverter("Save",rqtShipmentStatusDTO, operator, driver,vehicleVO,userDetails);
+        ShipmentStatus savingShipmentStatus = shipmentStatusMapper.toVO(shipmentStatusRequest);
+        savingShipmentStatus.setShippingOperatorVO(operator);
+        savingShipmentStatus.setShippingDriverVO(driver);
+        savingShipmentStatus.setShippingVehicleVO(vehicleVO);
+        savingShipmentStatus.setUpdatedAt(LocalDateTime.now());
+        savingShipmentStatus.setUpdatedby(updatedBy);
+
         ShipmentStatus savedShipmentStatus = statusRepo.save(savingShipmentStatus);
-        shipmentStatusLogService.saveStatusLog(savedShipmentStatus);
+        shipmentStatusLogService.saveStatusLog(savedShipmentStatus, cargo);
         return savedShipmentStatus;
     }
 
-    public RSPShipmentStatusDTO fetchStatus(RQTShipmentStatusDTO rqtShipmentStatusDTO) {
-        if (rqtShipmentStatusDTO == null || rqtShipmentStatusDTO.getShippingStatusId() == null) {
-            return new RSPShipmentStatusDTO();
-        }
-        ShipmentStatus fetchedShipmentStatus = statusRepo.findById(rqtShipmentStatusDTO.getShippingStatusId()).orElse(new ShipmentStatus());
-        return voTODTOConverter(fetchedShipmentStatus);
+    @Transactional(readOnly = true)
+    public ShipmentStatusResponse fetchStatus(Integer shippingStatusId) {
+        ShipmentStatus fetchedShipmentStatus = statusRepo.findById(shippingStatusId)
+                .orElseThrow(() -> new APIException("Shipment status not found for ID: " + shippingStatusId, HttpStatus.NOT_FOUND));
+        return shipmentStatusMapper.toDTO(fetchedShipmentStatus);
     }
 
-    public ShipmentStatus dtoToVOConverter(String action,
-                                           RQTShipmentStatusDTO rqtShipmentStatusDTO,
-                                           Operator operator,
-                                           Driver driver,
-                                           Vehicle vehicleVO,
-                                           CustomizedUserDetails userDetails){
-        if (action == null || rqtShipmentStatusDTO == null || userDetails == null) {
-            return new ShipmentStatus();
+    @Transactional(propagation = Propagation.REQUIRED)
+    public ShipmentStatusResponse updateStatus(ShipmentStatusRequest shipmentStatusRequest, AuthDetails userDetails) {
+        if (shipmentStatusRequest == null || userDetails == null) {
+            throw new APIException("Payload request and user context are required for updating status tracking states", HttpStatus.BAD_REQUEST);
         }
-        ShipmentStatus shipmentStatus = new ShipmentStatus();
-        if(action.equalsIgnoreCase("Update")){
-            shipmentStatus.setShippingStatusId(rqtShipmentStatusDTO.getShippingStatusId());
-        }
-        shipmentStatus.setShippingStatus(rqtShipmentStatusDTO.getShippingStatus());
-        shipmentStatus.setCurrentLocation(rqtShipmentStatusDTO.getCurrentLocation());
-        shipmentStatus.setShippingOperatorVO(operator);
-        shipmentStatus.setShippingDriverVO(driver);
-        shipmentStatus.setShippingVehicleVO(vehicleVO);
-        shipmentStatus.setUpdatedAt(LocalDateTime.now());
-        shipmentStatus.setUpdatedby(userDetails.getEmployeeId());
 
-        return shipmentStatus;
-    }
+        Operator getOperator = operatorService.internalFetchService(shipmentStatusRequest.getOperatorId());
+        if (getOperator == null) {
+            throw new APIException("Operator not found for ID: " + shipmentStatusRequest.getOperatorId(), HttpStatus.NOT_FOUND);
+        }
 
-    public RSPShipmentStatusDTO voTODTOConverter(ShipmentStatus shipmentStatus){
-        if (shipmentStatus == null) {
-            return new RSPShipmentStatusDTO();
-        }
-        RSPShipmentStatusDTO rspShipmentStatusDTO = new RSPShipmentStatusDTO();
-        rspShipmentStatusDTO.setShippingStatusId(shipmentStatus.getShippingStatusId());
-        rspShipmentStatusDTO.setShippingStatus(shipmentStatus.getShippingStatus());
-        rspShipmentStatusDTO.setCurrentLocation(shipmentStatus.getCurrentLocation());
-        if (shipmentStatus.getShippingOperatorVO() != null) {
-            rspShipmentStatusDTO.setOperatorId(shipmentStatus.getShippingOperatorVO().getOperatorId());
-        }
-        if (shipmentStatus.getShippingDriverVO() != null) {
-            rspShipmentStatusDTO.setDriverId(shipmentStatus.getShippingDriverVO().getDriverId());
-        }
-        if (shipmentStatus.getShippingVehicleVO() != null) {
-            rspShipmentStatusDTO.setVehicleId(shipmentStatus.getShippingVehicleVO().getVehicleId());
-        }
-        rspShipmentStatusDTO.setUpdatedAt(shipmentStatus.getUpdatedAt());
-        rspShipmentStatusDTO.setUpdatedby(shipmentStatus.getUpdatedby());
+        Driver getDriver = driverService.internalFetchService(shipmentStatusRequest.getDriverId());
 
-        return rspShipmentStatusDTO;
-    }
-
-    public RSPShipmentStatusDTO updateStatus(RQTShipmentStatusDTO rqtShipmentStatusDTO, CustomizedUserDetails userDetails) {
-        if (rqtShipmentStatusDTO == null) {
-            return new RSPShipmentStatusDTO();
+        Vehicle getVehicleVO = vehicleService.internalFetchService(shipmentStatusRequest.getVehicleId());
+        if (getVehicleVO == null || getVehicleVO.getVehicleId() == null) {
+            throw new APIException("Vehicle not found for ID: " + shipmentStatusRequest.getVehicleId(), HttpStatus.NOT_FOUND);
         }
-        Operator getOperator = operatorService.internalFetchService(rqtShipmentStatusDTO.getOperatorId());
-        Driver getDriver = driverService.internalFetchService(rqtShipmentStatusDTO.getDriverId());
-        Vehicle getVehicleVO = vehicleService.internalFetchService(rqtShipmentStatusDTO.getVehicleId());
-        ShipmentStatus mutatedShipmentStatus = dtoToVOConverter("Update", rqtShipmentStatusDTO, getOperator, getDriver, getVehicleVO, userDetails);
+
+        Cargo getCargo = cargoService.internalFetchService(shipmentStatusRequest.getCargoId());
+
+        ShipmentStatus mutatedShipmentStatus = shipmentStatusMapper.toVO(shipmentStatusRequest);
+        mutatedShipmentStatus.setShippingOperatorVO(getOperator);
+        mutatedShipmentStatus.setShippingDriverVO(getDriver);
+        mutatedShipmentStatus.setShippingVehicleVO(getVehicleVO);
+        mutatedShipmentStatus.setUpdatedAt(LocalDateTime.now());
+        mutatedShipmentStatus.setUpdatedby(userDetails.getEmployeeId());
+
         ShipmentStatus updatedShipmentStatus = statusRepo.save(mutatedShipmentStatus);
-        shipmentStatusLogService.saveStatusLog(updatedShipmentStatus);
-        return voTODTOConverter(updatedShipmentStatus);
+        shipmentStatusLogService.saveStatusLog(updatedShipmentStatus, getCargo);
+        return shipmentStatusMapper.toDTO(updatedShipmentStatus);
     }
 }

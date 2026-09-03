@@ -1,64 +1,114 @@
 package com.app.logistics.vehicle.controller;
 
-import com.app.logistics.dto.MessageDTO.ResponseMessageDTO;
-import com.app.logistics.dto.Vehicle.RQTVehicleDTO;
-import com.app.logistics.dto.Vehicle.RSPVehicleDTO;
-import com.app.logistics.vehicle.service.VehicleService;
-import com.app.logistics.authUtils.CustomizedUserDetails;
+import com.app.logistics.auth.authUtils.AuthDetails;
+import com.app.logistics.common.dto.ApiResponse;
 import com.app.logistics.common.validations.OnCreate;
 import com.app.logistics.common.validations.OnUpdate;
+import com.app.logistics.vehicle.dto.VehicleRequest;
+import com.app.logistics.vehicle.dto.VehicleResponse;
+import com.app.logistics.vehicle.service.VehicleService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.List;
+
+@RestController
 @RequestMapping("logistic/vehicle")
 public class VehicleController {
 
     private final VehicleService vehicleService;
 
-    public VehicleController(VehicleService vehicleService){
+    public VehicleController(VehicleService vehicleService) {
         this.vehicleService = vehicleService;
     }
 
     @GetMapping("/fetch")
-    @ResponseBody
-    public ResponseEntity<RSPVehicleDTO> fetchVehicle(@RequestParam Integer driverId){
-        RSPVehicleDTO result = vehicleService.fetchVehicle(driverId);
-        return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
+    public ResponseEntity<ApiResponse<VehicleResponse>> fetchVehicle(@RequestParam Integer vehicleId) {
+        VehicleResponse result = vehicleService.fetchVehicle(vehicleId);
+
+        ApiResponse<VehicleResponse> apiResponse = new ApiResponse
+                .Builder<VehicleResponse>(true, result)
+                .message("Vehicle fetched successfully.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @GetMapping("/fetchall")
-    @ResponseBody
-    public ResponseEntity<ResponseMessageDTO> fetchAllVehicle(@RequestParam Integer vehicleId, @RequestParam(defaultValue = "1") int pageNo){
-        ResponseMessageDTO result = vehicleService.fetchAllVehicle(vehicleId,pageNo);
-        return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
+    public ResponseEntity<ApiResponse<List<VehicleResponse>>> fetchAllVehicle(
+            @RequestParam Integer operatorId,
+            @RequestParam(defaultValue = "1") int pageNo) {
+
+        List<VehicleResponse> result = vehicleService.fetchAllVehicle(operatorId, pageNo);
+
+        ApiResponse<List<VehicleResponse>> apiResponse = new ApiResponse
+                .Builder<List<VehicleResponse>>(true, result)
+                .message("Vehicle list fetched successfully.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @PostMapping("/save")
-    @ResponseBody
-    public RSPVehicleDTO saveVehicle(@Validated(OnCreate.class) @RequestBody RQTVehicleDTO rqtVehicleDTO, @AuthenticationPrincipal CustomizedUserDetails userDetails){
-        return vehicleService.saveVehicle(rqtVehicleDTO, userDetails);
+    public ResponseEntity<ApiResponse<VehicleResponse>> saveVehicle(
+            @Validated(OnCreate.class) @RequestBody VehicleRequest vehicleRequest,
+            @AuthenticationPrincipal AuthDetails authDetails) {
+
+        VehicleResponse result = vehicleService.saveVehicle(vehicleRequest, authDetails);
+
+        ApiResponse<VehicleResponse> apiResponse = new ApiResponse
+                .Builder<VehicleResponse>(true, result)
+                .message("Vehicle created successfully.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    @ResponseBody
-    public RSPVehicleDTO updateVehicle(@Validated(OnUpdate.class) @RequestBody RQTVehicleDTO rqtVehicleDTO, @AuthenticationPrincipal CustomizedUserDetails userDetails){
-        return vehicleService.updateVehicle(rqtVehicleDTO, userDetails);
+    public ResponseEntity<ApiResponse<VehicleResponse>> updateVehicle(
+            @Validated(OnUpdate.class) @RequestBody VehicleRequest vehicleRequest,
+            @AuthenticationPrincipal AuthDetails authDetails) {
+
+        VehicleResponse result = vehicleService.updateVehicle(vehicleRequest, authDetails);
+
+        ApiResponse<VehicleResponse> apiResponse = new ApiResponse
+                .Builder<VehicleResponse>(true, result)
+                .message("Vehicle updated successfully.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{vehicleId}")
-    @ResponseBody
-    public ResponseEntity<String> deleteVehicle(@PathVariable Integer vehicleId){
-        return vehicleService.deleteVehicle(vehicleId);
+    public ResponseEntity<ApiResponse<Void>> deleteVehicle(@PathVariable Integer vehicleId) {
+        vehicleService.deleteVehicle(vehicleId);
+
+        ApiResponse<Void> apiResponse = new ApiResponse
+                .Builder<Void>(true, null)
+                .message("Vehicle deleted successfully.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @GetMapping("/fetchByNumber")
-    @ResponseBody
-    public ResponseEntity<RSPVehicleDTO> fetchByVehicleNumber(@RequestParam String vehicleNumber){
-        RSPVehicleDTO result = vehicleService.fetchByVehicleNumber(vehicleNumber);
-        return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
+    public ResponseEntity<ApiResponse<VehicleResponse>> fetchByVehicleNumber(@RequestParam String vehicleNumber) {
+        VehicleResponse result = vehicleService.fetchByVehicleNumber(vehicleNumber);
+
+        ApiResponse<VehicleResponse> apiResponse = new ApiResponse
+                .Builder<VehicleResponse>(true, result)
+                .message("Vehicle fetched successfully.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 }

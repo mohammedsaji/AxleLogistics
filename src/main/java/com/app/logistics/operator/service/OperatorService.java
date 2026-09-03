@@ -1,81 +1,71 @@
 package com.app.logistics.operator.service;
 
-import com.app.logistics.dto.MessageDTO.ResponseMessageDTO;
-import com.app.logistics.dto.Operator.RQTOperatorDTO;
-import com.app.logistics.dto.Operator.RSPOperatorDTO;
-import com.app.logistics.common.dto.OperatorRequest;
 import com.app.logistics.Enum.CarrierOptionEnum;
-import com.app.logistics.manager.service.ManagerService;
-import com.app.logistics.operator.repo.OperatorRepo;
-import com.app.logistics.authUtils.CustomizedUserDetails;
+import com.app.logistics.common.dto.OperatorRequest;
+import com.app.logistics.common.exception.APIException;
 import com.app.logistics.manager.entity.Manager;
+import com.app.logistics.manager.service.ManagerService;
 import com.app.logistics.operator.entity.Operator;
+import com.app.logistics.operator.repo.OperatorRepo;
+import com.app.logistics.operator.utils.OperatorMapper;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OperatorService {
 
     private final OperatorRepo operatorRepo;
+    private final OperatorMapper operatorMapper;
     private final ManagerService managerService;
 
     public OperatorService(OperatorRepo operatorRepo,
+                           OperatorMapper operatorMapper,
                            @Lazy ManagerService managerService) {
         this.operatorRepo = operatorRepo;
+        this.operatorMapper = operatorMapper;
         this.managerService = managerService;
     }
 
-    public ResponseMessageDTO fetchAllOperator(String operatorTransportType, int pageNo) {
+    @Transactional(readOnly = true)
+    public List<com.app.logistics.operator.dto.OperatorResponse> fetchAllOperator(String operatorTransportType, int pageNo) {
         if (pageNo < 1) {
             pageNo = 1;
         }
         int elementCount = 25;
         Pageable pageable = PageRequest.of(pageNo - 1, elementCount, Sort.by("operatorId").descending());
-
         Page<Operator> page = operatorRepo.findByOperatorTransportType(operatorTransportType, pageable);
 
-        List<Operator> operatorList = page.getContent();
-        List<RSPOperatorDTO> rspOperatorDTOList = new ArrayList<>();
-
-        for (Operator operator : operatorList) {
-            rspOperatorDTOList.add(voToDTOConverter(operator));
-        }
-        ResponseMessageDTO responseMessageDTO = new ResponseMessageDTO();
-        responseMessageDTO.setStatusCode(200);
-        responseMessageDTO.setValue("OperatorList",rspOperatorDTOList);
-        responseMessageDTO.setValue("TotalPages",page.getTotalPages());
-        responseMessageDTO.setValue("TotalElements",page.getTotalElements());
-        return responseMessageDTO;
+        return page.getContent().stream()
+                .map(this::toResponseWithActiveManager)
+                .collect(Collectors.toList());
     }
 
-    public RSPOperatorDTO fetchOperator(Integer operatorId) {
+    @Transactional(readOnly = true)
+    public com.app.logistics.operator.dto.OperatorResponse fetchOperator(Integer operatorId) {
         if (operatorId == null) {
-            return new RSPOperatorDTO();
+            throw new APIException("Operator ID cannot be null", HttpStatus.BAD_REQUEST);
         }
-        Operator fetchedOperator = operatorRepo.findById(operatorId).orElse(null);
-        return voToDTOConverter(fetchedOperator);
+        Operator operator = operatorRepo.findById(operatorId)
+                .orElseThrow(() -> new APIException("Operator not found for ID: " + operatorId, HttpStatus.NOT_FOUND));
+        return toResponseWithActiveManager(operator);
     }
 
     public Manager identifyActiveManager(Operator operator) {
         if (operator == null || operator.getManagerVOList() == null) {
             return new Manager();
         }
-        List<Manager> managerList = operator.getManagerVOList();
-
         Manager activeManager = new Manager();
-
-        for (Manager manager : managerList) {
+        for (Manager manager : operator.getManagerVOList()) {
             if (manager != null && manager.getManagerStatus() != null && manager.getManagerStatus().equalsIgnoreCase("ACTIVE")) {
                 activeManager = manager;
             }
@@ -83,103 +73,81 @@ public class OperatorService {
         return activeManager;
     }
 
-    public RSPOperatorDTO voToDTOConverter(Operator operator) {
-        if (operator == null) {
-            return new RSPOperatorDTO();
-        }
-        RSPOperatorDTO rspOperatorDTO = new RSPOperatorDTO();
-        rspOperatorDTO.setOperatorId(operator.getOperatorId());
-        rspOperatorDTO.setOperatorName(operator.getOperatorName());
-        rspOperatorDTO.setOperatorTransportType(operator.getOperatorTransportType());
-        Manager activeManager = identifyActiveManager(operator);
-        if (activeManager != null) {
-            rspOperatorDTO.setManagerId(activeManager.getManagerId());
-        }
-        rspOperatorDTO.setCreatedAt(operator.getCreatedAt());
-        rspOperatorDTO.setUpdatedAt(operator.getUpdatedAt());
-        rspOperatorDTO.setUpdatedBy(operator.getUpdatedBy());
-        return rspOperatorDTO;
+    private com.app.logistics.operator.dto.OperatorResponse toResponseWithActiveManager(Operator operator) {
+        com.app.logistics.operator.dto.OperatorResponse response = operatorMapper.toDTO(operator);
+        response.setManagerId(identifyActiveManager(operator).getManagerId());
+        return response;
     }
 
-    public Operator dtoToVOConverter(String action, RQTOperatorDTO rqtOperatorDTO, CustomizedUserDetails userDetails) {
-        if (action == null || rqtOperatorDTO == null || userDetails == null) {
-            return null;
+    @Transactional(propagation = Propagation.REQUIRED)
+    public com.app.logistics.operator.dto.OperatorResponse saveOperator(com.app.logistics.operator.dto.OperatorRequest operatorRequest, com.app.logistics.auth.authUtils.AuthDetails authDetails) {
+        if (operatorRequest == null || authDetails == null) {
+            throw new APIException("Payload request body and user context cannot be null", HttpStatus.BAD_REQUEST);
         }
-        Operator operator = new Operator();
-        if (action.equalsIgnoreCase("Update")) {
-            operator.setOperatorId(rqtOperatorDTO.getOperatorId());
-        }
-        operator.setOperatorName(rqtOperatorDTO.getOperatorName());
-        operator.setOperatorTransportType(rqtOperatorDTO.getOperatorTransportType());
-        if (action.equalsIgnoreCase("Save")) {
-            operator.setCreatedAt(LocalDateTime.now());
-        } else {
-            operator.setCreatedAt(rqtOperatorDTO.getCreatedAt());
-        }
-        operator.setUpdatedAt(LocalDateTime.now());
-        operator.setUpdatedBy(userDetails.getEmployeeId());
 
-        return operator;
-    }
+        managerService.fetchManager(operatorRequest.getManagerId());
 
-    @Transactional (propagation = Propagation.REQUIRED)
-    public RSPOperatorDTO saveOperator(RQTOperatorDTO rqtOperatorDTO, CustomizedUserDetails userDetails) {
-        if (rqtOperatorDTO == null || userDetails == null) {
-            throw new IllegalArgumentException("Payload request body and user context cannot be null");
-        }
-        Operator savingOperator = dtoToVOConverter("Save", rqtOperatorDTO, userDetails);
+        Operator savingOperator = operatorMapper.toVO(operatorRequest);
+        savingOperator.setUpdatedBy(authDetails.getEmployeeId());
+
         Operator savedOperator = operatorRepo.save(savingOperator);
-        return voToDTOConverter(savedOperator);
+        return toResponseWithActiveManager(savedOperator);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public Operator internalFetchService(Integer operatorId) {
         if (operatorId == null) {
-            return null;
+            throw new APIException("Operator ID cannot be null", HttpStatus.BAD_REQUEST);
         }
-        return operatorRepo.findById(operatorId).orElse(null);
+        return operatorRepo.findById(operatorId)
+                .orElseThrow(() -> new APIException("Operator not found for ID: " + operatorId, HttpStatus.NOT_FOUND));
     }
 
-    @Transactional (propagation = Propagation.REQUIRED)
-    public RSPOperatorDTO updateOperator(RQTOperatorDTO rqtOperatorDTO, CustomizedUserDetails userDetails) {
-        if (rqtOperatorDTO == null) {
-            return new RSPOperatorDTO();
+    @Transactional(propagation = Propagation.REQUIRED)
+    public com.app.logistics.operator.dto.OperatorResponse updateOperator(com.app.logistics.operator.dto.OperatorRequest operatorRequest, com.app.logistics.auth.authUtils.AuthDetails authDetails) {
+        if (operatorRequest == null) {
+            throw new APIException("Operator request data payload cannot be null", HttpStatus.BAD_REQUEST);
         }
-        Operator mutatedOperator = dtoToVOConverter("Update", rqtOperatorDTO, userDetails);
+
+        managerService.fetchManager(operatorRequest.getManagerId());
+
+        Operator mutatedOperator = operatorMapper.toVO(operatorRequest);
+        if (authDetails != null) {
+            mutatedOperator.setUpdatedBy(authDetails.getEmployeeId());
+        }
+
         Operator updatedOperator = operatorRepo.save(mutatedOperator);
-        return voToDTOConverter(updatedOperator);
+        return toResponseWithActiveManager(updatedOperator);
     }
 
-    @Transactional (propagation = Propagation.REQUIRED)
-    public ResponseEntity<String> deleteOperator(Integer operatorId) {
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void deleteOperator(Integer operatorId) {
         if (operatorId == null) {
-            return ResponseEntity.status(400).body("Operator ID parameter cannot be null");
+            throw new APIException("Operator ID parameter cannot be null", HttpStatus.BAD_REQUEST);
+        }
+        if (!operatorRepo.existsById(operatorId)) {
+            throw new APIException("Operator not found for ID: " + operatorId, HttpStatus.NOT_FOUND);
         }
         operatorRepo.deleteById(operatorId);
-        return ResponseEntity.status(200).body("Operator deleted successfully.");
     }
 
     public OperatorRequest fetchCarrierOption() {
-
         OperatorRequest operatorRequest = new OperatorRequest();
-
         for (CarrierOptionEnum carrierOptionEnum : CarrierOptionEnum.values()) {
             operatorRequest.setCarrierOptionEnumList(carrierOptionEnum);
         }
-
         return operatorRequest;
     }
 
     @Transactional(readOnly = true)
-    public RSPOperatorDTO fetchByOperatorName(String operatorName) {
+    public com.app.logistics.operator.dto.OperatorResponse fetchByOperatorName(String operatorName) {
         if (operatorName == null || operatorName.trim().isEmpty()) {
-            return null;
+            throw new APIException("Operator name cannot be empty", HttpStatus.BAD_REQUEST);
         }
-
-        Operator fetchOperator = operatorRepo.findByOperatorName(operatorName);
-        if(fetchOperator != null){
-            return voToDTOConverter(fetchOperator);
+        Operator operator = operatorRepo.findByOperatorName(operatorName);
+        if (operator == null) {
+            throw new APIException("Operator not found for name: " + operatorName, HttpStatus.NOT_FOUND);
         }
-        return null;
+        return toResponseWithActiveManager(operator);
     }
 }

@@ -3,83 +3,76 @@ package com.app.logistics.shipment.dto.Composite;
 import com.app.logistics.cargo.dto.CargoRequest;
 import com.app.logistics.customer.dto.CustomerRequest;
 import com.app.logistics.driver.dto.DriverRequest;
-import com.app.logistics.dto.Operator.RQTOperatorDTO;
-import com.app.logistics.dto.Shipment.RQTShipmentDTO;
-import com.app.logistics.dto.ShipmentStatus.RQTShipmentStatusDTO;
-import com.app.logistics.dto.Vehicle.RQTVehicleDTO;
+import com.app.logistics.operator.dto.OperatorRequest;
+import com.app.logistics.shipment.dto.ShipmentRequest;
+import com.app.logistics.shipmentStatus.dto.ShipmentStatusRequest;
+import com.app.logistics.vehicle.dto.VehicleRequest;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ShipmentSaveRequest {
 
     private CustomerRequest customerRequest;
-
     private CargoRequest cargoRequest;
-
-    private RQTShipmentDTO rqtShipmentDTO;
-
-    private RQTShipmentStatusDTO rqtShipmentStatusDTO;
-
-    private RQTOperatorDTO rqtOperatorDTO;
-
+    private ShipmentRequest shipmentRequest;
+    private ShipmentStatusRequest shipmentStatusRequest;
+    private OperatorRequest operatorRequest;
     private DriverRequest driverRequest;
+    private VehicleRequest vehicleRequest;
 
-    private RQTVehicleDTO rqtVehicleDTO;
-
-
-    public CargoRequest getRqtCargoDTO() {
+    public CargoRequest getCargoRequest() {
         return cargoRequest;
     }
 
-    public void setRqtCargoDTO(CargoRequest cargoRequest) {
+    public void setCargoRequest(CargoRequest cargoRequest) {
         this.cargoRequest = cargoRequest;
     }
 
-    public CustomerRequest getRqtCustomerDTO() {
+    public CustomerRequest getCustomerRequest() {
         return customerRequest;
     }
 
-    public void setRqtCustomerDTO(CustomerRequest customerRequest) {
+    public void setCustomerRequest(CustomerRequest customerRequest) {
         this.customerRequest = customerRequest;
     }
 
-    public DriverRequest getRqtDriverDTO() {
+    public DriverRequest getDriverRequest() {
         return driverRequest;
     }
 
-    public void setRqtDriverDTO(DriverRequest driverRequest) {
+    public void setDriverRequest(DriverRequest driverRequest) {
         this.driverRequest = driverRequest;
     }
 
-    public RQTOperatorDTO getRqtOperatorDTO() {
-        return rqtOperatorDTO;
+    public OperatorRequest getOperatorRequest() {
+        return operatorRequest;
     }
 
-    public void setRqtOperatorDTO(RQTOperatorDTO rqtOperatorDTO) {
-        this.rqtOperatorDTO = rqtOperatorDTO;
+    public void setOperatorRequest(OperatorRequest operatorRequest) {
+        this.operatorRequest = operatorRequest;
     }
 
-    public RQTShipmentDTO getRqtShipmentDTO() {
-        return rqtShipmentDTO;
+    public ShipmentRequest getShipmentRequest() {
+        return shipmentRequest;
     }
 
-    public void setRqtShipmentDTO(RQTShipmentDTO rqtShipmentDTO) {
-        this.rqtShipmentDTO = rqtShipmentDTO;
+    public void setShipmentRequest(ShipmentRequest shipmentRequest) {
+        this.shipmentRequest = shipmentRequest;
     }
 
-    public RQTShipmentStatusDTO getRqtShipmentStatusDTO() {
-        return rqtShipmentStatusDTO;
+    public ShipmentStatusRequest getShipmentStatusRequest() {
+        return shipmentStatusRequest;
     }
 
-    public void setRqtShipmentStatusDTO(RQTShipmentStatusDTO rqtShipmentStatusDTO) {
-        this.rqtShipmentStatusDTO = rqtShipmentStatusDTO;
+    public void setShipmentStatusRequest(ShipmentStatusRequest shipmentStatusRequest) {
+        this.shipmentStatusRequest = shipmentStatusRequest;
     }
 
-    public RQTVehicleDTO getRqtVehicleDTO() {
-        return rqtVehicleDTO;
+    public VehicleRequest getVehicleRequest() {
+        return vehicleRequest;
     }
 
-    public void setRqtVehicleDTO(RQTVehicleDTO rqtVehicleDTO) {
-        this.rqtVehicleDTO = rqtVehicleDTO;
+    public void setVehicleRequest(VehicleRequest vehicleRequest) {
+        this.vehicleRequest = vehicleRequest;
     }
 }

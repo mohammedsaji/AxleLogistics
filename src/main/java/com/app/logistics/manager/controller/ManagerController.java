@@ -1,74 +1,115 @@
 package com.app.logistics.manager.controller;
 
-import com.app.logistics.dto.Manager.RQTManagerDTO;
-import com.app.logistics.dto.Manager.RSPManagerDTO;
-import com.app.logistics.dto.MessageDTO.ResponseMessageDTO;
-import com.app.logistics.manager.service.ManagerService;
-import com.app.logistics.authUtils.CustomizedUserDetails;
+import com.app.logistics.auth.authUtils.AuthDetails;
+import com.app.logistics.common.dto.ApiResponse;
+import com.app.logistics.common.validations.OnCreate;
 import com.app.logistics.common.validations.OnUpdate;
+import com.app.logistics.manager.dto.ManagerRequest;
+import com.app.logistics.manager.dto.ManagerResponse;
+import com.app.logistics.manager.service.ManagerService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("logistic/manager")
 public class ManagerController {
 
     private final ManagerService managerService;
 
-    public ManagerController(ManagerService managerService){
+    public ManagerController(ManagerService managerService) {
         this.managerService = managerService;
     }
 
     @GetMapping("/fetch")
-    public ResponseEntity<RSPManagerDTO> fetchManager(@RequestParam Integer managerId){
-        RSPManagerDTO result = managerService.fetchManager(managerId);
-        return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
+    public ResponseEntity<ApiResponse<ManagerResponse>> fetchManager(@RequestParam Integer managerId) {
+        ManagerResponse result = managerService.fetchManager(managerId);
+
+        ApiResponse<ManagerResponse> apiResponse = new ApiResponse
+                .Builder<ManagerResponse>(true, result)
+                .message("Manager fetched successfully.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @GetMapping("/fetchall")
-    public ResponseEntity<ResponseMessageDTO> fetchAllManager(@RequestParam Integer operatorId, @RequestParam(defaultValue = "1") int pageNo){
-        ResponseMessageDTO result =  managerService.fetchAllManager(operatorId, pageNo);
-        return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
+    public ResponseEntity<ApiResponse<List<ManagerResponse>>> fetchAllManager(
+            @RequestParam Integer operatorId,
+            @RequestParam(defaultValue = "1") int pageNo) {
+
+        List<ManagerResponse> result = managerService.fetchAllManager(operatorId, pageNo);
+
+        ApiResponse<List<ManagerResponse>> apiResponse = new ApiResponse
+                .Builder<List<ManagerResponse>>(true, result)
+                .message("Manager list fetched successfully.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @GetMapping("/fetchByName")
-    public ResponseEntity<RSPManagerDTO> getManagerByName(@RequestParam String managerName) {
-        RSPManagerDTO result = managerService.fetchByManagerName(managerName);
-        return result != null ? ResponseEntity.ok(result) : ResponseEntity.noContent().build();
+    public ResponseEntity<ApiResponse<ManagerResponse>> getManagerByName(@RequestParam String managerName) {
+        ManagerResponse result = managerService.fetchByManagerName(managerName);
+
+        ApiResponse<ManagerResponse> apiResponse = new ApiResponse
+                .Builder<ManagerResponse>(true, result)
+                .message("Manager fetched successfully.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @PostMapping("/save")
-    @ResponseBody
-    public ResponseEntity<String> saveManager(@RequestBody Map<String,Object> managerDetails, @AuthenticationPrincipal CustomizedUserDetails userDetails){
+    public ResponseEntity<ApiResponse<ManagerResponse>> saveManager(
+            @Validated(OnCreate.class) @RequestBody ManagerRequest managerRequest,
+            @RequestParam String accountUserName,
+            @AuthenticationPrincipal AuthDetails authDetails) {
 
-        RQTManagerDTO rqtManagerDTO = new RQTManagerDTO();
-        rqtManagerDTO.setManagerName(managerDetails.get("managerName").toString());
-        rqtManagerDTO.setManagerContactNo(managerDetails.get("managerContactNo").toString());
-        rqtManagerDTO.setManagerStatus(managerDetails.get("managerStatus").toString());
-        rqtManagerDTO.setOperatorId(Integer.parseInt(managerDetails.get("operatorId").toString()));
+        ManagerResponse result = managerService.saveManager(managerRequest, accountUserName, authDetails);
 
-        String username = managerDetails.get("accountUserName").toString();
+        ApiResponse<ManagerResponse> apiResponse = new ApiResponse
+                .Builder<ManagerResponse>(true, result)
+                .message("Manager created successfully.")
+                .timeStamp()
+                .build();
 
-        System.out.println(" manager name : "+rqtManagerDTO.getManagerName());
-        System.out.println(" manager contact no : "+rqtManagerDTO.getManagerContactNo());
-        System.out.println(" manager status : "+rqtManagerDTO.getManagerStatus());
-        System.out.println(" operator id for manager : "+rqtManagerDTO.getOperatorId());
-
-        return managerService.saveManager(rqtManagerDTO, username, userDetails);
+        return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteManager(@RequestBody RQTManagerDTO rqtManagerDTO){
-        return managerService.deleteManager(rqtManagerDTO);
+    @DeleteMapping("/delete/{managerId}")
+    public ResponseEntity<ApiResponse<Void>> deleteManager(@PathVariable Integer managerId) {
+        managerService.deleteManager(managerId);
+
+        ApiResponse<Void> apiResponse = new ApiResponse
+                .Builder<Void>(true, null)
+                .message("Manager deleted successfully.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @PutMapping("/update")
-    public RSPManagerDTO updateManager(@Validated(OnUpdate.class) @RequestBody RQTManagerDTO rqtManagerDTO, @AuthenticationPrincipal CustomizedUserDetails userDetails){
-        return managerService.updateManager(rqtManagerDTO, userDetails);
+    public ResponseEntity<ApiResponse<ManagerResponse>> updateManager(
+            @Validated(OnUpdate.class) @RequestBody ManagerRequest managerRequest,
+            @AuthenticationPrincipal AuthDetails authDetails) {
+
+        ManagerResponse result = managerService.updateManager(managerRequest, authDetails);
+
+        ApiResponse<ManagerResponse> apiResponse = new ApiResponse
+                .Builder<ManagerResponse>(true, result)
+                .message("Manager updated successfully.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 }

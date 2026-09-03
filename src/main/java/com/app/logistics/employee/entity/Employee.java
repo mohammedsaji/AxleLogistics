@@ -1,6 +1,7 @@
 package com.app.logistics.employee.entity;
 
 import com.app.logistics.auth.entity.Auth;
+import com.app.logistics.common.entity.BaseEntity;
 import com.app.logistics.common.validations.OnCreate;
 import com.app.logistics.common.validations.OnUpdate;
 import jakarta.persistence.*;
@@ -9,9 +10,9 @@ import jakarta.validation.constraints.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="EMP_MST", indexes={
-        @Index(name="IDX_EMP_MST_ACC_ID", columnList ="ACC_ID")})
-public class Employee {
+@Table(name = "EMP_MST", indexes = {
+        @Index(name = "IDX_EMP_MST_ACC_ID", columnList = "ACC_ID")})
+public class Employee extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shipping-employee-master-seq-gen")
@@ -25,17 +26,17 @@ public class Employee {
     private Integer employeeId;
 
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Size(max=250)
+    @Size(max = 250)
     @Column(name = "EMP_NAME")
     private String employeeName;
 
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Size(max=25)
+    @Size(max = 25)
     @Column(name = "EMP_PHNE_NO")
     private String employeePhoneNo;
 
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Size(max=30)
+    @Size(max = 30)
     @Column(name = "EMP_DEPARTMENT")
     private String employeeDepartment;
 
@@ -43,7 +44,7 @@ public class Employee {
     private LocalDateTime employeeJoiningDate;
 
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Pattern(regexp="ACTIVE|IN-ACTIVE", groups = {OnCreate.class, OnUpdate.class})
+    @Pattern(regexp = "ACTIVE|IN-ACTIVE", groups = {OnCreate.class, OnUpdate.class})
     @Column(name = "EMP_STATUS")
     private String employeeStatus;
 
@@ -53,35 +54,21 @@ public class Employee {
     private Integer reportingManagerId;
 
     @NotNull(groups = {OnCreate.class, OnUpdate.class})
-    @JoinColumn(name="ACC_ID")
+    @JoinColumn(name = "ACC_ID")
     @OneToOne(fetch = FetchType.EAGER)
     private Auth auth;
 
-    public void setAccountVO(Auth auth){
-        this.auth = auth;
-    }
-
-    public Auth getAccountVO(){
-        return auth;
-    }
-
-    @Column(name = "CREATED_AT")
-    private LocalDateTime createdAt;
-
-    @Column(name = "UPDATED_AT")
-    private LocalDateTime updatedAt;
-
-    @Max(value=Integer.MAX_VALUE, groups = {OnCreate.class, OnUpdate.class})
+    @Max(value = Integer.MAX_VALUE, groups = {OnCreate.class, OnUpdate.class})
     @Positive(groups = {OnCreate.class, OnUpdate.class})
     @Column(name = "UPDATED_BY")
     private Integer updatedBy;
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public void setAccountVO(Auth auth) {
+        this.auth = auth;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public Auth getAccountVO() {
+        return auth;
     }
 
     public String getEmployeeDepartment() {
@@ -138,14 +125,6 @@ public class Employee {
 
     public void setReportingManagerId(Integer reportingManagerId) {
         this.reportingManagerId = reportingManagerId;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public Integer getUpdatedBy() {
