@@ -2,6 +2,7 @@ package com.app.logistics.operator.dto;
 
 import com.app.logistics.common.validations.OnCreate;
 import com.app.logistics.common.validations.OnUpdate;
+import com.app.logistics.common.validations.OnShipmentSave;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
@@ -11,7 +12,7 @@ import jakarta.validation.constraints.Size;
 public class OperatorRequest {
 
     @Null(groups = OnCreate.class)
-    @NotNull(groups = OnUpdate.class)
+    @NotNull(groups = {OnUpdate.class, OnShipmentSave.class})
     @Positive(groups = OnUpdate.class)
     private Integer operatorId;
 
@@ -22,10 +23,6 @@ public class OperatorRequest {
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
     @Size(max = 20, groups = {OnCreate.class, OnUpdate.class})
     private String operatorTransportType;
-
-    @NotNull(groups = {OnCreate.class, OnUpdate.class})
-    @Positive(groups = {OnCreate.class, OnUpdate.class})
-    private Integer managerId;
 
     public Integer getOperatorId() {
         return operatorId;
@@ -49,13 +46,5 @@ public class OperatorRequest {
 
     public void setOperatorTransportType(String operatorTransportType) {
         this.operatorTransportType = operatorTransportType;
-    }
-
-    public Integer getManagerId() {
-        return managerId;
-    }
-
-    public void setManagerId(Integer managerId) {
-        this.managerId = managerId;
     }
 }

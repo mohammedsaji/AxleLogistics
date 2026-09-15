@@ -2,39 +2,49 @@ const params = new URLSearchParams(window.location.search);
 let currentPageNo = 1;
 let totalPages = 1;
 let currentResponse = null;
+let isDriver = null;
 
 async function payloadExtractor() {
     const userAction = params.get("userAction");
 
     if (!userAction) {
-        alert('Invalid parameters.');
+        alert('User action did not specified.');
         return;
     }
 
+    const loginUserMap = await ajaxCall(`/logistic/account/user-info`, 'GET', null);
+    isDriver = loginUserMap.data.RoleList.includes("FEDERATE-DRIVER");
+
     currentPageNo = 1;
-    await fetchShipmentList(currentPageNo);
+    await fetchShipmentList(currentPageNo, isDriver);
+
 }
 payloadExtractor();
 
-async function fetchShipmentList(pageNo) {
-    const url = `/logistic/shipment/fetchall?pageNo=${pageNo}`;
+async function fetchShipmentList(pageNo, isDriver) {
+    const url = isDriver ? `/logistic/shipment/fetchmine` : `/logistic/shipment/fetchall?pageNo=${pageNo}`;
     const methodType = 'GET';
     const response = await ajaxCall(url, methodType, null);
 
     currentResponse = response;
 
-    if (response && response.valueMap) {
-        totalPages = response.valueMap.TotalPages || 1;
-        const shipmentList = response.valueMap.ShipmentList || [];
-        renderShipmentList(shipmentList);
-    } else if (Array.isArray(response)) {
-        renderShipmentList(response);
-    } else if (response) {
-        renderShipmentList([response]);
+    if (response && response.data) {
+        const loginUserMap = await ajaxCall(`/logistic/account/user-info`, 'GET', null);
+        const roleArray = loginUserMap?.data?.RoleList;
+        if(roleArray && roleArray.length > 0){
+            dynamicLayoutRender(roleArray);
+            if(isDriver){
+                renderShipmentList(response.data, isDriver);
+            }else{
+                const shipmentList = Array.isArray(response.data.shipmentList) ? response.data.shipmentList : [response.data.shipmentList];
+                totalPages = response.data.totalPages;
+                renderShipmentList(shipmentList, isDriver);
+            }
+        }
     }
 }
 
-function renderShipmentList(shipmentList) {
+function renderShipmentList(shipmentList, isDriver) {
     const listContainer = document.getElementById('shipment-list-container');
     if (listContainer) {
         listContainer.innerHTML = '';
@@ -46,8 +56,8 @@ function renderShipmentList(shipmentList) {
         const shipmentDiv = document.createElement('div');
         shipmentDiv.className = 'shipment-list-item';
         shipmentDiv.setAttribute('data-shipping-id', shipment.shippingId);
-        shipmentDiv.setAttribute('data-shipment-from', shipment.shipmentFrom);
-        shipmentDiv.setAttribute('data-shipment-to', shipment.shipmentTo);
+        shipmentDiv.setAttribute('data-shipment-from', shipment.shippingFrom);
+        shipmentDiv.setAttribute('data-shipment-to', shipment.shippingTo);
 
         const shipmentInfoDiv = document.createElement('div');
         shipmentInfoDiv.className = 'shipment-info';
@@ -57,25 +67,36 @@ function renderShipmentList(shipmentList) {
         shipmentInfoDiv.append(shippingIdP);
 
         const shipmentFromP = document.createElement('p');
-        shipmentFromP.textContent = `From: ${shipment.shipmentFrom}`;
+        shipmentFromP.textContent = `From: ${shipment.shippingFrom}`;
         shipmentInfoDiv.append(shipmentFromP);
 
         const shipmentToP = document.createElement('p');
-        shipmentToP.textContent = `To: ${shipment.shipmentTo}`;
+        shipmentToP.textContent = `To: ${shipment.shippingTo}`;
         shipmentInfoDiv.append(shipmentToP);
 
         const viewBtn = document.createElement('button');
         viewBtn.className = 'view-btn';
         viewBtn.setAttribute('data-shipping-id', shipment.shippingId);
         viewBtn.textContent = 'View';
+
+        viewBtn.addEventListener('click', function () {
+            const shippingId = this.getAttribute('data-shipping-id');
+            const userAction = params.get("userAction");
+            window.location.href = `../../views/shipment/shipment.html?shippingId=${shippingId}&userAction=${userAction}`;
+        }, { once: true });
+
         shipmentInfoDiv.append(viewBtn);
 
         shipmentDiv.append(shipmentInfoDiv);
         listContainer.append(shipmentDiv);
     });
+}
 
-    clickEventBinder();
-    searchClickEvent();
+function dynamicLayoutRender(roleArray){
+    const shipmentHeaderSectionDivB = document.querySelector('.shipment-header-section-b');
+    if(roleArray.length > 0 && !roleArray.includes("ADMIN") && shipmentHeaderSectionDivB){
+        shipmentHeaderSectionDivB.remove();
+    }
 }
 
 function clickEventBinder() {
@@ -95,22 +116,14 @@ function clickEventBinder() {
         }, { once: true });
     }
 
-    const viewBtnArray = document.querySelectorAll('.view-btn');
-    viewBtnArray.forEach(btn => {
-        btn.addEventListener('click', function () {
-            const shippingId = this.getAttribute('data-shipping-id');
-            window.location.href = `../../views/shipment/shipment.html?shippingId=${shippingId}&userAction=${userAction}`;
-        }, { once: true });
-    });
-
     const previousPageBtn = document.getElementById('previous-page-btn');
     if (previousPageBtn) {
         previousPageBtn.addEventListener('click', async function () {
             if (currentPageNo > 1) {
                 currentPageNo--;
-                await fetchShipmentList(currentPageNo);
+                await fetchShipmentList(currentPageNo, isDriver);
             }
-        }, { once: true });
+        });
     }
 
     const nextPageBtn = document.getElementById('next-page-btn');
@@ -118,11 +131,12 @@ function clickEventBinder() {
         nextPageBtn.addEventListener('click', async function () {
             if (currentPageNo < totalPages) {
                 currentPageNo++;
-                await fetchShipmentList(currentPageNo);
+                await fetchShipmentList(currentPageNo, isDriver);
             }
-        }, { once: true });
+        });
     }
 }
+clickEventBinder();
 
 function searchClickEvent() {
     const searchBtn = document.getElementById('search-btn');
@@ -145,21 +159,21 @@ function searchClickEvent() {
             });
 
             if (!hasMatch && searchValue !== '') {
-                const response = await ajaxCall(`/logistic/shipment/fetchbyid?shippingId=${searchValue}`, 'GET', null);
+                const response = await ajaxCall(`/logistic/shipment/fetch?shippingId=${searchValue}`, 'GET', null);
                 if (response) {
                     let shipmentList = [];
 
                     // Handle both response formats: valueMap wrapper and direct array
-                    if (response && response.valueMap) {
-                        shipmentList = response.valueMap.ShipmentList || [];
+                    if (response && response.data.valueMap) {
+                        shipmentList = response.data.valueMap.ShipmentList || [];
                     } else if (Array.isArray(response)) {
-                        shipmentList = response;
+                        shipmentList = response.data;
                     } else if (response) {
-                        shipmentList = [response];
+                        shipmentList = [response.data];
                     }
 
                     if (shipmentList.length > 0) {
-                        renderShipmentList(shipmentList);
+                        renderShipmentList(shipmentList, isDriver);
                     }
                 }
             }
@@ -178,4 +192,27 @@ function searchClickEvent() {
             }
         });
     }
+}
+searchClickEvent();
+
+function shipmentNavigationBinder() {
+    const shipmentNavigationBtn = document.getElementById('shipment-navigation-btn');
+
+    if (shipmentNavigationBtn) {
+        shipmentNavigationBtn.addEventListener('click', function () {
+            toggleShipmentNavigationMenu();
+        });
+    }
+}
+
+shipmentNavigationBinder();
+
+function toggleShipmentNavigationMenu() {
+    const shipmentNavigationMenu = document.getElementById('shipment-navigation-menu');
+
+    if (!shipmentNavigationMenu) {
+        return;
+    }
+
+    shipmentNavigationMenu.classList.toggle('active');
 }

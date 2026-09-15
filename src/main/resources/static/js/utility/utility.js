@@ -19,3 +19,5 @@ const StringUtils = {
         return str.replace(/([a-z])([A-Z])/g, '$1 $2');
     }
 };
+
+const formatDateTime = (dateStr) => dateStr ? dateStr.substring(0, 19) : '';

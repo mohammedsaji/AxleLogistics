@@ -3,24 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Driver screen</title>
+    <link rel="stylesheet" href="../../styles/driver/driver.css">
 </head>
 <body>
 <div class="driver">
     <header class="driver-header">
-        <div class="driver-header-brand-icon">
-            <img class="driver-header-logo" src="" alt="Driver Logo">
+        <div class="driver-header-brand">
+            <img class="driver-header-logo" src="" alt="Driver">
         </div>
         <div class="driver-header-actions">
             <div class="driver-header-section-a">
-                <button id="dashboard-btn">Dashboard</button>
+                <button type="button" id="dashboard-btn">Dashboard</button>
+                <button type="button" id="back-to-operator-btn">Back to operator</button>
             </div>
             <div class="driver-header-section-b">
-                <div class="driver-header-actions-a">
-                    <button id="driver-list-btn">Driver list</button>
-                    <button id="entry-driver-btn">Entry driver</button>
-                </div>
-                <div class="driver-header-actions-b">
-                </div>
+                <nav class="driver-navigation" aria-label="Driver navigation">
+                    <div class="driver-navigation-group">
+                        <button type="button" id="driver-navigation-btn">Driver</button>
+                        <div class="driver-navigation-menu" id="driver-navigation-menu">
+                            <button type="button" id="driver-list-btn">Manage Drivers</button>
+                            <button type="button" id="create-driver-btn">Create Driver</button>
+                        </div>
+                    </div>
+                </nav>
             </div>
         </div>
     </header>
@@ -60,8 +65,13 @@
             <button id="proceed-btn">Proceed</button>
         </div>
     </main>
-    <footer class="driver-footer">
 
+    <footer class="footer">
+        <div class="footer-profile-section"><a href="https://github.com/mohammedsaji/mohammedsaji" target="_blank" rel="noopener noreferrer">GitHub </a>
+            <a href="http://www.linkedin.com/in/mohammed-shajith-e" target="_blank" rel="noopener noreferrer"> LinkedIn </a>
+            <a href="mailto:althafshajid@gmail.com"> Gmail </a>
+        </div>
+        <p>&copy; 2026 Passage Logistics Systems. All rights reserved.</p>
     </footer>
 </div>
 

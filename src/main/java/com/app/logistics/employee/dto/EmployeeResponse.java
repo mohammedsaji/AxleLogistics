@@ -11,10 +11,14 @@ public class EmployeeResponse {
     private LocalDateTime employeeJoiningDate;
     private String employeeStatus;
     private Integer reportingManagerId;
-    private Integer accountId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Integer updatedBy;
+    private Integer accountId;
+    private String accountUsername;
+    private String accountRole;
+    private String accountStatus;
+    private String accountEmail;
 
     public Integer getEmployeeId() {
         return employeeId;
@@ -34,6 +38,14 @@ public class EmployeeResponse {
 
     public String getEmployeePhoneNo() {
         return employeePhoneNo;
+    }
+
+    public Integer getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
     }
 
     public void setEmployeePhoneNo(String employeePhoneNo) {
@@ -72,14 +84,6 @@ public class EmployeeResponse {
         this.reportingManagerId = reportingManagerId;
     }
 
-    public Integer getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(Integer accountId) {
-        this.accountId = accountId;
-    }
-
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -102,5 +106,37 @@ public class EmployeeResponse {
 
     public void setUpdatedBy(Integer updatedBy) {
         this.updatedBy = updatedBy;
+    }
+
+    public String getAccountUserName() {
+        return accountUsername;
+    }
+
+    public void setAccountUserName(String accountUsername) {
+        this.accountUsername = accountUsername;
+    }
+
+    public String getAccountRole() {
+        return accountRole;
+    }
+
+    public void setAccountRole(String accountRole) {
+        this.accountRole = accountRole;
+    }
+
+    public String getAccountStatus() {
+        return accountStatus;
+    }
+
+    public void setAccountStatus(String accountStatus) {
+        this.accountStatus = accountStatus;
+    }
+
+    public String getAccountEmail() {
+        return accountEmail;
+    }
+
+    public void setAccountEmail(String accountEmail) {
+        this.accountEmail = accountEmail;
     }
 }

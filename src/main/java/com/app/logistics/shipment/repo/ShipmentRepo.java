@@ -6,7 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ShipmentRepo extends JpaRepository<Shipment,Integer> {
-
-    public Shipment findByShipmentStatusVO_ShippingStatusId(Integer shipmentStatusId);
-
 }

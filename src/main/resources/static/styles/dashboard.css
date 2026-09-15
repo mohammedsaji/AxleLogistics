@@ -1,0 +1,7 @@
+.dashboard-navigation-menu {
+    display: none;
+}
+
+.dashboard-navigation-menu.active {
+    display: block;
+}

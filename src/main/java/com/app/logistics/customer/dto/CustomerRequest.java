@@ -1,30 +1,27 @@
 package com.app.logistics.customer.dto;
 
 import com.app.logistics.common.validations.OnCreate;
+import com.app.logistics.common.validations.OnShipmentSave;
 import com.app.logistics.common.validations.OnUpdate;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
-public class CustomerRequest {
+public class CustomerRequest{
 
-    @Null(groups = OnCreate.class)
+    @Null(groups = OnShipmentSave.class)
     @NotNull(groups = OnUpdate.class)
     private Integer customerId;
 
-    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Size(max = 250, groups = {OnCreate.class, OnUpdate.class})
+    @NotBlank(groups = OnShipmentSave.class)
+    @Size(max = 250, groups = OnShipmentSave.class)
     private String customerName;
 
-    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Email(groups = {OnCreate.class, OnUpdate.class})
-    @Size(max = 280, groups = {OnCreate.class, OnUpdate.class})
+    @NotBlank(groups = OnShipmentSave.class)
+    @Email(groups = OnShipmentSave.class)
+    @Size(max = 280, groups = OnShipmentSave.class)
     private String customerEmail;
 
-    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Size(max = 25, groups = {OnCreate.class, OnUpdate.class})
+    @NotBlank(groups = OnShipmentSave.class)
+    @Size(max = 25, groups = OnShipmentSave.class)
     private String customerPhoneno;
 
     public Integer getCustomerId() {

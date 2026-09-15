@@ -1,6 +1,6 @@
 package com.app.logistics.manager.entity;
 
-import com.app.logistics.auth.entity.Auth;
+import com.app.logistics.account.entity.Account;
 import com.app.logistics.common.entity.BaseEntity;
 import com.app.logistics.common.validations.OnCreate;
 import com.app.logistics.common.validations.OnUpdate;
@@ -36,7 +36,7 @@ public class Manager extends BaseEntity {
 
     @JoinColumn(name = "ACC_ID")
     @OneToOne(fetch = FetchType.EAGER)
-    private Auth auth;
+    private Account account;
 
     @NotBlank(groups = {OnCreate.class, OnUpdate.class})
     @Pattern(regexp = "ACTIVE|IN_ACTIVE", groups = {OnCreate.class, OnUpdate.class})
@@ -47,20 +47,20 @@ public class Manager extends BaseEntity {
     @Column(name = "UPDATED_BY")
     private Integer updatedBy;
 
-    public Operator getOperatorVO() {
+    public Operator getOperator() {
         return operator;
     }
 
-    public void setOperatorVO(Operator operator) {
+    public void setOperator(Operator operator) {
         this.operator = operator;
     }
 
-    public Auth getAccountVO() {
-        return auth;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setAccountVO(Auth auth) {
-        this.auth = auth;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public String getManagerStatus() {

@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("logistic/vehicle")
@@ -39,14 +40,14 @@ public class VehicleController {
     }
 
     @GetMapping("/fetchall")
-    public ResponseEntity<ApiResponse<List<VehicleResponse>>> fetchAllVehicle(
+    public ResponseEntity<ApiResponse<Map<String, Object>>> fetchAllVehicle(
             @RequestParam Integer operatorId,
             @RequestParam(defaultValue = "1") int pageNo) {
 
-        List<VehicleResponse> result = vehicleService.fetchAllVehicle(operatorId, pageNo);
+        Map<String, Object> result = vehicleService.fetchAllVehicle(operatorId, pageNo);
 
-        ApiResponse<List<VehicleResponse>> apiResponse = new ApiResponse
-                .Builder<List<VehicleResponse>>(true, result)
+        ApiResponse<Map<String, Object>> apiResponse = new ApiResponse
+                .Builder<Map<String, Object>>(true, result)
                 .message("Vehicle list fetched successfully.")
                 .timeStamp()
                 .build();

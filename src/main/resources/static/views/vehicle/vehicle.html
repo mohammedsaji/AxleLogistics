@@ -3,50 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <title>Vehicle screen</title>
+    <link rel="stylesheet" href="../../styles/vehicle/vehicle.css">
 </head>
 <body>
 <div class="vehicle">
     <header class="vehicle-header">
-        <div class="vehicle-header-brand-icon">
+        <div class="vehicle-header-brand">
             <img class="vehicle-header-logo" src="" alt="Vehicle">
         </div>
         <div class="vehicle-header-actions">
-            <div class="operator-header-section-a">
-                <button id="dashboard-btn">Dashboard</button>
+            <div class="vehicle-header-section-a">
+                <button type="button" id="dashboard-btn">Dashboard</button>
+                <button type="button" id="back-to-operator-btn">Back to operator</button>
             </div>
-            <div class="operator-header-section-b">
-                <div id="vehicle-header-actions-a" class="vehicle-header-actions-a">
-                    <button id="vehicle-list-btn">Vehicle list</button>
-                    <button id="back-to-operator-btn">Back to operator</button>
-                </div>
-                <div id="vehicle-header-actions-b" class="vehicle-header-actions-b">
-                    <button id="entry-vehicle-btn">Entry vehicle</button>
-                </div>
+            <div class="vehicle-header-section-b">
+                <nav class="vehicle-navigation" aria-label="Vehicle navigation">
+                    <div class="vehicle-navigation-group">
+                        <button type="button" id="vehicle-navigation-btn">Vehicle</button>
+                        <div class="vehicle-navigation-menu" id="vehicle-navigation-menu">
+                            <button type="button" id="vehicle-list-btn">Manage Vehicles</button>
+                            <button type="button" id="entry-vehicle-btn">Create Vehicle</button>
+                        </div>
+                    </div>
+                </nav>
             </div>
         </div>
     </header>
     <main class="vehicle-body">
         <div class="vehicle-body-vehicle-display">
             <form class="vehicle-body-vehicle-form">
-                <label for="vehicle-id">Vehicle ID</label>
+                <label for="vehicle-id">Vehicle Id :</label>
                 <input type="text" id="vehicle-id" readonly>
 
-                <label for="vehicle-type">Vehicle type</label>
+                <label for="vehicle-type">Vehicle type :</label>
                 <input type="text" id="vehicle-type">
 
-                <label for="vehicle-number">Vehicle number</label>
+                <label for="vehicle-number">Vehicle number :</label>
                 <input type="text" id="vehicle-number">
 
-                <label for="operator-id">Operator ID</label>
+                <label for="operator-id">Operator Id :</label>
                 <input type="text" id="operator-id" readonly>
 
-                <label for="created-at">Created at</label>
+                <label for="created-at">Created at :</label>
                 <input type="text" id="created-at" readonly>
 
-                <label for="updated-at">Updated at</label>
+                <label for="updated-at">Updated at :</label>
                 <input type="text" id="updated-at" readonly>
 
-                <label for="updated-by">Updated by</label>
+                <label for="updated-by">Updated by :</label>
                 <input type="text" id="updated-by" readonly>
             </form>
         </div>

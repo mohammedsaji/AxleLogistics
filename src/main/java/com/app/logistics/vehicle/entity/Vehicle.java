@@ -40,11 +40,11 @@ public class Vehicle extends BaseEntity {
     @Column(name = "UPDATED_BY")
     private Integer updatedBy;
 
-    public Operator getOperatorVO() {
+    public Operator getOperator() {
         return operator;
     }
 
-    public void setOperatorVO(Operator operator) {
+    public void setOperator(Operator operator) {
         this.operator = operator;
     }
 

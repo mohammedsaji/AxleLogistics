@@ -1,5 +1,6 @@
 package com.app.logistics.customer.service;
 
+import com.app.logistics.cargo.entity.Cargo;
 import com.app.logistics.customer.dto.CustomerRequest;
 import com.app.logistics.customer.dto.CustomerResponse;
 import com.app.logistics.customer.repo.CustomerRepo;
@@ -23,11 +24,12 @@ public class CustomerService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public Customer saveCustomer(CustomerRequest customerRequest) {
+    public Customer saveCustomer(CustomerRequest customerRequest, Integer createdBy) {
         if (customerRequest == null) {
             throw new APIException("Customer request data payload cannot be null", HttpStatus.BAD_REQUEST);
         }
         Customer savingCustomer = customerMapper.toVO(customerRequest);
+        savingCustomer.setCreatedBy(createdBy);
         return customerRepo.save(savingCustomer);
     }
 
@@ -39,5 +41,14 @@ public class CustomerService {
         Customer customer = customerRepo.findById(customerId)
                 .orElseThrow(() -> new APIException("Customer not found for ID: " + customerId, HttpStatus.NOT_FOUND));
         return customerMapper.toDTO(customer);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Customer internalFetchService(Integer customerId) {
+        if (customerId == null) {
+            throw new APIException("Cargo ID cannot be null", HttpStatus.BAD_REQUEST);
+        }
+        return customerRepo.findById(customerId)
+                .orElseThrow(() -> new APIException("Cargo not found for ID: " + customerId, HttpStatus.NOT_FOUND));
     }
 }

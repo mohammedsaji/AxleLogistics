@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("logistic/operator")
@@ -39,14 +40,14 @@ public class OperatorController {
     }
 
     @GetMapping("/fetchall")
-    public ResponseEntity<ApiResponse<List<OperatorResponse>>> fetchAllOperator(
+    public ResponseEntity<ApiResponse<Map<String, Object>>> fetchAllOperator(
             @RequestParam String operatorTransportType,
             @RequestParam(defaultValue = "1") int pageNo) {
 
-        List<OperatorResponse> result = operatorService.fetchAllOperator(operatorTransportType, pageNo);
+        Map<String, Object> result = operatorService.fetchAllOperator(operatorTransportType, pageNo);
 
-        ApiResponse<List<OperatorResponse>> apiResponse = new ApiResponse
-                .Builder<List<OperatorResponse>>(true, result)
+        ApiResponse<Map<String, Object>> apiResponse = new ApiResponse
+                .Builder<Map<String, Object>>(true, result)
                 .message("Operator list fetched successfully.")
                 .timeStamp()
                 .build();

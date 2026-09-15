@@ -1,0 +1,8 @@
+.operator-navigation-menu {
+    display: none;
+}
+
+.operator-navigation-menu.active {
+    display: block;
+}
+

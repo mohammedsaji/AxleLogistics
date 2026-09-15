@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Shipment creation form</title>
+    <link rel="stylesheet" href="../../styles/shipment/shipmentForm.css">
 </head>
 <body>
 <div class="shipment">
     <header class="shipment-header">
-        <div class="shipment-header-brand-icon">
-            <img class="shipment-header-logo" src="" alt="Shipment Logo">
+        <div class="shipment-header-brand">
+            <img class="shipment-header-logo" src="" alt="Shipment Form">
         </div>
         <div class="shipment-header-actions">
             <div class="shipment-header-section-a">
-                <button id="dashboard-btn">Dashboard</button>
-            </div>
-            <div class="shipment-header-section-b">
+                <button type="button" id="dashboard-btn">Dashboard</button>
             </div>
         </div>
     </header>
@@ -56,14 +55,54 @@
                 <!-- Shipment Details Section -->
                 <fieldset>
                     <legend>Shipment Details</legend>
+
                     <label for="shipping-from">Shipping From :</label>
-                    <input id="shipping-from" type="text" maxlength="250" required>
+                    <input type="search"
+                           id="shipping-from"
+                           name="shipping-from"
+                           placeholder="Enter origin pickup the cargo"
+                           autocomplete="off" required>
+
+                    <div id="location-suggestions-origin"></div>
+
+                    <label for="origin-latitude">Origin latitude :</label>
+                    <input type="text" id="origin-latitude" readonly>
+
+                    <label for="origin-longitude">Origin longitude :</label>
+                    <input type="text" id="origin-longitude" readonly>
+
+                    <label for="current-location">Operator Destination :</label>
+                    <input type="search"
+                           id="current-location"
+                           name="currentLocation"
+                           placeholder="Enter current leg operator destination for delivery"
+                           autocomplete="off" required>
+
+                    <div id="location-suggestions"></div>
+
+                    <label for="current-latitude">Current latitude :</label>
+                    <input hidden type="text" id="current-latitude" readonly>
+
+                    <label for="current-longitude">Current longitude :</label>
+                    <input type="text" id="current-longitude" readonly>
 
                     <label for="shipping-to">Shipping To :</label>
-                    <input id="shipping-to" type="text" maxlength="250" required>
+                    <input type="search"
+                           id="shipping-to"
+                           name="shipping-to"
+                           placeholder="Enter destination to delivery cargo"
+                           autocomplete="off" required>
+
+                    <div id="location-suggestions-destination"></div>
+
+                    <label for="destination-latitude">Destination latitude :</label>
+                    <input hidden type="text" id="destination-latitude" readonly>
+
+                    <label for="destination-longitude">Destination longitude :</label>
+                    <input type="text" id="destination-longitude" readonly>
 
                     <label for="delivery-date">Delivery Date :</label>
-                    <input id="delivery-date" type="date" required>
+                    <input id="delivery-date" type="datetime-local" required>
                 </fieldset>
 
                 <!-- Carrier Information Section (Read-only) -->
@@ -86,7 +125,7 @@
     <footer class="shipment-footer">
     </footer>
 </div>
-
+<script src="../../js/utility/photonGeoLocator.js"></script>
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
 <script src="../../js/shipment/shipmentForm.js"></script>
 </body>

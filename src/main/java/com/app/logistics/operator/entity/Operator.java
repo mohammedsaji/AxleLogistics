@@ -39,14 +39,14 @@ public class Operator extends BaseEntity {
     @Positive(groups = {OnCreate.class, OnUpdate.class})
     private Integer updatedBy;
 
-    @OneToMany(mappedBy = "operatorVO", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "operator", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Manager> managerList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "operatorVO", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "operator", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Driver> driverList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "operatorVO", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<Vehicle> vehicleVOList = new ArrayList<>();
+    @OneToMany(mappedBy = "operator", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<Vehicle> vehicleList = new ArrayList<>();
 
     public void addManager(Manager manager) {
         managerList.add(manager);
@@ -56,36 +56,36 @@ public class Operator extends BaseEntity {
         managerList.remove(manager);
     }
 
-    public List<Manager> getManagerVOList() {
+    public List<Manager> getManagerList() {
         return managerList;
     }
 
     public void addDriver(Driver driver) {
         driverList.add(driver);
-        driver.setOperatorVO(this);
+        driver.setOperator(this);
     }
 
     public void removeDriver(Driver driver) {
         driverList.remove(driver);
-        driver.setOperatorVO(null);
+        driver.setOperator(null);
     }
 
     public List<Driver> getDriverList() {
         return driverList;
     }
 
-    public void addVehicle(Vehicle vehicleVO) {
-        vehicleVOList.add(vehicleVO);
-        vehicleVO.setOperatorVO(this);
+    public void addVehicle(Vehicle vehicle) {
+        vehicleList.add(vehicle);
+        vehicle.setOperator(this);
     }
 
-    public void removeVehicle(Vehicle vehicleVO) {
-        vehicleVOList.remove(vehicleVO);
-        vehicleVO.setOperatorVO(null);
+    public void removeVehicle(Vehicle vehicle) {
+        vehicleList.remove(vehicle);
+        vehicle.setOperator(null);
     }
 
     public List<Vehicle> getVehicleList() {
-        return vehicleVOList;
+        return vehicleList;
     }
 
     public Integer getOperatorId() {

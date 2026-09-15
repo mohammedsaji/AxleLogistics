@@ -2,7 +2,6 @@ const params = new URLSearchParams(window.location.search);
 
 function payloadExtractor() {
     const operatorId = params.get("operatorId");
-    const accountUserName = params.get("accountUserName");
 
     if (operatorId) {
         const operatorIdDisplay = document.getElementById('operator-id-display');
@@ -18,6 +17,7 @@ function payloadExtractor() {
 payloadExtractor();
 
 function clickEventBinder() {
+    const userAction = params.get("userAction");
 
     const dashboardBtn = document.getElementById('dashboard-btn');
     if (dashboardBtn) {
@@ -51,29 +51,38 @@ function clickEventBinder() {
             const payload = {
                 "driverName": driverName,
                 "driverPhoneNo": driverPhoneNo,
-                "driverLicenseNo": driverLicenseNo,
-                "accountUserName": params.get("accountUserName")
+                "driverLicenseNo": driverLicenseNo
             };
 
             if (operatorId) {
                 payload["operatorId"] = parseInt(operatorId, 10);
             }
 
-            const url = `/logistic/driver/save`;
-            const methodType = 'POST';
-            const response = await ajaxCall(url, methodType, payload);
+            createForm.disabled = true;
 
-            if (response) {
-                const driverId = response.driverId;
+            try{
+                const accountUserName = params.get("accountUserName");
+                const url = `/logistic/driver/save?accountUserName=${encodeURIComponent(accountUserName)}`;
+                const methodType = 'POST';
+                const response = await ajaxCall(url, methodType, payload);
 
-                if (operatorId) {
-                    // Flow B: User came from operator view
-                    window.location.href = `../../views/driver/driver.html?driverId=${driverId}&userAction=Entry driver&operatorId=${operatorId}`;
-                } else {
-                    // Flow A: User came from dashboard, needs to select operator
-                    const accountUserName = params.get("accountUserName");
-                    window.location.href = `../../views/operator/transport-types.html?userAction=Entry driver&accountUserName=${accountUserName}`;
+                if (response) {
+                    const driverId = response.data.driverId;
+
+                    if (operatorId) {
+                        // Flow B: User came from operator view
+                        window.location.href = `../../views/driver/driver.html?driverId=${driverId}&userAction=${userAction}&operatorId=${operatorId}`;
+                    } else {
+                        // Flow A: User came from dashboard, needs to select operator
+                        const accountUserName = params.get("accountUserName");
+                        window.location.href = `../../views/operator/transport-types.html?userAction=Entry driver&accountUserName=${accountUserName}`;
+                    }
                 }
+                createForm.disabled = false;
+            }
+            catch(error){
+                console.log("Driver save failed:", error);
+                createForm.disabled = false;
             }
         });
     }

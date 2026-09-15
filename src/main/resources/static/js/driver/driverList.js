@@ -15,6 +15,7 @@ async function payloadExtractor() {
     currentPageNo = 1;
     await fetchDriverList(operatorId, currentPageNo);
 }
+
 payloadExtractor();
 
 async function fetchDriverList(operatorId, pageNo) {
@@ -24,18 +25,21 @@ async function fetchDriverList(operatorId, pageNo) {
 
     currentResponse = response;
 
-    if (response && response.valueMap) {
-        totalPages = response.valueMap.TotalPages || 1;
-        const driverList = response.valueMap.DriverList || [];
-        renderDriverList(driverList);
-    } else if (Array.isArray(response)) {
-        renderDriverList(response);
-    } else if (response) {
-        renderDriverList([response]);
+    if (response && response.data) {
+        const loginUserMap = await ajaxCall(`/logistic/account/user-info`, 'GET', null);
+        const roleArray = loginUserMap?.data?.RoleList;
+        if(roleArray && roleArray.length > 0){
+            dynamicLayoutRender(roleArray);
+            const driverList = Array.isArray(response.data.driverList) ? response.data.driverList : [response.data.driverList];
+            totalPages = response.data.totalPages;
+            renderDriverList(driverList);
+        }
     }
 }
 
 function renderDriverList(driverList) {
+    const userAction = params.get("userAction");
+
     const listContainer = document.getElementById('driver-list-container');
     if (listContainer) {
         listContainer.innerHTML = '';
@@ -66,14 +70,31 @@ function renderDriverList(driverList) {
         viewBtn.setAttribute('data-driver-id', driver.driverId);
         viewBtn.setAttribute('data-operator-id', driver.operatorId);
         viewBtn.textContent = 'View';
+
+        viewBtn.addEventListener('click', function () {
+            const driverId = this.getAttribute('data-driver-id');
+            const operatorId = this.getAttribute('data-operator-id');
+            if (userAction === 'Reassign driver') {
+                const shippingId = params.get("shippingId");
+                window.location.href = `../../views/driver/driver.html?shippingId=${shippingId}&driverId=${driverId}&userAction=${userAction}&operatorId=${operatorId}`;
+            } else {
+                // Read operator
+                window.location.href = `../../views/driver/driver.html?driverId=${driverId}&userAction=${userAction}&operatorId=${operatorId}`;
+            }
+        }, {once: true});
+
         driverInfoDiv.append(viewBtn);
 
         driverDiv.append(driverInfoDiv);
         listContainer.append(driverDiv);
     });
+}
 
-    clickEventBinder();
-    searchClickEvent();
+function dynamicLayoutRender(roleArray){
+    const driverHeaderSectionDivB = document.querySelector('.driver-header-section-b');
+    if(roleArray.length > 0 && !roleArray.includes("ADMIN") && driverHeaderSectionDivB){
+        driverHeaderSectionDivB.remove();
+    }
 }
 
 function clickEventBinder() {
@@ -90,18 +111,11 @@ function clickEventBinder() {
     const createDriverBtn = document.getElementById('create-driver-btn');
     if (createDriverBtn) {
         createDriverBtn.addEventListener('click', function () {
-            window.location.href = `../../views/signUp/sign-up.html?userAction=Entry driver&operatorId=${operatorId}`;
+            const userAction = 'Entry federate';
+            const specificAction = 'Entry Driver';
+            window.location.href = `../../views/signUp/sign-up.html?userAction=${userAction}&operatorId=${operatorId}&specificAction=${specificAction}`;
         }, {once: true});
     }
-
-    const viewBtnArray = document.querySelectorAll('.view-btn');
-    viewBtnArray.forEach(btn => {
-        btn.addEventListener('click', function () {
-            const driverId = this.getAttribute('data-driver-id');
-            const operatorId = this.getAttribute('data-operator-id');
-            window.location.href = `../../views/driver/driver.html?driverId=${driverId}&userAction=${userAction}&operatorId=${operatorId}`;
-        }, {once: true});
-    });
 
     const previousPageBtn = document.getElementById('previous-page-btn');
     if (previousPageBtn) {
@@ -110,7 +124,7 @@ function clickEventBinder() {
                 currentPageNo--;
                 await fetchDriverList(operatorId, currentPageNo);
             }
-        }, {once: true});
+        });
     }
 
     const nextPageBtn = document.getElementById('next-page-btn');
@@ -120,9 +134,11 @@ function clickEventBinder() {
                 currentPageNo++;
                 await fetchDriverList(operatorId, currentPageNo);
             }
-        }, {once: true});
+        });
     }
 }
+
+clickEventBinder();
 
 function searchClickEvent() {
     const searchBtn = document.getElementById('search-btn');
@@ -149,13 +165,8 @@ function searchClickEvent() {
                 if (response) {
                     let driverList = [];
 
-                    // Handle both response formats: valueMap wrapper and direct array
-                    if (response && response.valueMap) {
-                        driverList = response.valueMap.DriverList || [];
-                    } else if (Array.isArray(response)) {
-                        driverList = response;
-                    } else if (response) {
-                        driverList = [response];
+                    if (response && response.data) {
+                        driverList = [response.data];
                     }
 
                     if (driverList.length > 0) {
@@ -178,4 +189,28 @@ function searchClickEvent() {
             }
         });
     }
+}
+
+searchClickEvent();
+
+function driverNavigationBinder() {
+    const driverNavigationBtn = document.getElementById('driver-navigation-btn');
+
+    if (driverNavigationBtn) {
+        driverNavigationBtn.addEventListener('click', function () {
+            toggleDriverNavigationMenu();
+        });
+    }
+}
+
+driverNavigationBinder();
+
+function toggleDriverNavigationMenu() {
+    const driverNavigationMenu = document.getElementById('driver-navigation-menu');
+
+    if (!driverNavigationMenu) {
+        return;
+    }
+
+    driverNavigationMenu.classList.toggle('active');
 }

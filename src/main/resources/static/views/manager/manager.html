@@ -3,44 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <title>Manager screen</title>
+    <link rel="stylesheet" href="../../styles/manager/manager.css">
 </head>
 <body>
 <div class="manager">
     <header class="manager-header">
-        <div class="manager-header-brand-icon">
+        <div class="manager-header-brand">
             <img class="manager-header-logo" src="" alt="Manager Logo">
         </div>
         <div class="manager-header-actions">
             <div class="manager-header-section-a">
-                <button id="dashboard-btn">Dashboard</button>
+                <button type="button" id="dashboard-btn">Dashboard</button>
+                <button type="button" id="back-to-operator-btn">Back to operator</button>
             </div>
             <div class="manager-header-section-b">
-                <div class="manager-header-actions-a">
-                    <button id="manager-list-btn">Manager list</button>
-                    <button id="entry-manager-btn">Entry manager</button>
-                </div>
-                <div class="manager-header-actions-b">
-                </div>
+                <nav class="manager-navigation" aria-label="Manager navigation">
+                    <div class="manager-navigation-group">
+                        <button type="button" id="manager-navigation-btn">Manager</button>
+                        <div class="manager-navigation-menu" id="manager-navigation-menu">
+                            <button type="button" id="manager-list-btn">Manage Managers</button>
+                            <button type="button" id="entry-manager-btn">Create Manager</button>
+                        </div>
+                    </div>
+                </nav>
             </div>
         </div>
     </header>
     <main class="manager-body">
         <div class="manager-body-manager-display">
             <form>
-                <label for="manager-id">Manager ID :</label>
+                <label for="manager-id">Manager Id :</label>
                 <input id="manager-id" type="number" readonly>
 
-                <label for="manager-name">Manager Name :</label>
+                <label for="manager-name">Manager name :</label>
                 <input id="manager-name" type="text" maxlength="250" required>
 
-                <label for="manager-contact-no">Manager Contact No :</label>
+                <label for="manager-contact-no">Manager contact :</label>
                 <input id="manager-contact-no" type="text" maxlength="20" required>
 
-                <label for="operator-id">Operator ID :</label>
+                <label for="operator-id">Operator Id :</label>
                 <input id="operator-id" type="number" readonly required>
 
-                <label for="manager-status">Manager Status :</label>
-                <input id="manager-status" type="text" maxlength="20" required>
+                <label for="manager-status">Manager status :</label>
+                <select id="manager-status" required>
+                    <option value="" selected>Select one</option>
+                    <option value="ACTIVE">Active</option>
+                    <option value="IN_ACTIVE">In Active</option>
+                </select>
 
                 <label for="created-at">Manager created at :</label>
                 <input id="created-at" type="datetime-local" readonly required>

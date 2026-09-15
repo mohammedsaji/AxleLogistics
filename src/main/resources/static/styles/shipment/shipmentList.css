@@ -1,0 +1,7 @@
+.shipment-navigation-menu {
+    display: none;
+}
+
+.shipment-navigation-menu.active {
+    display: block;
+}

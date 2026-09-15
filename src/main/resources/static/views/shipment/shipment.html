@@ -2,72 +2,188 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Shipment screen</title>
+    <title>Shipment status screen</title>
+    <link rel="stylesheet" href="../../styles/shipment/shipment.css">
 </head>
 <body>
 <div class="shipment">
     <header class="shipment-header">
-        <div class="shipment-header-brand-icon">
-            <img class="shipment-header-logo" src="" alt="Shipment">
+        <div class="shipment-header-brand">
+            <img class="shipment-header-logo" src="" alt="Shipment Logo">
         </div>
         <div class="shipment-header-actions">
-            <div class="operator-header-section-a">
-                <button id="dashboard-btn">Dashboard</button>
+            <div class="shipment-header-section-a">
+                <button type="button" id="dashboard-btn">Dashboard</button>
             </div>
-            <div class="operator-header-section-b">
-                <div id="shipment-header-actions-a" class="shipment-header-actions-a">
-                    <button id="shipment-list-btn">Shipment list</button>
-                </div>
-                <div id="shipment-header-actions-b" class="shipment-header-actions-b">
-                </div>
+            <div class="shipment-header-section-b">
+                <nav class="shipment-navigation" aria-label="Shipment navigation">
+                    <div class="shipment-navigation-group">
+                        <button type="button" id="shipment-navigation-btn">Shipment</button>
+                        <div class="shipment-navigation-menu" id="shipment-navigation-menu">
+                            <button type="button" id="shipment-list-btn">Manage Shipments</button>
+                        </div>
+                    </div>
+                </nav>
             </div>
         </div>
     </header>
+
     <main class="shipment-body">
         <div class="shipment-body-shipment-display">
             <form class="shipment-body-shipment-form">
                 <label for="shipping-id">Shipping ID</label>
-                <input type="text" id="shipping-id" readonly>
+                <input type="number" id="shipping-id" readonly>
 
                 <label for="shipping-from">Shipping from</label>
                 <input type="text" id="shipping-from" readonly>
 
+                <label for="cargo-name">Cargo</label>
+                <input type="text" id="cargo-name" readonly>
+
+                <label for="cargo-quantity">Quantity</label>
+                <input type="number" id="cargo-quantity" readonly>
+
+                <label for="cargo-type">Cargo type</label>
+                <input type="text" id="cargo-type" readonly>
+
+                <label for="customer-name">Customer</label>
+                <input type="text" id="customer-name" readonly>
+
+                <label for="origin-latitude">Origin latitude</label>
+                <input type="number" id="origin-latitude" readonly>
+
+                <label for="origin-longitude">Origin longitude</label>
+                <input type="number" id="origin-longitude" readonly>
+
+                <label for="current-location">Operator Destination</label>
+                <input type="search"
+                       id="current-location"
+                       name="currentLocation"
+                       placeholder="Enter operator destination for delivery"
+                       autocomplete="off">
+
+                <div id="location-suggestions"></div>
+
+                <label for="current-latitude">Current latitude</label>
+                <input type="number" id="current-latitude" readonly>
+
+                <label for="current-longitude">Current longitude</label>
+                <input type="number" id="current-longitude" readonly>
+
                 <label for="shipping-to">Shipping to</label>
                 <input type="text" id="shipping-to" readonly>
+
+                <label for="destination-latitude">Destination latitude</label>
+                <input type="number" id="destination-latitude" readonly>
+
+                <label for="destination-longitude">Destination longitude</label>
+                <input type="number" id="destination-longitude" readonly>
 
                 <label for="delivery-date">Delivery date</label>
                 <input type="datetime-local" id="delivery-date">
 
                 <label for="created-at">Created at</label>
-                <input type="text" id="created-at" readonly>
+                <input type="datetime-local" id="created-at" readonly>
 
-                <label for="updated-at">Updated at</label>
-                <input type="text" id="updated-at" readonly>
+                <label for="shipment-updated-at">Updated at</label>
+                <input type="datetime-local" id="shipment-updated-at" readonly>
 
-                <label for="updated-by">Updated by</label>
-                <input type="text" id="updated-by" readonly>
+                <label for="shipment-updated-by">Updated by</label>
+                <input type="number" id="shipment-updated-by" readonly>
 
-                <input type="hidden" id="customer-id" readonly>
-                <input type="hidden" id="cargo-id" readonly>
-                <input type="hidden" id="status-id" readonly>
+                <label for="customer-id">Customer </label>
+                <input type="number" id="customer-id" readonly>
+
+                <label for="cargo-id">Cargo </label>
+                <input type="number" id="cargo-id" readonly>
+                <!-- status-id removed: SHIPPNG_INFO no longer stores a status pointer.
+                     Current status is fetched separately (see below) via
+                     SELECT ... FROM SHIPPNG_STATUS_INFO_LOGS WHERE SHIPPNG_ID = ?
+                     ORDER BY UPDATED_AT DESC LIMIT 1 -->
             </form>
             <div class="shipment-body-dependents-list">
                 <button id="view-customer-btn">View customer</button>
                 <button id="view-cargo-btn">View cargo</button>
-                <button id="view-status-btn">View status</button>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             CURRENT STATUS (latest SHIPPNG_STATUS_INFO_LOGS row for this shipment)
+             Display fields show the current snapshot. Submitting the form
+             below does NOT update this row — it INSERT a new log row,
+             since status is history-tracked, not overwritten.
+             ============================================================ -->
+        <div class="shipment-body-status-display">
+            <form class="shipment-body-status-form">
+                <label for="shipping-status-log-id">Latest status log ID</label>
+                <input type="number" id="shipping-status-log-id" readonly>
+
+                <label for="current-location-status">Dropping Location</label>
+                <input type="search" id="current-location-status" readonly>
+
+                <label for="current-latitude-status">Current latitude</label>
+                <input type="number" id="current-latitude-status" readonly>
+
+                <label for="current-longitude-status">Current longitude</label>
+                <input type="number" id="current-longitude-status" readonly>
+
+                <label for="shipping-status">Shipping status</label>
+                <select id="shipping-status">
+                    <option value="" disabled>Select status</option>
+                    <option value="SHIPPED">SHIPPED</option>
+                    <option value="IN-TRANSIT">IN-TRANSIT</option>
+                    <option value="DELAYED">DELAYED</option>
+                    <option value="ARRIVED">ARRIVED</option>
+                    <option value="OUT-FOR-DELIVERY">OUT-FOR-DELIVERY</option>
+                    <option value="DELIVERED">DELIVERED</option>
+                </select>
+
+                <label for="operator-name">Operator Name</label>
+                <input type="text" id="operator-name" readonly>
+
+                <label for="driver-name">Driver Name</label>
+                <input type="text" id="driver-name" readonly>
+
+                <label for="vehicle-number">Vehicle Number</label>
+                <input type="text" id="vehicle-number" readonly>
+
+                <label for="assigned-by-manager-name">Assigned by Manager</label>
+                <input type="text" id="assigned-by-manager-name" readonly>
+
+                <label for="status-updated-at">Last updated at</label>
+                <input type="datetime-local" id="status-updated-at" readonly>
+
+                <label for="status-updated-by">Last updated by</label>
+                <input type="number" id="status-updated-by" readonly>
+
+                <!-- FK references -->
+                <input type="hidden" id="shipping-id-ref" readonly>
+                <!-- SHIPPNG_ID: links log to this shipment (new) -->
+                <input type="hidden" id="operator-id" readonly>
+                <input type="hidden" id="driver-id" readonly>
+                <input type="hidden" id="vehicle-id" readonly>
+                <input type="hidden" id="assigned-by" readonly> <!-- ACC_ID of the assigning manager -->
+                <!-- cargo-id removed: redundant, derivable via shipping-id -> SHIPPNG_INFO.SHIPPNG_CRGO_ID -->
+            </form>
+            <div class="shipment-body-dependents-list">
+                <button id="reassign-operator-btn">Reassign operator</button>
+                <button id="reassign-driver-btn">Reassign driver</button>
             </div>
         </div>
         <div id="shipment-body-shipment-actions" class="shipment-body-shipment-actions">
-            <button id="update-btn">Update shipment</button>
-        </div>
-        <div id="shipment-body-common-actions" class="shipment-body-common-actions">
-            <button id="proceed-btn">Proceed</button>
+            <button id="update-operator-btn">Update</button>
+            <button id="update-dependent-btn">Update</button>
+            <button id="update-status-btn">Update</button>
         </div>
     </main>
+
     <footer class="shipment-footer"></footer>
 </div>
 <script src="../../js/utility/utility.js"></script>
+<script src="../../js/utility/geoLocater.js"></script>
+<script src="../../js/utility/photonGeoLocator.js"></script>
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
+<script src="../../js/customer/customerShipmentTracking.js"></script>
 <script src="../../js/shipment/shipment.js"></script>
 </body>
 </html>

@@ -4,6 +4,7 @@ import com.app.logistics.auth.authUtils.AuthDetails;
 import com.app.logistics.common.dto.ApiResponse;
 import com.app.logistics.common.validations.OnCreate;
 import com.app.logistics.common.validations.OnUpdate;
+import com.app.logistics.manager.dto.ManagerProfileResponse;
 import com.app.logistics.manager.dto.ManagerRequest;
 import com.app.logistics.manager.dto.ManagerResponse;
 import com.app.logistics.manager.service.ManagerService;
@@ -14,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("logistic/manager")
@@ -38,15 +40,28 @@ public class ManagerController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
+    @GetMapping("/profile")
+    public ResponseEntity<ApiResponse<ManagerProfileResponse>> fetchManager(@AuthenticationPrincipal AuthDetails authDetails) {
+        ManagerProfileResponse result = managerService.fetchManagerProfile(authDetails);
+
+        ApiResponse<ManagerProfileResponse> apiResponse = new ApiResponse
+                .Builder<ManagerProfileResponse>(true, result)
+                .message("Manager profile fetched successfully.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
     @GetMapping("/fetchall")
-    public ResponseEntity<ApiResponse<List<ManagerResponse>>> fetchAllManager(
+    public ResponseEntity<ApiResponse<Map<String, Object>>> fetchAllManager(
             @RequestParam Integer operatorId,
             @RequestParam(defaultValue = "1") int pageNo) {
 
-        List<ManagerResponse> result = managerService.fetchAllManager(operatorId, pageNo);
+        Map<String, Object> result = managerService.fetchAllManager(operatorId, pageNo);
 
-        ApiResponse<List<ManagerResponse>> apiResponse = new ApiResponse
-                .Builder<List<ManagerResponse>>(true, result)
+        ApiResponse<Map<String, Object>> apiResponse = new ApiResponse
+                .Builder<Map<String, Object>>(true, result)
                 .message("Manager list fetched successfully.")
                 .timeStamp()
                 .build();
@@ -77,15 +92,15 @@ public class ManagerController {
 
         ApiResponse<ManagerResponse> apiResponse = new ApiResponse
                 .Builder<ManagerResponse>(true, result)
-                .message("Manager created successfully.")
+                .message("New manager recorded and account for manager has been created successfully.")
                 .timeStamp()
                 .build();
 
         return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/delete/{managerId}")
-    public ResponseEntity<ApiResponse<Void>> deleteManager(@PathVariable Integer managerId) {
+    @DeleteMapping("/delete")
+    public ResponseEntity<ApiResponse<Void>> deleteManager(@RequestParam Integer managerId) {
         managerService.deleteManager(managerId);
 
         ApiResponse<Void> apiResponse = new ApiResponse

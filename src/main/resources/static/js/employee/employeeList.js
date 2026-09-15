@@ -5,7 +5,6 @@ let currentResponse = null;
 
 async function payloadExtractor() {
     const userAction = params.get("userAction");
-    const accountUserName = params.get("accountUserName");
 
     if (!userAction) {
         alert('Invalid parameters.');
@@ -24,18 +23,16 @@ async function fetchEmployeeList(pageNo) {
 
     currentResponse = response;
 
-    if (response && response.valueMap) {
-        totalPages = response.valueMap.TotalPages || 1;
-        const employeeList = response.valueMap.EmployeeList || [];
+    if (response && response.data) {
+        const employeeList = Array.isArray(response.data.employeeList) ? response.data.employeeList : [response.data.employeeList];
+        totalPages = response.data.totalPages;
         renderEmployeeList(employeeList);
-    } else if (Array.isArray(response)) {
-        renderEmployeeList(response);
-    } else if (response) {
-        renderEmployeeList([response]);
     }
 }
 
 function renderEmployeeList(employeeList) {
+    const userAction = params.get("userAction");
+
     const listContainer = document.getElementById('employee-list-container');
     if (listContainer) {
         listContainer.innerHTML = '';
@@ -66,22 +63,37 @@ function renderEmployeeList(employeeList) {
         employeeInfoDiv.append(employeeDepartmentP);
 
         const viewBtn = document.createElement('button');
-        viewBtn.className = 'view-btn';
+        if(userAction === 'Entry employee'){
+            viewBtn.className = 'select-as-manager-btn';
+            viewBtn.textContent = 'Select as Manager';
+
+            viewBtn.addEventListener('click', function () {
+                const employeeId = this.getAttribute('data-employee-id');
+                const isManagerAccount = false;
+                const accountUserRole = params.get("accountUserRole");
+                const accountUserName = params.get("accountUserName");
+                window.location.href = `../../views/employee/employee-account-creation-form.html?managerId=${employeeId}&userAction=${userAction}&isManagerAccount=${isManagerAccount}&accountUserRole=${accountUserRole}&accountUserName=${accountUserName}&managerId=${employeeId}`;
+            }, {once: true});
+
+        }else{
+            viewBtn.className = 'view-btn';
+            viewBtn.textContent = 'View';
+
+            viewBtn.addEventListener('click', function () {
+                const employeeId = this.getAttribute('data-employee-id');
+                window.location.href = `../../views/employee/employee.html?employeeId=${employeeId}&userAction=${userAction}`;
+            }, {once: true});
+        }
         viewBtn.setAttribute('data-employee-id', employee.employeeId);
-        viewBtn.textContent = 'View';
         employeeInfoDiv.append(viewBtn);
 
         employeeDiv.append(employeeInfoDiv);
         listContainer.append(employeeDiv);
     });
-
-    clickEventBinder();
-    searchClickEvent();
 }
 
 function clickEventBinder() {
     const userAction = params.get("userAction");
-    const accountUserName = params.get("accountUserName");
 
     const dashboardBtn = document.getElementById('dashboard-btn');
     if (dashboardBtn) {
@@ -97,14 +109,6 @@ function clickEventBinder() {
         }, {once: true});
     }
 
-    const viewBtnArray = document.querySelectorAll('.view-btn');
-    viewBtnArray.forEach(btn => {
-        btn.addEventListener('click', function () {
-            const employeeId = this.getAttribute('data-employee-id');
-            window.location.href = `../../views/employee/employee.html?employeeId=${employeeId}&userAction=${userAction}`;
-        }, {once: true});
-    });
-
     const previousPageBtn = document.getElementById('previous-page-btn');
     if (previousPageBtn) {
         previousPageBtn.addEventListener('click', async function () {
@@ -112,7 +116,7 @@ function clickEventBinder() {
                 currentPageNo--;
                 await fetchEmployeeList(currentPageNo);
             }
-        }, {once: true});
+        });
     }
 
     const nextPageBtn = document.getElementById('next-page-btn');
@@ -122,9 +126,10 @@ function clickEventBinder() {
                 currentPageNo++;
                 await fetchEmployeeList(currentPageNo);
             }
-        }, {once: true});
+        });
     }
 }
+clickEventBinder();
 
 function searchClickEvent() {
     const searchBtn = document.getElementById('search-btn');
@@ -151,13 +156,8 @@ function searchClickEvent() {
                 if (response) {
                     let employeeList = [];
 
-                    // Handle both response formats: valueMap wrapper and direct array
-                    if (response && response.valueMap) {
-                        employeeList = response.valueMap.EmployeeList || [];
-                    } else if (Array.isArray(response)) {
-                        employeeList = response;
-                    } else if (response) {
-                        employeeList = [response];
+                    if (response && response.data) {
+                        employeeList = [response.data];
                     }
 
                     if (employeeList.length > 0) {
@@ -180,4 +180,27 @@ function searchClickEvent() {
             }
         });
     }
+}
+searchClickEvent();
+
+function employeeNavigationBinder() {
+    const employeeNavigationBtn = document.getElementById('employee-navigation-btn');
+
+    if (employeeNavigationBtn) {
+        employeeNavigationBtn.addEventListener('click', function () {
+            toggleEmployeeNavigationMenu();
+        });
+    }
+}
+
+employeeNavigationBinder();
+
+function toggleEmployeeNavigationMenu() {
+    const employeeNavigationMenu = document.getElementById('employee-navigation-menu');
+
+    if (!employeeNavigationMenu) {
+        return;
+    }
+
+    employeeNavigationMenu.classList.toggle('active');
 }

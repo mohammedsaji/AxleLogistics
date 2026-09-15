@@ -18,7 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,8 +51,8 @@ public class VehicleService {
 
     private VehicleResponse toResponseWithOperator(Vehicle vehicle) {
         VehicleResponse response = vehicleMapper.toDTO(vehicle);
-        if (vehicle.getOperatorVO() != null) {
-            response.setOperatorId(vehicle.getOperatorVO().getOperatorId());
+        if (vehicle.getOperator() != null) {
+            response.setOperatorId(vehicle.getOperator().getOperatorId());
         }
         return response;
     }
@@ -63,17 +66,18 @@ public class VehicleService {
     }
 
     @Transactional(readOnly = true)
-    public List<VehicleResponse> fetchAllVehicle(Integer operatorId, int pageNo) {
+    public Map<String, Object> fetchAllVehicle(Integer operatorId, int pageNo) {
         if (pageNo < 1) {
             pageNo = 1;
         }
-        int elementCount = 25;
-        Pageable pageable = PageRequest.of(pageNo - 1, elementCount, Sort.by("vehicleId").ascending());
-        Page<Vehicle> page = vehicleRepo.findByOperatorVO_OperatorId(operatorId, pageable);
+        int elementCount = 1;
+        Pageable pageable = PageRequest.of(pageNo - 1, elementCount, Sort.by("vehicleId"));
+        Page<Vehicle> page = vehicleRepo.findByOperator_OperatorId(operatorId, pageable);
 
-        return page.getContent().stream()
-                .map(this::toResponseWithOperator)
-                .collect(Collectors.toList());
+        Map<String, Object> valueMap = new HashMap<>();
+        valueMap.put("vehicleList", page.getContent().stream().map(vehicleMapper::toDTO).collect(Collectors.toList()));
+        valueMap.put("totalPages", page.getTotalPages());
+        return valueMap;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -88,7 +92,7 @@ public class VehicleService {
         }
 
         Vehicle savingVehicle = vehicleMapper.toVO(vehicleRequest);
-        savingVehicle.setOperatorVO(operator);
+        savingVehicle.setOperator(operator);
         savingVehicle.setUpdatedBy(authDetails.getEmployeeId());
 
         Vehicle savedVehicle = vehicleRepo.save(savingVehicle);
@@ -101,18 +105,28 @@ public class VehicleService {
             throw new APIException("Vehicle request data payload cannot be null", HttpStatus.BAD_REQUEST);
         }
 
+        if (vehicleRequest.getVehicleId() == null) {
+            throw new APIException("Vehicle ID is required for update", HttpStatus.BAD_REQUEST);
+        }
+
+        Vehicle existingVehicle = vehicleRepo.findById(vehicleRequest.getVehicleId())
+                .orElseThrow(() -> new APIException("Vehicle ID " + vehicleRequest.getVehicleId() + " not found.", HttpStatus.NOT_FOUND));
+
         Operator operator = operatorService.internalFetchService(vehicleRequest.getOperatorId());
         if (operator == null) {
             throw new APIException("Operator ID " + vehicleRequest.getOperatorId() + " does not exist in the system.", HttpStatus.BAD_REQUEST);
         }
 
-        Vehicle mutatedVehicle = vehicleMapper.toVO(vehicleRequest);
-        mutatedVehicle.setOperatorVO(operator);
+        existingVehicle.setVehicleType(vehicleRequest.getVehicleType());
+        existingVehicle.setVehicleNumber(vehicleRequest.getVehicleNumber());
+        existingVehicle.setOperator(operator);
+        existingVehicle.setUpdatedAt(LocalDateTime.now());
+
         if (authDetails != null) {
-            mutatedVehicle.setUpdatedBy(authDetails.getEmployeeId());
+            existingVehicle.setUpdatedBy(authDetails.getEmployeeId());
         }
 
-        Vehicle updatedVehicle = vehicleRepo.save(mutatedVehicle);
+        Vehicle updatedVehicle = vehicleRepo.save(existingVehicle);
         return toResponseWithOperator(updatedVehicle);
     }
 

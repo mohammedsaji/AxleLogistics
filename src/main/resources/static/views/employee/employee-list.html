@@ -3,26 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Employee list</title>
+    <link rel="stylesheet" href="../../styles/employee/employeeList.css">
 </head>
 <body>
 <div class="employee">
     <header class="employee-header">
-        <div class="employee-header-brand-icon">
-            <img class="employee-header-logo" src="" alt="Employee Logo">
+        <div class="employee-header-brand">
+            <img class="employee-header-logo" src="" alt="Employee">
         </div>
         <div class="employee-header-actions">
             <div class="employee-header-section-a">
-                <button id="dashboard-btn">Dashboard</button>
+                <button type="button" id="dashboard-btn">Dashboard</button>
             </div>
             <div class="employee-header-section-b">
-                <div class="employee-header-actions-a">
-                    <button id="create-employee-btn">Create employee</button>
-                </div>
+                <nav class="employee-navigation" aria-label="Employee navigation">
+                    <div class="employee-navigation-group">
+                        <button type="button" id="employee-navigation-btn">Employee</button>
+                        <div class="employee-navigation-menu" id="employee-navigation-menu">
+                            <button type="button" id="create-employee-btn">Create Employee</button>
+                        </div>
+                    </div>
+                </nav>
             </div>
         </div>
     </header>
     <main class="employee-body">
         <div class="employee-body-search">
+            <label for="search">Search employee :</label>
             <input id="search" type="text" placeholder="Search by employee name" maxlength="250">
             <button id="search-btn">Search</button>
         </div>

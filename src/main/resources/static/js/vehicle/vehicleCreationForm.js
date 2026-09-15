@@ -52,13 +52,21 @@ function clickEventBinder() {
                 "operatorId": parseInt(operatorId, 10)
             };
 
-            const url = `/logistic/vehicle/save`;
-            const methodType = 'POST';
-            const response = await ajaxCall(url, methodType, payload);
+            createForm.disabled = true;
+            try{
+                const url = `/logistic/vehicle/save`;
+                const methodType = 'POST';
+                const response = await ajaxCall(url, methodType, payload);
 
-            if (response) {
-                const vehicleId = response.vehicleId;
-                window.location.href = `../../views/vehicle/vehicle.html?vehicleId=${vehicleId}&userAction=Entry operator&operatorId=${operatorId}`;
+                if (response) {
+                    const vehicleId = response.data.vehicleId;
+                    const userAction = params.get("userAction");
+                    window.location.href = `../../views/vehicle/vehicle.html?vehicleId=${vehicleId}&userAction=${userAction}&operatorId=${operatorId}`;
+                }
+                createForm.disabled = false;
+            }catch (error){
+                console.log("Vehicle save failed:", error);
+                createForm.disabled = false;
             }
         });
     }

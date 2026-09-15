@@ -1,0 +1,7 @@
+.vehicle-navigation-menu {
+    display: none;
+}
+
+.vehicle-navigation-menu.active {
+    display: block;
+}

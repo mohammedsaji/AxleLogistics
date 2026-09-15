@@ -1,8 +1,8 @@
 package com.app.logistics.auth.authFilters;
 
+import com.app.logistics.auth.authUtils.AuthDetails;
 import com.app.logistics.auth.authUtils.AuthService;
 import com.app.logistics.common.exception.APIException;
-import com.app.logistics.utils.AuthDetails;
 import com.app.logistics.auth.authUtils.BearerTokenBuilder;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -36,13 +36,23 @@ public class CustomBearerToken extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String servletPath = request.getServletPath();
 
-        if (servletPath.equals("/api/auth/login")
-                ||servletPath.equals("/actuator/health")
+        if (servletPath.equals("/logistic/account/signin")
+                || servletPath.equals("/logistic/account/signup")
+                || servletPath.equals("/logistic/shipment/tracking")
+                || servletPath.equals("/actuator/health")
                 || servletPath.startsWith("/swagger-ui/")
-                || servletPath.startsWith("/v3/api-docs/")) {
-
+                || servletPath.startsWith("/v3/api-docs/")
+                || servletPath.startsWith("/views/")
+                || servletPath.startsWith("/js/")
+                || servletPath.startsWith("/styles/")
+                || servletPath.equals("/")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -64,7 +74,7 @@ public class CustomBearerToken extends OncePerRequestFilter {
                     if (isAuthorized(authDetails.getAuthorities(), extractedRole)) {
                         if (extractedExpirationTime.getTime() > System.currentTimeMillis()) {
                             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                                    new UsernamePasswordAuthenticationToken(authDetails.getUsername(), null, authDetails.getAuthorities());
+                                    new UsernamePasswordAuthenticationToken(authDetails, null, authDetails.getAuthorities());
                             SecurityContext securityContext = SecurityContextHolder.getContext();
                             securityContext.setAuthentication(usernamePasswordAuthenticationToken);
                             filterChain.doFilter(request, response);
@@ -88,6 +98,10 @@ public class CustomBearerToken extends OncePerRequestFilter {
     public String extractBearerTokenFromCookie(HttpServletRequest request){
 
         Cookie[]  cookies = request.getCookies();
+
+        if(cookies == null){
+            throw new APIException("No cookies found.",HttpStatus.BAD_REQUEST);
+        }
 
         return Stream.of(cookies)
                 .filter(cookie -> cookie.getName().equals("AUTH-TOKEN"))

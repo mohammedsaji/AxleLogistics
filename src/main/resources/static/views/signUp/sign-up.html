@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Sign up</title>
+    <link rel="stylesheet" href="../../styles/signUp/signUp.css">
 </head>
 <body>
 <div class="sign-up">
     <header class="sign-up-header">
-        <div class="sign-up-header-brand-icon">
-            <img class="sign-up-header-logo" src="" alt="AxleOS">
+        <div class="sign-up-header-brand">
+            <img class="sign-up-header-logo" src="" alt="Sign Up">
         </div>
     </header>
     <main class="sign-up-body">
@@ -26,6 +27,7 @@
                 <label for="account-holder-role">Role</label>
                 <select id="account-holder-role" required>
                     <option value="" disabled selected>Select role</option>
+                    <option value="CEO">Ceo</option>
                     <option value="FEDERATE-MANAGER">Federate Manager</option>
                     <option value="FEDERATE-DRIVER">Federate Driver</option>
                     <option value="ADMIN">Admin</option>
@@ -33,6 +35,13 @@
                     <option value="BUSINESS-ANALYST">Business Analyst</option>
                     <option value="DATA-ENGINEER">Data Engineer</option>
                     <option value="SOFTWARE ENGINEER">Software Engineer</option>
+                    <option value="MANAGER">Manager</option>
+                </select>
+                <label for="employee-manager-role">Select Role:</label>
+                <select id="employee-manager-role" name="employee-manager-role" required>
+                    <option value="" disabled selected>-- Select an option --</option>
+                    <option value="MANAGER">MANAGER</option>
+                    <option value="NOT-MANAGER">NOT-MANAGER</option>
                 </select>
 
                 <button type="button" id="submit-btn">Sign up</button>

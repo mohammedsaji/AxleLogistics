@@ -2,17 +2,21 @@ package com.app.logistics.driver.dto;
 
 import com.app.logistics.common.validations.OnCreate;
 import com.app.logistics.common.validations.OnUpdate;
+import com.app.logistics.common.validations.OnShipmentSave;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 public class DriverRequest {
 
     @Null(groups = OnCreate.class)
-    @NotNull(groups = OnUpdate.class)
+    @NotNull(groups = {OnUpdate.class, OnShipmentSave.class})
     @Positive(groups = OnUpdate.class)
     private Integer driverId;
 
@@ -36,6 +40,9 @@ public class DriverRequest {
     @NotNull(groups = {OnCreate.class, OnUpdate.class})
     @Positive(groups = {OnCreate.class, OnUpdate.class})
     private Integer operatorId;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
     public Integer getDriverId() {
         return driverId;
@@ -75,5 +82,13 @@ public class DriverRequest {
 
     public void setOperatorId(Integer operatorId) {
         this.operatorId = operatorId;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

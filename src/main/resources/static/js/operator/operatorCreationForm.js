@@ -12,16 +12,14 @@ function clickEventBinder() {
     const operatorListBtn = document.getElementById('operator-list-btn');
     if (operatorListBtn) {
         operatorListBtn.addEventListener('click', function () {
-            const userAction = 'Read operator';
-            window.location.href = `../../views/operator/transport-types.html?userAction=${userAction}`;
+            window.location.href = `../../views/operator/transport-types.html?userAction=Read operator`;
         }, {once: true});
     }
 
-    const entryOperatorBtn = document.getElementById('entry-operator-btn');
-    if (entryOperatorBtn) {
-        entryOperatorBtn.addEventListener('click', function () {
-            const userAction = 'Entry operator';
-            window.location.href = `../../views/operator/transport-types.html?userAction=${userAction}`;
+    const createOperatorBtn = document.getElementById('create-operator-btn');
+    if (createOperatorBtn) {
+        createOperatorBtn.addEventListener('click', function () {
+            window.location.href = `../../views/operator/operator-creation-form.html?userAction=Entry operator`;
         }, {once: true});
     }
 
@@ -50,10 +48,34 @@ function clickEventBinder() {
             const methodType = 'POST';
             const response = await ajaxCall(url, methodType, payload);
             if (response) {
-                const operatorId = response.operatorId;
+                const operatorId = response.data.operatorId;
                 window.location.href = `../../views/operator/operator.html?operatorId=${operatorId}&userAction=Entry operator`;
             }
         });
     }
 }
 clickEventBinder();
+
+function operatorNavigationBinder() {
+
+    const operatorNavigationBtn = document.getElementById('operator-navigation-btn');
+
+    if (operatorNavigationBtn) {
+        operatorNavigationBtn.addEventListener('click', function () {
+            toggleOperatorNavigationMenu();
+        });
+    }
+}
+
+operatorNavigationBinder();
+
+function toggleOperatorNavigationMenu() {
+
+    const operatorNavigationMenu = document.getElementById('operator-navigation-menu');
+
+    if (!operatorNavigationMenu) {
+        return;
+    }
+
+    operatorNavigationMenu.classList.toggle('active');
+}

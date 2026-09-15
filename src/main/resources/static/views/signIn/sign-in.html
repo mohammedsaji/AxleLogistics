@@ -3,28 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Sign in</title>
+    <link rel="stylesheet" href="../../styles/signIn/signIn.css">
 </head>
 <body>
 <div class="sign-in">
     <header class="sign-in-header">
-        <div class="sign-in-header-brand-icon">
-            <img class="sign-in-header-logo" src="" alt="AxleOS">
+        <div class="sign-in-header-brand">
+            <img class="sign-in-header-logo" src="" alt="Sign In">
         </div>
     </header>
     <main class="sign-in-body">
         <div class="sign-in-body-sign-in-display">
-            <form class="sign-in-body-sign-in-form" action="http://localhost:8080/logistic/auth/signin" method="POST">
+            <form class="sign-in-body-sign-in-form">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="accountUsername" autocomplete="username" required>
+                <input type="text" id="username" autocomplete="username" required>
 
                 <label for="password">Password</label>
-                <input type="password" id="password" name="accountPassword" autocomplete="current-password" required>
+                <input type="password" id="password" autocomplete="current-password" required>
 
-                <button type="submit" id="submit-btn">Sign in</button>
+                <button type="button" id="submit-btn">Sign in</button>
             </form>
+            <div class="sign-in-actions">
+                <button type="button" id="forgot-password">Forgot password</button>
+            </div>
         </div>
     </main>
     <footer class="sign-in-footer"></footer>
 </div>
+<script src="../../js/utility/utility.js"></script>
+<script src="../../js/ajaxCalls/ajaxCalls.js"></script>
+<script src="../../js/signIn/signIn.js"></script>
 </body>
 </html>

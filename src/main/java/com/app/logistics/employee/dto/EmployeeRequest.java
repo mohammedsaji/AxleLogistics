@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -41,13 +42,11 @@ public class EmployeeRequest {
     )
     private String employeeStatus;
 
-    @NotNull(groups = {OnCreate.class, OnUpdate.class})
     @Positive(groups = {OnCreate.class, OnUpdate.class})
     private Integer reportingManagerId;
 
-    @NotNull(groups = OnCreate.class)
-    @Positive(groups = OnCreate.class)
-    private Integer accountId;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
     public Integer getEmployeeId() {
         return employeeId;
@@ -105,11 +104,11 @@ public class EmployeeRequest {
         this.reportingManagerId = reportingManagerId;
     }
 
-    public Integer getAccountId() {
-        return accountId;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setAccountId(Integer accountId) {
-        this.accountId = accountId;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

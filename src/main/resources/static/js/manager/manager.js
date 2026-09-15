@@ -7,9 +7,13 @@ async function payloadExtractor() {
     const url = `/logistic/manager/fetch?managerId=${managerId}`;
     const methodType = 'GET';
     const response = await ajaxCall(url, methodType, null);
-    valueInitializer(response);
-    dynamicLayoutRender(response.managerId, response.operatorId);
+    if (response && response.data) {
+        valueInitializer(response.data);
+        dynamicLayoutRender(response.data.managerId, response.data.operatorId);
+        clickEventBinder();
+    }
 }
+
 payloadExtractor();
 
 function valueInitializer(response) {
@@ -32,8 +36,8 @@ function valueInitializer(response) {
     managerContactNo.value = response.managerContactNo;
     operatorId.value = response.operatorId;
     managerStatus.value = response.managerStatus;
-    createdAt.value = response.createdAt;
-    updatedAt.value = response.updatedAt;
+    createdAt.value = formatDateTime(response.createdAt);
+    updatedAt.value = formatDateTime(response.updatedAt);
     updatedBy.value = response.updatedBy;
 }
 
@@ -41,36 +45,29 @@ function dynamicLayoutRender(managerId, operatorId) {
     const userAction = params.get("userAction");
 
     if (userAction === 'Entry manager') {
-        const managerHeaderActionsDivA = document.querySelector('.manager-header-actions-a');
-        if (managerHeaderActionsDivA) {
-            managerHeaderActionsDivA.remove();
-        }
-        const managerHeaderActionsDivB = document.querySelector('.manager-header-actions-b');
-        if (managerHeaderActionsDivB) {
-            managerHeaderActionsDivB.remove();
-        }
-        const managerBodyActionsDiv = document.querySelector('.manager-body-manager-actions');
-        if (managerBodyActionsDiv) {
-            managerBodyActionsDiv.remove();
+
+        const backToOperatorBtn = document.getElementById('back-to-operator-btn');
+        if (backToOperatorBtn) {
+            backToOperatorBtn.remove();
         }
 
-        const entryManagerBtn = document.getElementById('entry-manager-btn');
-        entryManagerBtn.setAttribute('data-operator-id',operatorId);
+        const managerHeaderSectionDivB = document.querySelector('.manager-header-section-b');
+        if (managerHeaderSectionDivB) {
+            managerHeaderSectionDivB.remove();
+        }
 
     } else if (userAction === 'Read operator') {
-        const managerHeaderActionsDivA = document.querySelector('.manager-header-actions-a');
-        if (managerHeaderActionsDivA) {
-            managerHeaderActionsDivA.remove();
-        }
-        const managerHeaderActionsDivB = document.querySelector('.manager-header-actions-b');
-        if (managerHeaderActionsDivB) {
-            managerHeaderActionsDivB.remove();
-        }
 
-        const deleteBtn = document.getElementById('delete-btn');
-        if (deleteBtn) {
-            deleteBtn.setAttribute('data-manager-id', managerId);
-        }
+        const managerListBtn = document.getElementById('manager-list-btn');
+        managerListBtn.setAttribute('data-operator-id', operatorId);
+
+        const entryManagerBtn = document.getElementById('entry-manager-btn');
+        entryManagerBtn.setAttribute('data-operator-id', operatorId);
+    }
+
+    const deleteBtn = document.getElementById('delete-btn');
+    if (deleteBtn) {
+        deleteBtn.setAttribute('data-manager-id', managerId);
     }
 }
 
@@ -82,16 +79,18 @@ function clickEventBinder() {
     if (managerListBtn) {
         managerListBtn.addEventListener('click', function () {
             const userAction = 'Read operator';
-            window.location.href = `../../views/manager/manager-list.html?userAction=${userAction}`;
+            const operatorId = document.getElementById('operator-id').value.trim();
+            window.location.href = `../../views/manager/manager-list.html?userAction=${userAction}&operatorId=${operatorId}`;
         }, {once: true});
     }
 
     const entryManagerBtn = document.getElementById('entry-manager-btn');
     if (entryManagerBtn) {
         entryManagerBtn.addEventListener('click', function () {
-            const userAction = 'Entry manager';
+            const userAction = 'Entry federate';
+            const specificAction = 'Entry Manager';
             const operatorId = this.dataset.operatorId;
-            window.location.href = `../../views/signUp/sign-up.html?userAction=${userAction}&operatorId=${operatorId}`;
+            window.location.href = `../../views/signUp/sign-up.html?userAction=${userAction}&operatorId=${operatorId}&specificAction=${specificAction}`;
         }, {once: true});
     }
 
@@ -99,6 +98,14 @@ function clickEventBinder() {
     if (dashboardBtn) {
         dashboardBtn.addEventListener('click', function () {
             window.location.href = "/views/dashboard.html";
+        }, {once: true});
+    }
+
+    const backToOperator = document.getElementById('back-to-operator-btn');
+    if (backToOperator) {
+        backToOperator.addEventListener('click', function () {
+            const operatorId =document.getElementById('operator-id').value.trim();
+            window.location.href = window.location.href = `../../views/operator/operator.html?operatorId=${operatorId}&userAction=${userAction}`;
         }, {once: true});
     }
 
@@ -116,20 +123,28 @@ function clickEventBinder() {
 
             if (managerId === '') {
                 alert('Manager ID not available.');
+                return;
             } else if (managerName === '') {
                 alert('Manager Name not entered.');
+                return;
             } else if (managerContactNo === '') {
                 alert('Manager Contact No not entered.');
+                return;
             } else if (operatorId === '') {
                 alert('Operator ID not entered.');
+                return;
             } else if (managerStatus === '') {
                 alert('Manager Status not entered.');
+                return;
             } else if (createdAt === '') {
                 alert('Created date not entered.');
+                return;
             } else if (updatedAt === '') {
                 alert('Updated date not entered.');
+                return;
             } else if (updatedBy === '') {
                 alert('Updated by not entered.');
+                return;
             }
 
             const payload = {
@@ -143,9 +158,9 @@ function clickEventBinder() {
                 "updatedBy": updatedBy
             };
 
-            const response = await ajaxCall(`/logistic/manager/update`, 'POST', payload);
+            const response = await ajaxCall(`/logistic/manager/update`, 'PUT', payload);
             if (response) {
-                alert(response);
+                alert(response.message);
             }
         });
     }
@@ -156,8 +171,34 @@ function clickEventBinder() {
             const managerId = this.dataset.managerId;
             const url = `/logistic/manager/delete?managerId=${managerId}`;
             const methodType = 'DELETE';
-            await ajaxCall(url, methodType, null);
+            const response = await ajaxCall(url, methodType, null);
+
+            if (response && response.success) {
+                alert(response.message || 'Manager deleted successfully.');
+                window.location.href = "/views/dashboard.html";
+            }
         }, {once: true});
     }
 }
-clickEventBinder();
+
+function managerNavigationBinder() {
+    const managerNavigationBtn = document.getElementById('manager-navigation-btn');
+
+    if (managerNavigationBtn) {
+        managerNavigationBtn.addEventListener('click', function () {
+            toggleManagerNavigationMenu();
+        });
+    }
+}
+
+managerNavigationBinder();
+
+function toggleManagerNavigationMenu() {
+    const managerNavigationMenu = document.getElementById('manager-navigation-menu');
+
+    if (!managerNavigationMenu) {
+        return;
+    }
+
+    managerNavigationMenu.classList.toggle('active');
+}

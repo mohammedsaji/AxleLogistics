@@ -1,0 +1,7 @@
+.employee-navigation-menu {
+    display: none;
+}
+
+.employee-navigation-menu.active {
+    display: block;
+}

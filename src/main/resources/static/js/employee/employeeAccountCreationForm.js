@@ -2,25 +2,37 @@ const params = new URLSearchParams(window.location.search);
 
 function payloadExtractor() {
     // employeeId from URL acts as reportingManagerId for the manager creating this employee
-    const reportingManagerId = params.get("employeeId");
-    const accountUserName = params.get("accountUserName");
+    const isManagerAccount = params.get("isManagerAccount");
+    if(isManagerAccount === "false"){
+        const reportingManagerId = params.get("managerId");
 
-    if (reportingManagerId) {
-        const reportingManagerIdDisplay = document.getElementById('reporting-manager-id-display');
-        if (reportingManagerIdDisplay) {
-            reportingManagerIdDisplay.style.display = 'block';
+        if (reportingManagerId) {
+            const reportingManagerIdDisplay = document.getElementById('reporting-manager-id-display');
+            if (reportingManagerIdDisplay) {
+                reportingManagerIdDisplay.style.display = 'block';
+            }
+            const reportingManagerIdInput = document.getElementById('reporting-manager-id');
+            if (reportingManagerIdInput) {
+                reportingManagerIdInput.value = reportingManagerId;
+            }
         }
-        const reportingManagerIdInput = document.getElementById('reporting-manager-id');
-        if (reportingManagerIdInput) {
-            reportingManagerIdInput.value = reportingManagerId;
-        }
-    } else {
-        window.location.href = `../../views/employee/employee-list.html?accountUserName=${accountUserName}`;
     }
+    clickEventBinder(isManagerAccount);
 }
 payloadExtractor();
 
-function clickEventBinder() {
+function valueInitializer(){
+     const accountUserRole = params.get("accountUserRole");
+
+    const employeeDepartment = document.getElementById('employee-department');
+
+    if(accountUserRole){
+        employeeDepartment.value = accountUserRole;
+    }
+}
+valueInitializer();
+
+function clickEventBinder(isManagerAccount) {
 
     const dashboardBtn = document.getElementById('dashboard-btn');
     if (dashboardBtn) {
@@ -40,6 +52,7 @@ function clickEventBinder() {
             const employeeStatus = document.getElementById('employee-status').value.trim();
             const reportingManagerIdInput = document.getElementById('reporting-manager-id');
             const reportingManagerId = reportingManagerIdInput ? reportingManagerIdInput.value.trim() : null;
+            const employeeJoiningDate = document.getElementById('employee-joining-date').value.trim();
 
             if (employeeName === '') {
                 alert('Employee Name not entered.');
@@ -53,8 +66,11 @@ function clickEventBinder() {
             } else if (employeeStatus === '') {
                 alert('Employee Status not entered.');
                 return;
-            } else if (!reportingManagerId) {
-                alert('Kindly select the manager');
+            } else if (!reportingManagerId && isManagerAccount === "false") {
+                alert('Kindly select the manager, because you are currently creating this employee account for non-managerial role.');
+                return;
+            }else if(employeeJoiningDate === null || employeeJoiningDate === undefined || employeeJoiningDate === ''){
+                alert('Joining Date not entered.');
                 return;
             }
 
@@ -63,19 +79,26 @@ function clickEventBinder() {
                 "employeePhoneNo": employeePhoneNo,
                 "employeeDepartment": employeeDepartment,
                 "employeeStatus": employeeStatus,
-                "reportingManagerId": parseInt(reportingManagerId, 10),
-                "accountUserName": params.get("accountUserName")
+                "reportingManagerId": isManagerAccount === "true" ? null : parseInt(reportingManagerId, 10),
+                "employeeJoiningDate":employeeJoiningDate
             };
 
-            const url = `/logistic/employee/save`;
-            const methodType = 'POST';
-            const response = await ajaxCall(url, methodType, payload);
+            createForm.disabled = true;
+            try{
+                const accountUserName = params.get("accountUserName");
+                const url = `/logistic/employee/save?accountUserName=${encodeURIComponent(accountUserName)}`;
+                const methodType = 'POST';
+                const response = await ajaxCall(url, methodType, payload);
 
-            if (response) {
-                const employeeId = response.employeeId;
-                window.location.href = `../../views/employee/employee.html?employeeId=${employeeId}&userAction=Entry employee`;
+                if (response) {
+                    const employeeId = response.data.employeeId;
+                    window.location.href = `../../views/employee/employee.html?employeeId=${employeeId}&userAction=Entry employee`;
+                }
+                createForm.disabled = false;
+            }catch(error){
+                console.log("Employee save failed:", error);
+                createForm.disabled = false;
             }
         });
     }
 }
-clickEventBinder();

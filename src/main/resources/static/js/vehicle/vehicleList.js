@@ -24,14 +24,15 @@ async function fetchVehicleList(operatorId, pageNo) {
 
     currentResponse = response;
 
-    if (response && response.valueMap) {
-        totalPages = response.valueMap.TotalPages || 1;
-        const vehicleList = response.valueMap.VehicleList || [];
-        renderVehicleList(vehicleList);
-    } else if (Array.isArray(response)) {
-        renderVehicleList(response);
-    } else if (response) {
-        renderVehicleList([response]);
+    if (response && response.data) {
+        const loginUserMap = await ajaxCall(`/logistic/account/user-info`, 'GET', null);
+        const roleArray = loginUserMap?.data?.RoleList;
+        if(roleArray && roleArray.length > 0){
+            dynamicLayoutRender(roleArray);
+            const vehicleList = Array.isArray(response.data.vehicleList) ? response.data.vehicleList : [response.data.vehicleList];
+            totalPages = response.data.totalPages;
+            renderVehicleList(vehicleList);
+        }
     }
 }
 
@@ -77,14 +78,36 @@ function renderVehicleList(vehicleList) {
             viewBtn.setAttribute('data-driver-id', driverId);
         }
         viewBtn.textContent = 'View';
+
+        viewBtn.addEventListener('click', function () {
+            const vehicleId = this.getAttribute('data-vehicle-id');
+            const operatorId = this.getAttribute('data-operator-id');
+
+            if (userAction === 'Entry shipping') {
+                const driverId = this.getAttribute('data-driver-id');
+                window.location.href = `../../views/vehicle/vehicle.html?vehicleId=${vehicleId}&userAction=${userAction}&operatorId=${operatorId}&driverId=${driverId}`;
+            } else if (userAction === 'Reassign vehicle') {
+                const shippingId = params.get("shippingId");
+                const operatorId = params.get("operatorId");
+                const driverId = params.get('driverId');
+                window.location.href = `../../views/vehicle/vehicle.html?vehicleId=${vehicleId}&userAction=${userAction}&shippingId=${shippingId}&operatorId=${operatorId}&driverId=${driverId}`;
+            } else {
+                // Read operator
+                window.location.href = `../../views/vehicle/vehicle.html?vehicleId=${vehicleId}&userAction=${userAction}&operatorId=${operatorId}`;
+            }
+        }, { once: true });
         vehicleInfoDiv.append(viewBtn);
 
         vehicleDiv.append(vehicleInfoDiv);
         listContainer.append(vehicleDiv);
     });
+}
 
-    clickEventBinder();
-    searchClickEvent();
+function dynamicLayoutRender(roleArray){
+    const createVehicleBtn = document.getElementById('create-vehicle-btn');
+    if(roleArray.length > 0 && !roleArray.includes("ADMIN") && createVehicleBtn){
+        createVehicleBtn.remove();
+    }
 }
 
 function clickEventBinder() {
@@ -101,28 +124,9 @@ function clickEventBinder() {
     const createVehicleBtn = document.getElementById('create-vehicle-btn');
     if (createVehicleBtn) {
         createVehicleBtn.addEventListener('click', function () {
-            window.location.href = `../../views/vehicle/vehicle-creation-form.html?userAction=Entry operator&operatorId=${operatorId}`;
+            window.location.href = `../../views/vehicle/vehicle-creation-form.html?userAction=${userAction}&operatorId=${operatorId}`;
         }, { once: true });
     }
-
-    const viewBtnArray = document.querySelectorAll('.view-btn');
-    viewBtnArray.forEach(btn => {
-        btn.addEventListener('click', function () {
-            const vehicleId = this.getAttribute('data-vehicle-id');
-            const operatorId = this.getAttribute('data-operator-id');
-
-            if (userAction === 'Entry shipping') {
-                const driverId = this.getAttribute('data-driver-id');
-                window.location.href = `../../views/vehicle/vehicle.html?vehicleId=${vehicleId}&userAction=${userAction}&operatorId=${operatorId}&driverId=${driverId}`;
-            } else if (userAction === 'Reassign vehicle') {
-                const shippingStatusId = params.get("shippingStatusId");
-                window.location.href = `../../views/vehicle/vehicle.html?vehicleId=${vehicleId}&userAction=${userAction}&operatorId=${operatorId}&shippingStatusId=${shippingStatusId}`;
-            } else {
-                // Read operator
-                window.location.href = `../../views/vehicle/vehicle.html?vehicleId=${vehicleId}&userAction=${userAction}&operatorId=${operatorId}`;
-            }
-        }, { once: true });
-    });
 
     const previousPageBtn = document.getElementById('previous-page-btn');
     if (previousPageBtn) {
@@ -131,7 +135,7 @@ function clickEventBinder() {
                 currentPageNo--;
                 await fetchVehicleList(operatorId, currentPageNo);
             }
-        }, { once: true });
+        });
     }
 
     const nextPageBtn = document.getElementById('next-page-btn');
@@ -141,9 +145,10 @@ function clickEventBinder() {
                 currentPageNo++;
                 await fetchVehicleList(operatorId, currentPageNo);
             }
-        }, { once: true });
+        });
     }
 }
+clickEventBinder();
 
 function searchClickEvent() {
     const searchBtn = document.getElementById('search-btn');
@@ -170,13 +175,8 @@ function searchClickEvent() {
                 if (response) {
                     let vehicleList = [];
 
-                    // Handle both response formats: valueMap wrapper and direct array
-                    if (response && response.valueMap) {
-                        vehicleList = response.valueMap.VehicleList || [];
-                    } else if (Array.isArray(response)) {
-                        vehicleList = response;
-                    } else if (response) {
-                        vehicleList = [response];
+                    if (response && response.data) {
+                        vehicleList = [response.data];
                     }
 
                     if (vehicleList.length > 0) {
@@ -199,4 +199,27 @@ function searchClickEvent() {
             }
         });
     }
+}
+searchClickEvent();
+
+function vehicleNavigationBinder() {
+    const vehicleNavigationBtn = document.getElementById('vehicle-navigation-btn');
+
+    if (vehicleNavigationBtn) {
+        vehicleNavigationBtn.addEventListener('click', function () {
+            toggleVehicleNavigationMenu();
+        });
+    }
+}
+
+vehicleNavigationBinder();
+
+function toggleVehicleNavigationMenu() {
+    const vehicleNavigationMenu = document.getElementById('vehicle-navigation-menu');
+
+    if (!vehicleNavigationMenu) {
+        return;
+    }
+
+    vehicleNavigationMenu.classList.toggle('active');
 }

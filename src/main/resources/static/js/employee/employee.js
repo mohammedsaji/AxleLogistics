@@ -5,9 +5,13 @@ async function payloadExtractor() {
     const url = `/logistic/employee/fetch?employeeId=${employeeId}`;
     const methodType = 'GET';
     const response = await ajaxCall(url, methodType, null);
-    valueInitializer(response);
-    dynamicLayoutRender(response.employeeId);
+    if (response && response.data) {
+        valueInitializer(response.data);
+        dynamicLayoutRender(response.data.employeeId);
+        clickEventBinder();
+    }
 }
+
 payloadExtractor();
 
 function valueInitializer(response) {
@@ -32,64 +36,46 @@ function valueInitializer(response) {
     employeeName.value = response.employeeName;
     employeePhoneNo.value = response.employeePhoneNo;
     employeeDepartment.value = response.employeeDepartment;
-    employeeJoiningDate.value = response.employeeJoiningDate;
+    employeeJoiningDate.value = formatDateTime(response.employeeJoiningDate);
     employeeStatus.value = response.employeeStatus;
     reportingManagerId.value = response.reportingManagerId;
     accountId.value = response.accountId;
-    createdAt.value = response.createdAt;
-    updatedAt.value = response.updatedAt;
+    createdAt.value = formatDateTime(response.createdAt);
+    updatedAt.value = formatDateTime(response.updatedAt);
     updatedBy.value = response.updatedBy;
 
     const userAction = params.get("userAction");
-    if ((userAction === 'Read employee' || userAction === 'Administer employee') && response.accountVO) {
+    if ((userAction === 'Read employee' || userAction === 'Administrate employee') && response) {
         const accountUsername = document.getElementById('account-username');
         const accountRole = document.getElementById('account-role');
         const accountStatus = document.getElementById('account-status');
         const accountEmail = document.getElementById('account-email');
 
-        accountUsername.value = response.accountVO.accountUsername;
-        accountRole.value = response.accountVO.accountRole;
-        accountStatus.value = response.accountVO.accountStatus;
-        accountEmail.value = response.accountVO.accountEmail;
+        accountUsername.value = response.accountUsername;
+        accountRole.value = response.accountRole;
+        accountStatus.value = response.accountStatus;
+        accountEmail.value = response.accountEmail;
     }
 }
 
 function dynamicLayoutRender(employeeId) {
     const userAction = params.get("userAction");
 
-    if (userAction === 'Read employee' || userAction === 'Administrate employee') {
-        const employeeHeaderActionsDivB = document.getElementById('employee-header-actions-b');
-        if (employeeHeaderActionsDivB) {
-            employeeHeaderActionsDivB.remove();
-        }
-        const employeeBodyCommonActionsDiv = document.getElementById('employee-body-common-actions');
-        if (employeeBodyCommonActionsDiv) {
-            employeeBodyCommonActionsDiv.remove();
+    if (userAction === 'Entry employee') {
+        const employeeHeaderSectionDivB = document.querySelector('.employee-header-section-b');
+        if (employeeHeaderSectionDivB) {
+            employeeHeaderSectionDivB.remove();
         }
 
-        const deleteBtn = document.getElementById('delete-btn');
-        if (deleteBtn) {
-            deleteBtn.setAttribute('data-employee-id', employeeId);
-        }
-
-    } else if (userAction === 'Entry employee') {
-        const employeeHeaderActionsDivB = document.getElementById('employee-header-actions-b');
-        if (employeeHeaderActionsDivB) {
-            employeeHeaderActionsDivB.remove();
-        }
-        const employeeBodyActionsDiv = document.getElementById('employee-body-employee-actions');
-        if (employeeBodyActionsDiv) {
-            employeeBodyActionsDiv.remove();
-        }
         const employeeBodyAccountDisplay = document.getElementById('employee-body-account-display');
         if (employeeBodyAccountDisplay) {
             employeeBodyAccountDisplay.remove();
         }
+    }
 
-        const proceedBtn = document.getElementById('proceed-btn');
-        if (proceedBtn) {
-            proceedBtn.setAttribute('data-employee-id', employeeId);
-        }
+    const deleteBtn = document.getElementById('delete-btn');
+    if (deleteBtn) {
+        deleteBtn.setAttribute('data-employee-id', employeeId);
     }
 }
 
@@ -106,6 +92,7 @@ function clickEventBinder() {
     const employeeListBtn = document.getElementById('employee-list-btn');
     if (employeeListBtn) {
         employeeListBtn.addEventListener('click', function () {
+            const userAction = "Read employee";
             window.location.href = `../../views/employee/employee-list.html?userAction=${userAction}`;
         }, {once: true});
     }
@@ -176,16 +163,35 @@ function clickEventBinder() {
             const employeeId = this.dataset.employeeId;
             const url = `/logistic/employee/delete?employeeId=${employeeId}`;
             const methodType = 'DELETE';
-            await ajaxCall(url, methodType, null);
-        }, {once: true});
-    }
+            const response = await ajaxCall(url, methodType, null);
 
-    const proceedBtn = document.getElementById('proceed-btn');
-    if (proceedBtn) {
-        proceedBtn.addEventListener('click', function () {
-            const employeeId = this.dataset.employeeId;
-            window.location.href = `../../views/employee/employee-account-creation-form.html?userAction=${userAction}&employeeId=${employeeId}`;
+            if (response && response.success) {
+                alert(response.message || 'Employee deleted successfully.');
+                window.location.href = "/views/dashboard.html";
+            }
         }, {once: true});
     }
 }
-clickEventBinder();
+function employeeNavigationBinder() {
+
+    const employeeNavigationBtn = document.getElementById('employee-navigation-btn');
+
+    if (employeeNavigationBtn) {
+        employeeNavigationBtn.addEventListener('click', function () {
+            toggleEmployeeNavigationMenu();
+        });
+    }
+}
+
+employeeNavigationBinder();
+
+function toggleEmployeeNavigationMenu() {
+
+    const employeeNavigationMenu = document.getElementById('employee-navigation-menu');
+
+    if (!employeeNavigationMenu) {
+        return;
+    }
+
+    employeeNavigationMenu.classList.toggle('active');
+}

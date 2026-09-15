@@ -3,13 +3,20 @@ const params = new URLSearchParams(window.location.search);
 async function payloadExtractor() {
 
     const driverId = params.get("driverId");
-
     const url = `/logistic/driver/fetch?driverId=${driverId}`;
     const methodType = 'GET';
     const response = await ajaxCall(url, methodType, null);
-    valueInitializer(response);
-    dynamicLayoutRender(response.driverId, response.operatorId);
+    if (response && response.data) {
+        const loginUserMap = await ajaxCall(`/logistic/account/user-info`, 'GET', null);
+        const roleArray = loginUserMap?.data?.RoleList;
+        if(roleArray && roleArray.length > 0){
+            valueInitializer(response.data);
+            dynamicLayoutRender(response.data.driverId, response.data.operatorId, roleArray);
+            clickEventBinder();
+        }
+    }
 }
+
 payloadExtractor();
 
 function valueInitializer(response) {
@@ -32,27 +39,32 @@ function valueInitializer(response) {
     driverPhoneNo.value = response.driverPhoneNo;
     driverLicenseNo.value = response.driverLicenseNo;
     operatorId.value = response.operatorId;
-    createdAt.value = response.createdAt;
-    updatedAt.value = response.updatedAt;
+    createdAt.value = formatDateTime(response.createdAt);
+    updatedAt.value = formatDateTime(response.updatedAt);
     updatedBy.value = response.updatedBy;
 }
 
-function dynamicLayoutRender(driverId, operatorId) {
+function dynamicLayoutRender(driverId, operatorId, roleArray) {
     const userAction = params.get("userAction");
 
+    if(!roleArray.includes("ADMIN")){
+        const backToOperatorBtn = document.getElementById('back-to-operator-btn');
+        if(backToOperatorBtn) {
+            backToOperatorBtn.remove();
+        }
+    }
+
     if (userAction === 'Read operator') {
-        const driverHeaderActionsDivA = document.querySelector('.driver-header-actions-a');
-        if (driverHeaderActionsDivA) {
-            driverHeaderActionsDivA.remove();
-        }
-        const driverHeaderActionsDivB = document.querySelector('.driver-header-actions-b');
-        if (driverHeaderActionsDivB) {
-            driverHeaderActionsDivB.remove();
-        }
         const driverBodyCommonActionsDiv = document.querySelector('.driver-body-common-actions');
         if (driverBodyCommonActionsDiv) {
             driverBodyCommonActionsDiv.remove();
         }
+
+        const driverListBtn = document.getElementById('driver-list-btn');
+        driverListBtn.setAttribute('data-operator-id', operatorId);
+
+        const createDriverBtn = document.getElementById('create-driver-btn');
+        createDriverBtn.setAttribute('data-operator-id', operatorId);
 
         const deleteBtn = document.getElementById('delete-btn');
         if (deleteBtn) {
@@ -60,61 +72,70 @@ function dynamicLayoutRender(driverId, operatorId) {
         }
 
     } else if (userAction === 'Entry driver') {
-        const driverHeaderActionsDivA = document.querySelector('.driver-header-actions-a');
-        if (driverHeaderActionsDivA) {
-            driverHeaderActionsDivA.remove();
+        const backToOperatorBtn = document.getElementById('back-to-operator-btn');
+        if (backToOperatorBtn) {
+            backToOperatorBtn.remove();
         }
-        const driverHeaderActionsDivB = document.querySelector('.driver-header-actions-b');
-        if (driverHeaderActionsDivB) {
-            driverHeaderActionsDivB.remove();
+        const driverHeaderSectionDivB = document.querySelector('.driver-header-section-b');
+        if (driverHeaderSectionDivB) {
+            driverHeaderSectionDivB.remove();
         }
         const driverBodyCommonActionsDiv = document.querySelector('.driver-body-common-actions');
         if (driverBodyCommonActionsDiv) {
             driverBodyCommonActionsDiv.remove();
         }
 
-        const deleteBtn = document.getElementById('delete-btn');
-        if (deleteBtn) {
-            deleteBtn.setAttribute('data-driver-id', driverId);
+        if(roleArray.includes("ADMIN")){
+            const deleteBtn = document.getElementById('delete-btn');
+            if (deleteBtn) {
+                deleteBtn.setAttribute('data-driver-id', driverId);
+            }
+
+            const proceedBtn = document.getElementById('proceed-btn');
+            if (proceedBtn) {
+                proceedBtn.setAttribute('data-driver-id', driverId);
+                proceedBtn.setAttribute('data-operator-id', operatorId);
+            }
         }
 
     } else if (userAction === 'Entry shipping') {
-        const driverHeaderActionsDivA = document.querySelector('.driver-header-actions-a');
-        if (driverHeaderActionsDivA) {
-            driverHeaderActionsDivA.remove();
-        }
-        const driverHeaderActionsDivB = document.querySelector('.driver-header-actions-b');
-        if (driverHeaderActionsDivB) {
-            driverHeaderActionsDivB.remove();
+        const driverHeaderSectionDivB = document.querySelector('.driver-header-section-b');
+        if (driverHeaderSectionDivB) {
+            driverHeaderSectionDivB.remove();
         }
         const driverBodyActionsDiv = document.querySelector('.driver-body-driver-actions');
         if (driverBodyActionsDiv) {
             driverBodyActionsDiv.remove();
         }
 
-        const proceedBtn = document.getElementById('proceed-btn');
-        if (proceedBtn) {
-            proceedBtn.setAttribute('data-driver-id', driverId);
-            proceedBtn.setAttribute('data-operator-id', operatorId);
+        if(roleArray.includes("ADMIN")){
+            const proceedBtn = document.getElementById('proceed-btn');
+            if (proceedBtn) {
+                proceedBtn.setAttribute('data-driver-id', driverId);
+                proceedBtn.setAttribute('data-operator-id', operatorId);
+            }
         }
 
     } else if (userAction === 'Reassign driver') {
-        const driverHeaderActionsDivA = document.querySelector('.driver-header-actions-a');
-        if (driverHeaderActionsDivA) {
-            driverHeaderActionsDivA.remove();
+        const backToOperatorBtn = document.getElementById('back-to-operator-btn');
+        if (backToOperatorBtn) {
+            backToOperatorBtn.remove();
         }
-        const driverHeaderActionsDivB = document.querySelector('.driver-header-actions-b');
-        if (driverHeaderActionsDivB) {
-            driverHeaderActionsDivB.remove();
+        const driverHeaderSectionDivB = document.querySelector('.driver-header-section-b');
+        if (driverHeaderSectionDivB) {
+            driverHeaderSectionDivB.remove();
         }
         const driverBodyActionsDiv = document.querySelector('.driver-body-driver-actions');
         if (driverBodyActionsDiv) {
             driverBodyActionsDiv.remove();
         }
 
-        const proceedBtn = document.getElementById('proceed-btn');
-        if (proceedBtn) {
-            proceedBtn.setAttribute('data-driver-id', driverId);
+        if(roleArray.includes("ADMIN") || roleArray.includes("FEDERATE-MANAGER")){
+            const proceedBtn = document.getElementById('proceed-btn');
+            if (proceedBtn) {
+                proceedBtn.setAttribute('data-driver-id', driverId);
+                proceedBtn.setAttribute('data-operator-id', operatorId);
+            }
         }
     }
 }
@@ -127,16 +148,18 @@ function clickEventBinder() {
     if (driverListBtn) {
         driverListBtn.addEventListener('click', function () {
             const userAction = 'Read operator';
-            window.location.href = `../../views/driver/driver-list.html?userAction=${userAction}`;
+            const operatorId = this.dataset.operatorId;
+            window.location.href = `../../views/driver/driver-list.html?userAction=${userAction}&operatorId=${operatorId}`;
         }, {once: true});
     }
 
-    const entryDriverBtn = document.getElementById('entry-driver-btn');
-    if (entryDriverBtn) {
-        entryDriverBtn.addEventListener('click', function () {
-            const userAction = 'Entry driver';
-            const operatorId = document.getElementById('operator-id').value.trim();
-            window.location.href = `../../views/signUp/sign-up.html?userAction=${userAction}&operatorId=${operatorId}`;
+    const createDriverBtn = document.getElementById('create-driver-btn');
+    if (createDriverBtn) {
+        createDriverBtn.addEventListener('click', function () {
+            const userAction = 'Entry federate';
+            const specificAction = 'Entry Driver';
+            const operatorId = this.dataset.operatorId;
+            window.location.href = `../../views/signUp/sign-up.html?userAction=${userAction}&operatorId=${operatorId}&specificAction=${specificAction}`;
         }, {once: true});
     }
 
@@ -144,6 +167,14 @@ function clickEventBinder() {
     if (dashboardBtn) {
         dashboardBtn.addEventListener('click', function () {
             window.location.href = "/views/dashboard.html";
+        }, {once: true});
+    }
+
+    const backToOperator = document.getElementById('back-to-operator-btn');
+    if (backToOperator) {
+        backToOperator.addEventListener('click', function () {
+            const operatorId =document.getElementById('operator-id').value.trim();
+            window.location.href = window.location.href = `../../views/operator/operator.html?operatorId=${operatorId}&userAction=${userAction}`;
         }, {once: true});
     }
 
@@ -156,17 +187,10 @@ function clickEventBinder() {
                 window.location.href = `../../views/vehicle/vehicle-list.html?userAction=${userAction}&driverId=${driverId}&operatorId=${operatorId}`;
             } else if (userAction === 'Reassign driver') {
                 const driverId = this.dataset.driverId;
-                const shippingStatusId = params.get("shippingStatusId");
-                const url = `/logistic/status/update`;
-                const methodType = 'POST';
-                const payload = {
-                    "shippingStatusId": shippingStatusId,
-                    "driverId": parseInt(driverId, 10)
-                };
-                const response = await ajaxCall(url, methodType, payload);
-                if (response) {
-                    window.location.href = `../../views/status/status.html?userAction=${userAction}&shippingStatusId=${response.shippingStatusId}`;
-                }
+                const operatorId = this.dataset.operatorId;
+                const shippingId = params.get("shippingId");
+                const updatedUserAction = 'Reassign vehicle';
+                window.location.href = `../../views/vehicle/vehicle-list.html?userAction=${updatedUserAction}&shippingId=${shippingId}&operatorId=${operatorId}&driverId=${driverId}`;
             }
         }, {once: true});
     }
@@ -185,20 +209,28 @@ function clickEventBinder() {
 
             if (driverId === '') {
                 alert('Driver ID not available.');
+                return;
             } else if (driverName === '') {
                 alert('Driver Name not entered.');
+                return;
             } else if (driverPhoneNo === '') {
                 alert('Driver Phone No not entered.');
+                return;
             } else if (driverLicenseNo === '') {
                 alert('Driver License No not entered.');
+                return;
             } else if (operatorId === '') {
                 alert('Operator ID not entered.');
+                return;
             } else if (createdAt === '') {
                 alert('Created date not entered.');
+                return;
             } else if (updatedAt === '') {
                 alert('Updated date not entered.');
+                return;
             } else if (updatedBy === '') {
                 alert('Updated by not entered.');
+                return;
             }
 
             const payload = {
@@ -212,9 +244,9 @@ function clickEventBinder() {
                 "updatedBy": updatedBy
             };
 
-            const response = await ajaxCall(`/logistic/driver/update`, 'POST', payload);
+            const response = await ajaxCall(`/logistic/driver/update`, 'PUT', payload);
             if (response) {
-                alert(response);
+                alert(response.message || 'Driver updated successfully!');
             }
         });
     }
@@ -222,11 +254,43 @@ function clickEventBinder() {
     const deleteBtn = document.getElementById('delete-btn');
     if (deleteBtn) {
         deleteBtn.addEventListener('click', async function () {
-            const driverId = this.dataset.driverId;
+            const driverId = document.getElementById('driver-id').value.trim();
+            if (driverId === '') {
+                alert("DriverId not entered.");
+                return;
+            }
             const url = `/logistic/driver/delete?driverId=${driverId}`;
             const methodType = 'DELETE';
-            await ajaxCall(url, methodType, null);
-        }, {once: true});
+            const response = await ajaxCall(url, methodType, null);
+
+            if (response && response.success) {
+                alert(response.message || 'Driver deleted successfully.');
+                window.location.href = "/views/dashboard.html";
+            }
+        });
     }
 }
-clickEventBinder();
+
+function driverNavigationBinder() {
+
+    const driverNavigationBtn = document.getElementById('driver-navigation-btn');
+
+    if (driverNavigationBtn) {
+        driverNavigationBtn.addEventListener('click', function () {
+            toggleDriverNavigationMenu();
+        });
+    }
+}
+
+driverNavigationBinder();
+
+function toggleDriverNavigationMenu() {
+
+    const driverNavigationMenu = document.getElementById('driver-navigation-menu');
+
+    if (!driverNavigationMenu) {
+        return;
+    }
+
+    driverNavigationMenu.classList.toggle('active');
+}

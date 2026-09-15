@@ -3,21 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Vehicle list</title>
+    <link rel="stylesheet" href="../../styles/vehicle/vehicleList.css">
 </head>
 <body>
 <div class="vehicle">
     <header class="vehicle-header">
-        <div class="vehicle-header-brand-icon">
-            <img class="vehicle-header-logo" src="" alt="Vehicle Logo">
+        <div class="vehicle-header-brand">
+            <img class="vehicle-header-logo" src="" alt="Vehicle List">
         </div>
         <div class="vehicle-header-actions">
             <div class="vehicle-header-section-a">
-                <button id="dashboard-btn">Dashboard</button>
+                <button type="button" id="dashboard-btn">Dashboard</button>
             </div>
             <div class="vehicle-header-section-b">
-                <div class="vehicle-header-actions-a">
-                    <button id="create-vehicle-btn">Create vehicle</button>
-                </div>
+                <nav class="vehicle-navigation" aria-label="Vehicle navigation">
+                    <div class="vehicle-navigation-group">
+                        <button type="button" id="vehicle-navigation-btn">Vehicle</button>
+                        <div class="vehicle-navigation-menu" id="vehicle-navigation-menu">
+                            <button type="button" id="create-vehicle-btn">Create Vehicle</button>
+                        </div>
+                    </div>
+                </nav>
             </div>
         </div>
     </header>

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface VehicleRepo extends JpaRepository<Vehicle,Integer> {
 
-    public Page<Vehicle> findByOperatorVO_OperatorId(Integer operatorId, Pageable pageable);
+    public Page<Vehicle> findByOperator_OperatorId(Integer operatorId, Pageable pageable);
 
     public Vehicle findByVehicleNumber(String vehicleNumber);
 }

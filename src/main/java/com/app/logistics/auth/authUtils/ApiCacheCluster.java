@@ -11,7 +11,7 @@ public class ApiCacheCluster {
     private Map<String, Map<String,LocalDateTime>> cacheCluster = new HashMap<>();
 
     public void setAPIKey(String username, String apiKey){
-        cacheCluster.put(username,Map.of(apiKey,LocalDateTime.now().plusMinutes(15)));
+        cacheCluster.put(username,Map.of(apiKey,LocalDateTime.now().plusMinutes(30)));
     }
 
     public Map<String,LocalDateTime> getAPIKey(String username){

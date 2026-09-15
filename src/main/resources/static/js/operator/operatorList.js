@@ -32,18 +32,22 @@ async function fetchOperatorList(transportType, pageNo) {
 
     currentResponse = response;
 
-    if (response && response.valueMap) {
-        totalPages = response.valueMap.TotalPages || 1;
-        const operatorList = response.valueMap.OperatorList || [];
-        renderOperatorList(operatorList);
-    } else if (Array.isArray(response)) {
-        renderOperatorList(response);
-    } else if (response) {
-        renderOperatorList([response]);
+    if (response && response.data) {
+        const loginUserMap = await ajaxCall(`/logistic/account/user-info`, 'GET', null);
+        const roleArray = loginUserMap?.data?.RoleList;
+        if(roleArray && roleArray.length > 0) {
+            dynamicLayoutRender(roleArray);
+            const operatorList = Array.isArray(response.data.operatorList) ? response.data.operatorList : [response.data.operatorList];
+            totalPages = response.data.totalPages;
+            renderOperatorList(operatorList);
+        }
     }
 }
 
 function renderOperatorList(operatorList) {
+
+    const userAction = params.get("userAction");
+
     const listContainer = document.getElementById('operator-list-container');
     if (listContainer) {
         listContainer.innerHTML = '';
@@ -78,12 +82,29 @@ function renderOperatorList(operatorList) {
         viewBtn.textContent = 'View';
         operatorInfoDiv.append(viewBtn);
 
+        viewBtn.addEventListener('click', function () {
+            const operatorId = this.getAttribute('data-operator-id');
+
+            if (userAction === 'Reassign operator') {
+                const shippingId = params.get("shippingId");
+                window.location.href = `../../views/operator/operator.html?operatorId=${operatorId}&userAction=${userAction}&shippingId=${shippingId}`;
+            } else {
+                // Read operator, Entry shipping
+                const accountUserName = params.get("accountUserName");
+                window.location.href = `../../views/operator/operator.html?operatorId=${operatorId}&userAction=${userAction}&accountUserName=${accountUserName}`;
+            }
+        }, { once: true });
+
         operatorDiv.append(operatorInfoDiv);
         listContainer.append(operatorDiv);
     });
+}
 
-    clickEventBinder();
-    searchClickEvent();
+function dynamicLayoutRender(roleArray){
+    const createOperatorBtn = document.getElementById('create-operator-btn');
+    if(roleArray.length > 0 && !roleArray.includes("ADMIN")){
+        createOperatorBtn.remove();
+    }
 }
 
 function clickEventBinder() {
@@ -104,21 +125,6 @@ function clickEventBinder() {
         }, { once: true });
     }
 
-    const viewBtnArray = document.querySelectorAll('.view-btn');
-    viewBtnArray.forEach(btn => {
-        btn.addEventListener('click', function () {
-            const operatorId = this.getAttribute('data-operator-id');
-
-            if (userAction === 'Reassign operator') {
-                const shippingStatusId = params.get("shippingStatusId");
-                window.location.href = `../../views/operator/operator.html?operatorId=${operatorId}&userAction=${userAction}&shippingStatusId=${shippingStatusId}`;
-            } else {
-                // Read operator, Entry shipping
-                window.location.href = `../../views/operator/operator.html?operatorId=${operatorId}&userAction=${userAction}`;
-            }
-        }, { once: true });
-    });
-
     const previousPageBtn = document.getElementById('previous-page-btn');
     if (previousPageBtn) {
         previousPageBtn.addEventListener('click', async function () {
@@ -126,7 +132,7 @@ function clickEventBinder() {
                 currentPageNo--;
                 await fetchOperatorList(transportType, currentPageNo);
             }
-        }, { once: true });
+        });
     }
 
     const nextPageBtn = document.getElementById('next-page-btn');
@@ -136,9 +142,10 @@ function clickEventBinder() {
                 currentPageNo++;
                 await fetchOperatorList(transportType, currentPageNo);
             }
-        }, { once: true });
+        });
     }
 }
+clickEventBinder();
 
 function searchClickEvent() {
     const searchBtn = document.getElementById('search-btn');
@@ -165,13 +172,8 @@ function searchClickEvent() {
                 if (response) {
                     let operatorList = [];
 
-                    // Handle both response formats: valueMap wrapper and direct array
-                    if (response && response.valueMap) {
-                        operatorList = response.valueMap.OperatorList || [];
-                    } else if (Array.isArray(response)) {
-                        operatorList = response;
-                    } else if (response) {
-                        operatorList = [response];
+                    if (response && response.data) {
+                        operatorList = [response.data];
                     }
 
                     if (operatorList.length > 0) {
@@ -194,4 +196,29 @@ function searchClickEvent() {
             }
         });
     }
+}
+searchClickEvent();
+
+function operatorNavigationBinder() {
+
+    const operatorNavigationBtn = document.getElementById('operator-navigation-btn');
+
+    if (operatorNavigationBtn) {
+        operatorNavigationBtn.addEventListener('click', function () {
+            toggleOperatorNavigationMenu();
+        });
+    }
+}
+
+operatorNavigationBinder();
+
+function toggleOperatorNavigationMenu() {
+
+    const operatorNavigationMenu = document.getElementById('operator-navigation-menu');
+
+    if (!operatorNavigationMenu) {
+        return;
+    }
+
+    operatorNavigationMenu.classList.toggle('active');
 }

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+
+<div class="profile">
+    <header class="profile-header">
+        <div class="profile-header-brand-icon">
+            <img class="profile-header-logo" src="" alt="AxleOS Logo">
+        </div>
+        <div class="profile-header-actions">
+            <div class="profile-header-section-a">
+                <button id="profile-back-btn">Back</button>
+                <button id="profile-sign-out-btn">Sign out</button>
+            </div>
+        </div>
+
+    </header>
+
+    <main class="profile-body">
+        <div class="profile-body-section">
+            <h2 class="profile-body-section-title">
+                Account Information
+            </h2>
+            <div class="profile-body-section-content">
+                <label for="profile-username">Username</label>
+                <input id="profile-username" type="text" readonly>
+
+                <label for="profile-contact">Contact</label>
+                <input id="profile-contact" type="text" readonly>
+
+                <label for="profile-email">Email</label>
+                <input id="profile-email" type="text" readonly>
+
+                <label for="profile-role">Role</label>
+                <input id="profile-role" type="text" readonly>
+
+                <label for="profile-manager-id-ref">Manager ID</label>
+                <input id="profile-manager-id-ref" type="number" readonly>
+
+                <label for="profile-status">Account Status</label>
+                <input id="profile-status" type="text" readonly>
+            </div>
+        </div>
+
+        <div class="profile-body-section" id="profile-manager-section">
+
+            <h2 class="profile-body-section-title">
+                Manager Information
+            </h2>
+
+            <div class="profile-body-section-content">
+
+                <label for="profile-manager-id">Manager ID</label>
+                <input id="profile-manager-id" type="text" readonly>
+
+                <label for="profile-manager-name">Manager Name</label>
+                <input id="profile-manager-name" type="text" readonly>
+
+                <label for="profile-manager-contact-no">
+                    Contact Number
+                </label>
+                <input id="profile-manager-contact-no" type="text" readonly>
+
+                <label for="profile-manager-status">
+                    Manager Status
+                </label>
+                <input id="profile-manager-status" type="text" readonly>
+            </div>
+        </div>
+
+
+        <div class="profile-body-section" id="profile-operator-section">
+
+            <h2 class="profile-body-section-title">
+                Operator Information
+            </h2>
+
+            <div class="profile-body-section-content">
+
+                <label for="profile-operator-id">Operator ID</label>
+                <input id="profile-operator-id" type="text" readonly>
+
+                <label for="profile-operator-name">Operator Name</label>
+                <input id="profile-operator-name" type="text" readonly>
+
+                <label for="profile-operator-transport-type">
+                    Transport Type
+                </label>
+                <input id="profile-operator-transport-type" type="text" readonly>
+            </div>
+        </div>
+
+    </main>
+    <footer class="profile-footer">
+    </footer>
+</div>
+
+<script src="/js/ajaxCalls/ajaxCalls.js"></script>
+<script src="/js/profile.js"></script>
+
+</body>
+</html>

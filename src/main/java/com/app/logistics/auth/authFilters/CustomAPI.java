@@ -25,13 +25,23 @@ public class CustomAPI extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String servletPath = request.getServletPath();
 
-        if (servletPath.equals("/api/auth/login")
-                ||servletPath.equals("/actuator/health")
+        if (servletPath.equals("/logistic/account/signin")
+                || servletPath.equals("/logistic/account/signup")
+                || servletPath.equals("/logistic/shipment/tracking")
+                || servletPath.equals("/actuator/health")
                 || servletPath.startsWith("/swagger-ui/")
-                || servletPath.startsWith("/v3/api-docs/")) {
-
+                || servletPath.startsWith("/v3/api-docs/")
+                || servletPath.startsWith("/views/")
+                || servletPath.startsWith("/js/")
+                || servletPath.startsWith("/styles/")
+                || servletPath.equals("/")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -39,21 +49,25 @@ public class CustomAPI extends OncePerRequestFilter {
         String username = request.getHeader("Username");
         String apiKey = request.getHeader("X-API-KEY");
 
+        if (username == null || username.trim().isEmpty() || apiKey == null || apiKey.trim().isEmpty()) {
+            throw new APIException("Username or API Key header is missing in request.", HttpStatus.UNAUTHORIZED);
+        }
+
         Map<String, LocalDateTime> cachedApiKey = apiCacheCluster.getAPIKey(username);
 
-        if (cachedApiKey != null && !cachedApiKey.isEmpty()) {
-            if (cachedApiKey.containsKey(apiKey)) {
-                LocalDateTime expirationTime = cachedApiKey.get(apiKey);
-                if (LocalDateTime.now().isBefore(expirationTime)) {
-                    filterChain.doFilter(request,response);
-                } else {
-                    throw new APIException("API key Expired.", HttpStatus.FORBIDDEN);
-                }
+        if (cachedApiKey == null || cachedApiKey.isEmpty()) {
+            throw new APIException("Session expired or invalid API key context. Please sign in again.", HttpStatus.UNAUTHORIZED);
+        }
+
+        if (cachedApiKey.containsKey(apiKey)) {
+            LocalDateTime expirationTime = cachedApiKey.get(apiKey);
+            if (LocalDateTime.now().isBefore(expirationTime)) {
+                filterChain.doFilter(request, response);
             } else {
-                throw new APIException("API Key provided could be invalid.", HttpStatus.FORBIDDEN);
+                throw new APIException("API key Expired.", HttpStatus.FORBIDDEN);
             }
         } else {
-            throw new APIException("API Key provided could be null.", HttpStatus.FORBIDDEN);
+            throw new APIException("API Key provided could be invalid.", HttpStatus.FORBIDDEN);
         }
     }
 }

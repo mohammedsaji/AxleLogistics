@@ -16,9 +16,16 @@ function payloadExtractor() {
 }
 payloadExtractor();
 
-function clickEventBinder() {
+function valueInitializer(){
+    const setCurrentAsManager = params.get("setCurrentAsManager");
+    if(setCurrentAsManager === "true"){
+        const managerStatus = document.querySelector('#manager-status option[value="IN_ACTIVE"]')?.remove();
+    }
+}
+valueInitializer();
 
-    const accountUserName = params.get("accountUserName");
+function clickEventBinder() {
+    const userAction = params.get("userAction");
 
     const dashboardBtn = document.getElementById('dashboard-btn');
     if (dashboardBtn) {
@@ -52,29 +59,35 @@ function clickEventBinder() {
             const payload = {
                 "managerName": managerName,
                 "managerContactNo": managerContactNo,
-                "managerStatus": managerStatus,
-                "accountUserName": accountUserName
+                "managerStatus": managerStatus.toUpperCase()
             };
 
             if (operatorId) {
                 payload["operatorId"] = parseInt(operatorId, 10);
             }
 
-            const url = `/logistic/manager/save`;
-            const methodType = 'POST';
-            const response = await ajaxCall(url, methodType, payload);
+            createForm.disabled = true;
+            try{
+                const accountUserName = params.get("accountUserName");
+                const url = `/logistic/manager/save?accountUserName=${encodeURIComponent(accountUserName)}`;
+                const methodType = 'POST';
+                const response = await ajaxCall(url, methodType, payload);
+                if (response) {
+                    const managerId = response.data.managerId;
 
-            if (response) {
-                const managerId = response.managerId;
-
-                if (operatorId) {
-                    // Flow B: User came from operator view
-                    window.location.href = `../../views/manager/manager.html?managerId=${managerId}&userAction=Entry manager&operatorId=${operatorId}`;
-                } else {
-                    // Flow A: User came from dashboard, needs to select operator
-                    const accountUserName = params.get("accountUserName");
-                    window.location.href = `../../views/operator/transport-types.html?userAction=Entry manager&accountUserName=${accountUserName}`;
+                    if (operatorId) {
+                        // Flow B: User came from operator view
+                        window.location.href = `../../views/manager/manager.html?managerId=${managerId}&userAction=${userAction}&operatorId=${operatorId}`;
+                    } else {
+                        // Flow A: User came from dashboard, needs to select operator
+                        const accountUserName = params.get("accountUserName");
+                        window.location.href = `../../views/operator/transport-types.html?userAction=Entry manager&accountUserName=${accountUserName}`;
+                    }
                 }
+                createForm.disabled = false;
+            }catch(error){
+                console.log("Management save failed:", error);
+                createForm.disabled = false;
             }
         });
     }

@@ -5,9 +5,17 @@ async function payloadExtractor() {
     const url = `/logistic/vehicle/fetch?vehicleId=${vehicleId}`;
     const methodType = 'GET';
     const response = await ajaxCall(url, methodType, null);
-    valueInitializer(response);
-    dynamicLayoutRender(response.vehicleId, response.operatorId);
+    if (response && response.data) {
+        const loginUserMap = await ajaxCall(`/logistic/account/user-info`, 'GET', null);
+        const roleArray = loginUserMap?.data?.RoleList;
+        if(roleArray && roleArray.length > 0) {
+            valueInitializer(response.data);
+            dynamicLayoutRender(response.data.vehicleId, response.data.operatorId, roleArray);
+            clickEventBinder();
+        }
+    }
 }
+
 payloadExtractor();
 
 function valueInitializer(response) {
@@ -28,28 +36,36 @@ function valueInitializer(response) {
     vehicleType.value = response.vehicleType;
     vehicleNumber.value = response.vehicleNumber;
     operatorId.value = response.operatorId;
-    createdAt.value = response.createdAt;
-    updatedAt.value = response.updatedAt;
+    createdAt.value = formatDateTime(response.createdAt);
+    updatedAt.value = formatDateTime(response.updatedAt);
     updatedBy.value = response.updatedBy;
 }
 
-function dynamicLayoutRender(vehicleId, operatorId) {
+function dynamicLayoutRender(vehicleId, operatorId, roleArray) {
     const userAction = params.get("userAction");
 
-    if (userAction === 'Entry shipping' ||
-        userAction === 'Reassign vehicle') {
-
-        const vehicleHeaderActionsDivA = document.getElementById('vehicle-header-actions-a');
-        if (vehicleHeaderActionsDivA) {
-            vehicleHeaderActionsDivA.remove();
+    if(!roleArray.includes("ADMIN")){
+        const backToOperatorBtn = document.getElementById('back-to-operator-btn');
+        if(backToOperatorBtn) {
+            backToOperatorBtn.remove();
         }
-        const vehicleHeaderActionsDivB = document.getElementById('vehicle-header-actions-b');
-        if (vehicleHeaderActionsDivB) {
-            vehicleHeaderActionsDivB.remove();
+    }
+
+    if (userAction === 'Entry shipping' ||
+        userAction === 'Reassign vehicle' ) {
+
+        const vehicleHeaderSectionDivB = document.getElementById('vehicle-header-section-b');
+        if (vehicleHeaderSectionDivB) {
+            vehicleHeaderSectionDivB.remove();
         }
         const vehicleBodyActionsDiv = document.getElementById('vehicle-body-vehicle-actions');
         if (vehicleBodyActionsDiv) {
             vehicleBodyActionsDiv.remove();
+        }
+
+        const backToOperatorBtn = document.getElementById('back-to-operator-btn');
+        if (backToOperatorBtn) {
+            backToOperatorBtn.setAttribute('data-operator-id', operatorId);
         }
 
         const proceedBtn = document.getElementById('proceed-btn');
@@ -70,19 +86,31 @@ function dynamicLayoutRender(vehicleId, operatorId) {
             vehicleBodyCommonActionsDiv.remove();
         }
 
-        const deleteBtn = document.getElementById('delete-btn');
-        if (deleteBtn) {
-            deleteBtn.setAttribute('data-vehicle-id', vehicleId);
-        }
+        if(roleArray.includes("ADMIN")){
+            const deleteBtn = document.getElementById('delete-btn');
+            if (deleteBtn) {
+                deleteBtn.setAttribute('data-vehicle-id', vehicleId);
+            }
 
-        const entryVehicleBtn = document.getElementById('entry-vehicle-btn');
-        if (entryVehicleBtn) {
-            entryVehicleBtn.setAttribute('data-operator-id', operatorId);
-        }
+            const entryVehicleBtn = document.getElementById('entry-vehicle-btn');
+            if (entryVehicleBtn) {
+                entryVehicleBtn.setAttribute('data-operator-id', operatorId);
+            }
 
-        const backToOperatorBtn = document.getElementById('back-to-operator-btn');
-        if (backToOperatorBtn) {
-            backToOperatorBtn.setAttribute('data-operator-id', operatorId);
+            const backToOperatorBtn = document.getElementById('back-to-operator-btn');
+            if (backToOperatorBtn) {
+                backToOperatorBtn.setAttribute('data-operator-id', operatorId);
+            }
+        }else{
+            const deleteBtn = document.getElementById('delete-btn');
+            if (deleteBtn) {
+                deleteBtn.remove();
+            }
+
+            const entryVehicleBtn = document.getElementById('entry-vehicle-btn');
+            if (entryVehicleBtn) {
+                entryVehicleBtn.remove();
+            }
         }
     }
 }
@@ -134,18 +162,25 @@ function clickEventBinder() {
 
             if (vehicleId === '') {
                 alert('Vehicle ID not available.');
+                return;
             } else if (vehicleType === '') {
                 alert('Vehicle type not entered.');
+                return;
             } else if (vehicleNumber === '') {
                 alert('Vehicle number not entered.');
+                return;
             } else if (operatorId === '') {
                 alert('Operator ID not available.');
+                return;
             } else if (createdAt === '') {
                 alert('Created date not available.');
+                return;
             } else if (updatedAt === '') {
                 alert('Updated date not entered.');
+                return;
             } else if (updatedBy === '') {
                 alert('Updated by not entered.');
+                return;
             }
 
             const payload = {
@@ -158,7 +193,7 @@ function clickEventBinder() {
                 "updatedBy": updatedBy
             };
 
-            const response = await ajaxCall(`/logistic/vehicle/update`, 'POST', payload);
+            const response = await ajaxCall(`/logistic/vehicle/update`, 'PUT', payload);
             if (response) {
                 alert(response);
             }
@@ -171,7 +206,12 @@ function clickEventBinder() {
             const vehicleId = this.dataset.vehicleId;
             const url = `/logistic/vehicle/delete?vehicleId=${vehicleId}`;
             const methodType = 'DELETE';
-            await ajaxCall(url, methodType, null);
+            const response = await ajaxCall(url, methodType, null);
+
+            if (response && response.success) {
+                alert(response.message || 'Vehicle deleted successfully.');
+                window.location.href = "/views/dashboard.html";
+            }
         }, {once: true});
     }
 
@@ -184,18 +224,36 @@ function clickEventBinder() {
                 const vehicleId = this.dataset.vehicleId;
                 window.location.href = `../../views/shipment/shipment-form.html?userAction=${userAction}&operatorId=${operatorId}&driverId=${driverId}&vehicleId=${vehicleId}`;
             } else if (userAction === 'Reassign vehicle') {
+                const shippingId = params.get("shippingId");
                 const vehicleId = this.dataset.vehicleId;
-                const shippingStatusId = params.get("shippingStatusId");
-                const url = `/logistic/status/update`;
-                const methodType = 'POST';
-                const payload = {
-                    "shippingStatusId": shippingStatusId,
-                    "vehicleId": parseInt(vehicleId, 10)
-                };
-                const statusUpdateResponse = await ajaxCall(url, methodType, payload);
-                window.location.href = `../../views/status/status.html?userAction=${userAction}&shippingStatusId=${statusUpdateResponse.shippingStatusId}`;
+                const operatorId = params.get("operatorId");
+                const driverId = params.get("driverId");
+                const updatedUserAction = "Reassign driver";
+                window.location.href = `../../views/shipment/shipment.html?userAction=${updatedUserAction}&shippingId=${shippingId}&operatorId=${operatorId}&driverId=${driverId}&vehicleId=${vehicleId}`;
             }
         }, {once: true});
     }
 }
-clickEventBinder();
+
+function vehicleNavigationBinder() {
+    const vehicleNavigationBtn = document.getElementById('vehicle-navigation-btn');
+
+    if (vehicleNavigationBtn) {
+        vehicleNavigationBtn.addEventListener('click', function () {
+            toggleVehicleNavigationMenu();
+        });
+    }
+}
+
+vehicleNavigationBinder();
+
+function toggleVehicleNavigationMenu() {
+    const vehicleNavigationMenu = document.getElementById('vehicle-navigation-menu');
+
+    if (!vehicleNavigationMenu) {
+        return;
+    }
+
+    vehicleNavigationMenu.classList.toggle('active');
+}
+

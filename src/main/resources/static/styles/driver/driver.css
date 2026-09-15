@@ -1,0 +1,7 @@
+.driver-navigation-menu {
+    display: none;
+}
+
+.driver-navigation-menu.active {
+    display: block;
+}

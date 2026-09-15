@@ -7,8 +7,15 @@ async function payloadExtractor() {
     const url = `/logistic/operator/fetch?operatorId=${operatorId}`;
     const methodType = 'GET';
     const response = await ajaxCall(url, methodType, null);
-    valueInitializer(response);
-    dynamicLayoutRender(response.operatorId);
+    if (response && response.data) {
+        const loginUserMap = await ajaxCall(`/logistic/account/user-info`, 'GET', null);
+        const roleArray = loginUserMap?.data?.RoleList;
+        if(roleArray && roleArray.length > 0) {
+            valueInitializer(response.data);
+            dynamicLayoutRender(response.data.operatorId, response.data.operatorName, roleArray);
+            clickEventBinder();
+        }
+    }
 }
 payloadExtractor();
 
@@ -30,69 +37,117 @@ function valueInitializer(response){
     operatorName.value = response.operatorName;
     transportationType.value = response.operatorTransportType;
     operatorManagerID.value = response.managerId;
-    operatorCreatedAt.value = response.createdAt;
-    operatorUpdatedAt.value = response.updatedAt;
+    operatorCreatedAt.value = formatDateTime(response.createdAt);
+    operatorUpdatedAt.value = formatDateTime(response.updatedAt);
     operatorUpdatedBy.value = response.updatedBy;
 }
 
 
-function dynamicLayoutRender(operatorId){
+function dynamicLayoutRender(operatorId, operatorName, roleArray){
     const userAction = params.get("userAction");
 
     if(userAction === 'Reassign operator'||
         userAction === 'Entry shipping' ){
-        const operatorHeaderActionsDivA = document.querySelector('.operator-header-actions-a');
-        if(operatorHeaderActionsDivA){
-            operatorHeaderActionsDivA.remove();
+
+        const createOperatorBtn = document.getElementById('create-operator-btn');
+        if(createOperatorBtn){
+            createOperatorBtn.remove();
         }
-        const operatorHeaderActionsDivB = document.querySelector('.operator-header-actions-b');
-        if(operatorHeaderActionsDivB){
-            operatorHeaderActionsDivB.remove();
+        const createVehicleBtn = document.getElementById('create-vehicle-btn');
+        if(createVehicleBtn){
+            createVehicleBtn.remove();
         }
+
         const operatorBodyActionsDiv = document.querySelector('.operator-body-operator-actions');
         if(operatorBodyActionsDiv){
             operatorBodyActionsDiv.remove();
         }
 
-        const proceedBtn = document.getElementById('proceed-btn');
-        proceedBtn.setAttribute('data-operator-id',operatorId);
-
-    }else if(userAction === 'Entry Manager' ||
-        userAction === 'Entry Driver'){
-        const operatorHeaderActionsDivA = document.querySelector('.operator-header-actions-a');
-        if(operatorHeaderActionsDivA){
-            operatorHeaderActionsDivA.remove();
+        if(roleArray.includes("ADMIN")){
+            const proceedBtn = document.getElementById('proceed-btn');
+            if(proceedBtn){
+                proceedBtn.setAttribute('data-operator-id',operatorId);
+            }
+        }else{
+            const proceedBtn = document.getElementById('proceed-btn');
+            if(proceedBtn){
+                proceedBtn.remove();
+            }
         }
+
+    }else if(userAction === 'Entry manager' ||
+        userAction === 'Entry driver'){
         const operatorBodyActionsDiv = document.querySelector('.operator-body-operator-actions');
         if(operatorBodyActionsDiv){
             operatorBodyActionsDiv.remove();
         }
-        const entryManagerBtn = document.getElementById('entry-manager-btn');
-        entryManagerBtn.setAttribute('data-operator-id',operatorId);
 
-        const entryDriverBtn = document.getElementById('entry-driver-btn');
-        entryDriverBtn.setAttribute('data-operator-id',operatorId);
+        if(roleArray.includes("ADMIN")){
+            const entryManagerBtn = document.getElementById('entry-manager-btn');
+            if(entryManagerBtn){
+                entryManagerBtn.setAttribute('data-operator-id',operatorId);
+            }
+
+            const entryDriverBtn = document.getElementById('entry-driver-btn');
+            if(entryDriverBtn){
+                entryDriverBtn.setAttribute('data-operator-id',operatorId);
+            }
+
+            const proceedBtn = document.getElementById('proceed-btn');
+            if(proceedBtn){
+                proceedBtn.setAttribute('data-operator-id',operatorId);
+                if(userAction === 'Reassign operator'){
+                    proceedBtn.setAttribute('data-operator-name',operatorName);
+                }
+            }
+        }else{
+            const entryManagerBtn = document.getElementById('entry-manager-btn');
+            if(entryManagerBtn){
+                entryManagerBtn.remove();
+            }
+
+            const entryDriverBtn = document.getElementById('entry-driver-btn');
+            if(entryDriverBtn){
+                entryDriverBtn.remove();
+            }
+
+            const proceedBtn = document.getElementById('proceed-btn');
+            if(proceedBtn){
+                proceedBtn.remove();
+            }
+        }
 
     }else if(userAction === 'Entry operator' ||
         userAction === 'Read operator'){
 
-        const operatorHeaderActionsDivB = document.querySelector('.operator-header-actions-b');
-        if(operatorHeaderActionsDivB){
-            operatorHeaderActionsDivB.remove();
-        }
         const operatorBodyCommonActionsDiv = document.querySelector('.operator-body-common-actions');
         if(operatorBodyCommonActionsDiv){
             operatorBodyCommonActionsDiv.remove();
         }
-        if(userAction === 'Entry operator'){
-            const operatorBodyDependentsList = document.querySelector('.operator-body-dependents-list');
-            if(operatorBodyDependentsList){
-                operatorBodyDependentsList.remove();
+
+        if(userAction === 'Entry operator' || !roleArray.includes("ADMIN")){
+            const viewManagersBtn = document.getElementById('view-managers-btn');
+            if(viewManagersBtn){
+                viewManagersBtn.remove();
+            }
+
+            const viewDriversBtn = document.getElementById('view-drivers-btn');
+            if(viewDriversBtn){
+                viewDriversBtn.remove();
+            }
+
+            const viewVehiclesBtn = document.getElementById('view-vehicles-btn');
+            if(viewVehiclesBtn){
+                viewVehiclesBtn.remove();
             }
         }
 
-        const entryVehicleBtn = document.getElementById('entry-vehicle-btn');
-        entryVehicleBtn.setAttribute('data-operator-id',operatorId);
+        if(roleArray.includes("ADMIN")){
+            const createVehicleBtn = document.getElementById('create-vehicle-btn');
+            if(createVehicleBtn){
+                createVehicleBtn.setAttribute('data-operator-id',operatorId);
+            }
+        }
     }
 
 }
@@ -100,6 +155,7 @@ function dynamicLayoutRender(operatorId){
 function clickEventBinder(){
 
     const userAction = params.get("userAction");
+    const accountUserName = params.get("accountUserName");
 
     const operatorListBtn = document.getElementById('operator-list-btn');
     if(operatorListBtn){
@@ -109,9 +165,9 @@ function clickEventBinder(){
         },{once:true});
     }
 
-    const entryOperatorBtn = document.getElementById('entry-operator-btn');
-    if(entryOperatorBtn){
-        entryOperatorBtn.addEventListener('click',function(){
+    const createOperatorBtn = document.getElementById('create-operator-btn');
+    if(createOperatorBtn){
+        createOperatorBtn.addEventListener('click',function(){
             const userAction = 'Entry operator';
             window.location.href = `../../views/operator/transport-types.html?userAction=${userAction}`;
         },{once:true});
@@ -119,25 +175,31 @@ function clickEventBinder(){
 
     const proceedBtn = document.getElementById('proceed-btn');
     if(proceedBtn){
-        proceedBtn.addEventListener('click',function(){
-            let url;
-            if(userAction === 'Entry shipping'){
-                const operatorId = this.dataset.operatorId;
-                url = `../../views/shipment/shipment-form.html?userAction=${userAction}&operatorId=${operatorId}`;
-            }else if(userAction === 'Reassign operator'){
-                const operatorId = this.dataset.operatorId;
-                url = `../../views/status/status.html?userAction=${userAction}&operatorId=${operatorId}`;
-            }else if(userAction === 'Entry manager'){
-                const operatorId = this.dataset.operatorId;
-                url = `../../views/manager/manager-creation-form.html?userAction=${userAction}&operatorId=${operatorId}`;
-            }else if(userAction === 'Entry driver'){
-                const operatorId = this.dataset.operatorId;
-                url = `../../views/shipment/driver-creation-form.html?userAction=${userAction}&operatorId=${operatorId}`;
+        proceedBtn.addEventListener('click',async function(){
+            const operatorId = this.dataset.operatorId || params.get("operatorId");
+            const operatorName = this.dataset.operatorName || document.getElementById('operator-name').value.trim();
+            const operatorManager = document.getElementById('operator-manager');
+            if(userAction === 'Entry manager' || (operatorManager && operatorManager.value !== '' && operatorManager.value !== null)){
+                if(userAction === 'Entry shipping'){
+                    window.location.href = `../../views/driver/driver-list.html?userAction=${userAction}&operatorId=${operatorId}`;
+                }else if(userAction === 'Reassign operator'){
+                    const shippingId = params.get("shippingId");
+                    window.location.href = `../../views/shipment/shipment.html?userAction=${userAction}&shippingId=${shippingId}&operatorId=${operatorId}&operatorName=${operatorName}`;
+                }else if(userAction === 'Entry manager'){
+                    const operatorManagerID = document.getElementById('operator-manager');
+                    if(operatorManagerID.value.trim() === null || operatorManagerID.value.trim() === '' || operatorManagerID.value === 0){
+                        const setCurrentAsManager = true;
+                        window.location.href = `../../views/manager/manager-creation-form.html?userAction=${userAction}&operatorId=${operatorId}&accountUserName=${accountUserName}&setCurrentAsManager=${setCurrentAsManager}`;
+                    }else{
+                        window.location.href = `../../views/manager/manager-creation-form.html?userAction=${userAction}&operatorId=${operatorId}&accountUserName=${accountUserName}`;
+                    }
+                }else if(userAction === 'Entry driver'){
+                    window.location.href = `../../views/driver/driver-creation-form.html?userAction=${userAction}&operatorId=${operatorId}&accountUserName=${accountUserName}`;
+                }
+            }else{
+                alert("Operator may not had a manager, create or assign manager to proceed.");
             }
-            if(url){
-                window.location.href = url;
-            }
-        },{once:true});
+        });
     }
 
     const entryManagerBtn = document.getElementById('entry-manager-btn');
@@ -149,9 +211,9 @@ function clickEventBinder(){
         },{once:true});
     }
 
-    const entryVehicleBtn = document.getElementById('entry-vehicle-btn');
-    if(entryVehicleBtn){
-        entryVehicleBtn.addEventListener('click',function (){
+    const createVehicleBtn = document.getElementById('create-vehicle-btn');
+    if(createVehicleBtn){
+        createVehicleBtn.addEventListener('click',function (){
             const operatorId = this.dataset.operatorId;
             window.location.href = `../../views/vehicle/vehicle-creation-form.html?userAction=${userAction}&operatorId=${operatorId}`;
         },{once:true});
@@ -186,18 +248,25 @@ function clickEventBinder(){
 
             if(operatorId === ''){
                 alert('Operator ID not available.');
+                return;
             } else if(operatorName === ''){
                 alert('Operator Name not entered.');
+                return;
             }else if(transportationType === ''){
                 alert('Transportation Type not entered.');
+                return;
             }else if(operatorManagerID === ''){
                 alert('Manager ID not entered.');
+                return;
             }else if(operatorCreatedAt === ''){
                 alert('Created date not entered.');
+                return;
             }else if(operatorUpdatedAt === ''){
                 alert('Updated date not entered.');
+                return;
             }else if(operatorUpdatedBy === ''){
                 alert('Updated by not entered.');
+                return;
             }
 
             const payload = {
@@ -210,7 +279,7 @@ function clickEventBinder(){
                 "updatedBy": operatorUpdatedBy
             };
 
-            const response = await ajaxCall(`/logistic/operator/update`, 'POST', payload);
+            const response = await ajaxCall(`/logistic/operator/update`, 'PUT', payload);
             if (response) {
                 alert(response);
             }
@@ -223,7 +292,12 @@ function clickEventBinder(){
             const operatorId = document.getElementById('operator-id').value.trim();
             const url = `/logistic/operator/delete?operatorId=${operatorId}`;
             const methodType = 'DELETE';
-            await ajaxCall(url, methodType, null);
+            const response = await ajaxCall(url, methodType, null);
+
+            if (response && response.success) {
+                alert(response.message || 'Operator deleted successfully.');
+                window.location.href = "/views/dashboard.html";
+            }
         }, {once: true});
     }
 
@@ -232,9 +306,52 @@ function clickEventBinder(){
         viewManagersBtn.addEventListener('click', async function () {
             const operatorId = document.getElementById('operator-id').value.trim();
             if(operatorId){
-                window.location.href = `../../views/manager/manager-list.html?operatorId=${operatorId}&userAction=Read operator`;
+                window.location.href = `../../views/manager/manager-list.html?operatorId=${operatorId}&userAction=${userAction}`;
+            }
+        }, {once: true});
+    }
+
+    const viewDriversBtn = document.getElementById('view-drivers-btn');
+    if(viewDriversBtn){
+        viewDriversBtn.addEventListener('click', async function () {
+            const operatorId = document.getElementById('operator-id').value.trim();
+            if(operatorId){
+                window.location.href = `../../views/driver/driver-list.html?operatorId=${operatorId}&userAction=${userAction}`;
+            }
+        }, {once: true});
+    }
+
+    const viewVehiclesBtn = document.getElementById('view-vehicles-btn');
+    if(viewVehiclesBtn){
+        viewVehiclesBtn.addEventListener('click', async function () {
+            const operatorId = document.getElementById('operator-id').value.trim();
+            if(operatorId){
+                window.location.href = `../../views/vehicle/vehicle-list.html?operatorId=${operatorId}&userAction=${userAction}`;
             }
         }, {once: true});
     }
 }
-clickEventBinder();
+
+function operatorNavigationBinder(){
+
+    const operatorNavigationBtn = document.getElementById('operator-navigation-btn');
+
+    if(operatorNavigationBtn){
+        operatorNavigationBtn.addEventListener('click',function(){
+            toggleOperatorNavigationMenu();
+        });
+    }
+}
+
+operatorNavigationBinder();
+
+function toggleOperatorNavigationMenu(){
+
+    const operatorNavigationMenu = document.getElementById('operator-navigation-menu');
+
+    if(!operatorNavigationMenu){
+        return;
+    }
+
+    operatorNavigationMenu.classList.toggle('active');
+}

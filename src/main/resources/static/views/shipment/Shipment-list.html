@@ -3,21 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Shipment list</title>
+    <link rel="stylesheet" href="../../styles/shipment/shipmentList.css">
 </head>
 <body>
 <div class="shipment">
     <header class="shipment-header">
-        <div class="shipment-header-brand-icon">
+        <div class="shipment-header-brand">
             <img class="shipment-header-logo" src="" alt="Shipment Logo">
         </div>
         <div class="shipment-header-actions">
             <div class="shipment-header-section-a">
-                <button id="dashboard-btn">Dashboard</button>
+                <button type="button" id="dashboard-btn">Dashboard</button>
             </div>
             <div class="shipment-header-section-b">
-                <div class="shipment-header-actions-a">
-                    <button id="create-shipment-btn">Create shipment</button>
-                </div>
+                <nav class="shipment-navigation" aria-label="Shipment navigation">
+                    <div class="shipment-navigation-group">
+                        <button type="button" id="shipment-navigation-btn">Shipment</button>
+                        <div class="shipment-navigation-menu" id="shipment-navigation-menu">
+                            <button type="button" id="create-shipment-btn">Create Shipment</button>
+                        </div>
+                    </div>
+                </nav>
             </div>
         </div>
     </header>

@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Employee creation form</title>
+    <link rel="stylesheet" href="../../styles/employee/employeeCreationForm.css">
 </head>
 <body>
 <div class="employee">
     <header class="employee-header">
-        <div class="employee-header-brand-icon">
-            <img class="employee-header-logo" src="" alt="Employee Logo">
+        <div class="employee-header-brand">
+            <img class="employee-header-logo" src="" alt="Employee Creation">
         </div>
         <div class="employee-header-actions">
             <div class="employee-header-section-a">
                 <button id="dashboard-btn">Dashboard</button>
-            </div>
-            <div class="employee-header-section-b">
             </div>
         </div>
     </header>
@@ -29,6 +28,9 @@
 
                 <label for="employee-department">Employee Department :</label>
                 <input id="employee-department" type="text" maxlength="30" required>
+
+                <label for="employee-joining-date">Employee joining date :</label>
+                <input id="employee-joining-date" type="datetime-local" required>
 
                 <label for="employee-status">Employee Status :</label>
                 <select id="employee-status" required>

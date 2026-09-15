@@ -2,35 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Operator screen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operator Management</title>
+    <link rel="stylesheet" href="../../styles/operator/operator.css">
 </head>
+
 <body>
 <div class="operator">
     <header class="operator-header">
-        <div class="operator-header-brand-icon">
-            <img class="operator-header-logo"  src="" alt="Operator Logo">
+        <div class="operator-header-brand">
+            <img class="operator-header-logo" src="" alt="Operator">
         </div>
+
         <div class="operator-header-actions">
             <div class="operator-header-section-a">
-                <button id="dashboard-btn">Dashboard</button>
+                <button type="button" id="dashboard-btn">Dashboard</button>
             </div>
+
             <div class="operator-header-section-b">
-                <div class="operator-header-actions-a">
-                    <button id="operator-list-btn">Operator list</button>
-                    <button id="entry-operator-btn">Entry operator</button>
-                    <button id="entry-vehicle-btn">Entry vehicle</button>
-                </div>
-                <div class="operator-header-actions-b">
-                    <button class="entry-manager-btn">Entry manager</button>
-                    <button class="entry-driver-btn">Entry driver</button>
-                </div>
+                <nav class="operator-navigation" aria-label="Operator navigation">
+                    <div class="operator-navigation-group">
+                        <button type="button" id="operator-navigation-btn">Operator</button>
+
+                        <div class="operator-navigation-menu" id="operator-navigation-menu">
+                            <button type="button" id="operator-list-btn">Manage Operators</button>
+                            <button type="button" id="create-operator-btn">Create Operator</button>
+                            <button type="button" id="view-managers-btn">View Managers</button>
+                            <button type="button" id="view-drivers-btn">View Drivers</button>
+                            <button type="button" id="create-vehicle-btn">Create Vehicle</button>
+                            <button type="button" id="view-vehicles-btn">View Vehicles</button>
+                        </div>
+                    </div>
+                </nav>
             </div>
         </div>
     </header>
+
     <main class="operator-body">
-        <div class="operator-body-operator-display">
+        <section class="operator-body-operator-display">
             <form>
-                <label for="operator-id">Operator ID :</label>
+                <label for="operator-id">Operator Id :</label>
                 <input id="operator-id" type="text" readonly>
 
                 <label for="operator-name">Operator Name :</label>
@@ -39,7 +50,7 @@
                 <label for="operator-transport-type">Transportation Mode :</label>
                 <input id="operator-transport-type" readonly>
 
-                <label for="operator-manager">Operator Manager ID :</label>
+                <label for="operator-manager">Operator Manager Id :</label>
                 <input id="operator-manager" type="number" readonly required>
 
                 <label for="operator-created-at">Operator created at :</label>
@@ -48,51 +59,34 @@
                 <label for="operator-updated-at">Operator updated at :</label>
                 <input id="operator-updated-at" type="datetime-local" readonly required>
 
-                <label for="operator-updated-by">Operator Manager ID :</label>
+                <label for="operator-updated-by">Operator updated by :</label>
                 <input id="operator-updated-by" type="number" readonly required>
-            </form>
-            <div class="operator-body-dependents-list">
-                <button id="view-managers-btn">View Managers</button>
-                <button id="view-drivers-btn">View drivers</button>
-                <button id="view-vehicles-btn">View vehicles</button>
-            </div>
-        </div>
-        <div class="operator-body-operator-actions">
-            <button id="update-btn">Update</button>
-            <button id="delete-btn">Delete</button>
-        </div>
-        <div class="operator-body-common-actions">
-            <button id="proceed-btn">Proceed</button>
-        </div>
-    </main>
-    <footer class="operator-footer">
 
+            </form>
+        </section>
+
+        <section class="operator-body-operator-actions">
+            <button type="button" id="update-btn">Update</button>
+            <button type="button" id="delete-btn">Delete</button>
+        </section>
+
+        <section class="operator-body-common-actions">
+            <button type="button" id="proceed-btn">Proceed</button>
+        </section>
+
+    </main>
+
+
+    <footer class="footer">
+        <div class="footer-profile-section"><a href="https://github.com/mohammedsaji/mohammedsaji" target="_blank" rel="noopener noreferrer">GitHub </a>
+            <a href="http://www.linkedin.com/in/mohammed-shajith-e" target="_blank" rel="noopener noreferrer"> LinkedIn </a>
+            <a href="mailto:althafshajid@gmail.com"> Gmail </a>
+        </div>
+        <p>&copy; 2026 Passage Logistics Systems. All rights reserved.</p>
     </footer>
+
 </div>
 
-
-
-<!--<div class="operator-shell">-->
-<!--    <div class="operator-shell-wrapper-header">-->
-<!--        <div class="operator-shell-inner-header">-->
-<!--            <div class="operator-shell-group-header">-->
-<!--                <button class="dashboard-btn">Dashboard</button>-->
-<!--            </div>-->
-<!--            <div class="operator-shell-group-header">-->
-<!--                <button class="create-operator-btn">Create operator</button>-->
-<!--                <button class="update-operator-btn">Update operator</button>-->
-<!--                <button class="delete-operator-btn">Delete operator</button>-->
-<!--            </div>-->
-<!--            <div class="operator-shell-group-header dynamic-btn-container">-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--    </div>-->
-<!--    <div class="operator-shell-wrapper-body">-->
-
-<!--    </div>-->
-<!--</div>-->
-<!--<script src="/js/viewStateConfig.js"></script>-->
 <script src="../../js/utility/utility.js"></script>
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
 <script src="../../js/operator/operator.js"></script>

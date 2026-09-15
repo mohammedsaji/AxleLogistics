@@ -5,7 +5,7 @@ import com.app.logistics.customer.dto.CustomerRequest;
 import com.app.logistics.driver.dto.DriverRequest;
 import com.app.logistics.operator.dto.OperatorRequest;
 import com.app.logistics.shipment.dto.ShipmentRequest;
-import com.app.logistics.shipmentStatus.dto.ShipmentStatusRequest;
+import com.app.logistics.shipmentStatusLog.dto.ShipmentStatusLogRequest;
 import com.app.logistics.vehicle.dto.VehicleRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -23,10 +23,6 @@ public class ShipmentSaveRequest {
     @Valid
     @NotNull
     private ShipmentRequest shipmentRequest;
-
-    @Valid
-    @NotNull
-    private ShipmentStatusRequest shipmentStatusRequest;
 
     @Valid
     @NotNull
@@ -62,14 +58,6 @@ public class ShipmentSaveRequest {
 
     public void setShipmentRequest(ShipmentRequest shipmentRequest) {
         this.shipmentRequest = shipmentRequest;
-    }
-
-    public ShipmentStatusRequest getShipmentStatusRequest() {
-        return shipmentStatusRequest;
-    }
-
-    public void setShipmentStatusRequest(ShipmentStatusRequest shipmentStatusRequest) {
-        this.shipmentStatusRequest = shipmentStatusRequest;
     }
 
     public OperatorRequest getOperatorRequest() {

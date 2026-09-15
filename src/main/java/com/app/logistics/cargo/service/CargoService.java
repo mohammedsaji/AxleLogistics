@@ -23,11 +23,12 @@ public class CargoService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public Cargo saveCargo(CargoRequest cargoRequest) {
+    public Cargo saveCargo(CargoRequest cargoRequest, Integer createdBy) {
         if (cargoRequest == null) {
             throw new APIException("Cargo request data payload cannot be null", HttpStatus.BAD_REQUEST);
         }
         Cargo savingCargo = cargoMapper.toVO(cargoRequest);
+        savingCargo.setCreatedBy(createdBy);
         return cargoRepo.save(savingCargo);
     }
 

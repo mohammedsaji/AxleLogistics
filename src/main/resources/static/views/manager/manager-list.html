@@ -3,21 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Manager list</title>
+    <link rel="stylesheet" href="../../styles/manager/managerList.css">
 </head>
 <body>
 <div class="manager">
     <header class="manager-header">
-        <div class="manager-header-brand-icon">
-            <img class="manager-header-logo" src="" alt="Manager Logo">
+        <div class="manager-header-brand">
+            <img class="manager-header-logo" src="" alt="Manager List">
         </div>
         <div class="manager-header-actions">
             <div class="manager-header-section-a">
-                <button id="dashboard-btn">Dashboard</button>
+                <button type="button" id="dashboard-btn">Dashboard</button>
             </div>
             <div class="manager-header-section-b">
-                <div class="manager-header-actions-a">
-                    <button id="create-manager-btn">Create manager</button>
-                </div>
+                <nav class="manager-navigation" aria-label="Manager navigation">
+                    <div class="manager-navigation-group">
+                        <button type="button" id="manager-navigation-btn">Manager</button>
+                        <div class="manager-navigation-menu" id="manager-navigation-menu">
+                            <button type="button" id="create-manager-btn">Create Manager</button>
+                        </div>
+                    </div>
+                </nav>
             </div>
         </div>
     </header>

@@ -1,57 +1,58 @@
 package com.app.logistics.shipmentStatusLog.dto;
 
-import com.app.logistics.common.validations.OnCreate;
-import com.app.logistics.common.validations.OnUpdate;
+import com.app.logistics.common.validations.OnRead;
+import com.app.logistics.shipmentStatusLog.utils.OnDependentSave;
+import com.app.logistics.shipmentStatusLog.utils.OnOperatorSave;
+import com.app.logistics.shipmentStatusLog.utils.OnStatusSave;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 public class ShipmentStatusLogRequest {
 
-    @Null(groups = OnCreate.class)
-    @NotNull(groups = OnUpdate.class)
-    @Positive(groups = OnUpdate.class)
+    @NotNull(groups = OnRead.class)
     private Integer shippingStatusLogId;
 
-    @Null(groups = OnCreate.class)
-    @NotNull(groups = OnUpdate.class)
-    @Positive(groups = OnUpdate.class)
-    private Integer shippingStatusId;
+    @NotNull(groups = { OnOperatorSave.class, OnDependentSave.class, OnStatusSave.class})
+    @Positive(groups = { OnOperatorSave.class, OnDependentSave.class, OnStatusSave.class})
+    private Integer shippingId;
 
-    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
-    @Size(min = 10, max = 50, groups = {OnCreate.class, OnUpdate.class})
+    @NotBlank(groups = { OnOperatorSave.class, OnDependentSave.class, OnStatusSave.class})
+    @Size(min = 10, max = 100, groups = { OnOperatorSave.class, OnDependentSave.class, OnStatusSave.class})
     private String currentLocation;
 
-    @Null(groups = OnCreate.class)
-    @NotNull(groups = OnUpdate.class)
-    @Positive(groups = OnUpdate.class)
-    private Integer cargoId;
+    @NotNull(groups = { OnOperatorSave.class, OnDependentSave.class, OnStatusSave.class})
+    private BigDecimal currentLatitude;
 
-    @Null(groups = OnCreate.class)
-    @NotNull(groups = OnUpdate.class)
-    @Positive(groups = OnUpdate.class)
+    @NotNull(groups = { OnOperatorSave.class, OnDependentSave.class, OnStatusSave.class})
+    private BigDecimal currentLongitude;
+
+    @NotNull(groups = { OnStatusSave.class})
+    private BigDecimal locationAccuracy;
+
+    @NotNull(groups = { OnDependentSave.class, OnStatusSave.class})
     private Integer operatorId;
 
-    @Null(groups = OnCreate.class)
-    @NotNull(groups = OnUpdate.class)
-    @Positive(groups = OnUpdate.class)
+    @NotNull(groups = { OnDependentSave.class, OnStatusSave.class})
     private Integer driverId;
 
-    @Null(groups = OnCreate.class)
-    @NotNull(groups = OnUpdate.class)
-    @Positive(groups = OnUpdate.class)
+    @NotNull(groups = { OnDependentSave.class, OnStatusSave.class})
     private Integer vehicleId;
 
-    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
+    @NotBlank(groups = {OnStatusSave.class})
     @Pattern(
             regexp = "SHIPPED|ARRIVED|IN-TRANSIT|DELAYED|OUT-FOR-DELIVERY|DELIVERED",
             message = "Invalid shipping status",
-            groups = {OnCreate.class, OnUpdate.class}
+            groups = { OnStatusSave.class}
     )
     private String shippingStatus;
+
+    private LocalDateTime updatedAt;
 
     public Integer getShippingStatusLogId() {
         return shippingStatusLogId;
@@ -61,28 +62,12 @@ public class ShipmentStatusLogRequest {
         this.shippingStatusLogId = shippingStatusLogId;
     }
 
-    public Integer getShippingStatusId() {
-        return shippingStatusId;
+    public Integer getShippingId() {
+        return shippingId;
     }
 
-    public void setShippingStatusId(Integer shippingStatusId) {
-        this.shippingStatusId = shippingStatusId;
-    }
-
-    public String getCurrentLocation() {
-        return currentLocation;
-    }
-
-    public void setCurrentLocation(String currentLocation) {
-        this.currentLocation = currentLocation;
-    }
-
-    public Integer getCargoId() {
-        return cargoId;
-    }
-
-    public void setCargoId(Integer cargoId) {
-        this.cargoId = cargoId;
+    public void setShippingId(Integer shippingId) {
+        this.shippingId = shippingId;
     }
 
     public Integer getOperatorId() {
@@ -115,5 +100,45 @@ public class ShipmentStatusLogRequest {
 
     public void setShippingStatus(String shippingStatus) {
         this.shippingStatus = shippingStatus;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public BigDecimal getCurrentLatitude() {
+        return currentLatitude;
+    }
+
+    public void setCurrentLatitude(BigDecimal currentLatitude) {
+        this.currentLatitude = currentLatitude;
+    }
+
+    public BigDecimal getCurrentLongitude() {
+        return currentLongitude;
+    }
+
+    public void setCurrentLongitude(BigDecimal currentLongitude) {
+        this.currentLongitude = currentLongitude;
+    }
+
+    public BigDecimal getLocationAccuracy() {
+        return locationAccuracy;
+    }
+
+    public void setLocationAccuracy(BigDecimal locationAccuracy) {
+        this.locationAccuracy = locationAccuracy;
+    }
+
+    public String getCurrentLocation() {
+        return currentLocation;
+    }
+
+    public void setCurrentLocation(String currentLocation) {
+        this.currentLocation = currentLocation;
     }
 }

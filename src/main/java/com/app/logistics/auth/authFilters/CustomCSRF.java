@@ -1,6 +1,5 @@
-package com.app.logistics.auth.authFilters;//package com.backend.ops.platform.auth.filters;
+package com.app.logistics.auth.authFilters;
 
-import com.backend.ops.platform.common.exception.APIException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import com.app.logistics.common.exception.APIException;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -20,6 +20,15 @@ public class CustomCSRF extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+        String servletPath = request.getServletPath();
+
+        if (servletPath.equals("/logistic/account/signin")
+                || servletPath.equals("/logistic/account/signup")
+                || servletPath.equals("/logistic/shipment/tracking")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         String method = request.getMethod();
 

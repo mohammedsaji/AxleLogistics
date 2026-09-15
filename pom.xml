@@ -11,9 +11,9 @@
     <groupId>com.app</groupId>
     <artifactId>projectLogistics</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Axle Logistics</name>
+    <name>Passage Logistics Systems</name>
     <description>
-        Axle Logistics to keep track of user order from transit to deliver.
+        Passage Logistics Systems to keep track of user order from transit to deliver.
     </description>
     <url/>
     <licenses>
@@ -60,6 +60,10 @@
             <optional>true</optional>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
             <version>1.6.3</version>
@@ -101,6 +105,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>

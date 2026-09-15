@@ -2,22 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Operator entry form</title>
+    <title>Create operator</title>
+    <link rel="stylesheet" href="../../styles/operator/operatorCreationForm.css">
 </head>
 <body>
 
 <div class="operator">
     <header class="operator-header">
-        <div class="operator-header-brand-icon">
-            <img class="operator-header-logo"  src="" alt="Operator Logo">
+        <div class="operator-header-brand">
+            <img class="operator-header-logo" src="" alt="Operator Creation">
         </div>
         <div class="operator-header-actions">
             <div class="operator-header-section-a">
-                <button id="dashboard-btn">Dashboard</button>
+                <button type="button" id="dashboard-btn">Dashboard</button>
             </div>
             <div class="operator-header-section-b">
-                <button id="operator-list-btn">Operator list</button>
-                <button id="entry-operator-btn">Entry operator</button>
+                <nav class="operator-navigation" aria-label="Operator navigation">
+                    <div class="operator-navigation-group">
+                        <button type="button" id="operator-navigation-btn">Operator</button>
+                        <div class="operator-navigation-menu" id="operator-navigation-menu">
+                            <button type="button" id="operator-list-btn">Manage Operators</button>
+                            <button type="button" id="create-operator-btn">Create Operator</button>
+                        </div>
+                    </div>
+                </nav>
             </div>
         </div>
     </header>
@@ -38,7 +46,13 @@
             </form>
         </div>
     </main>
-    <footer class="operator-footer">
+
+    <<footer class="footer">
+        <div class="footer-profile-section"><a href="https://github.com/mohammedsaji/mohammedsaji" target="_blank" rel="noopener noreferrer">GitHub </a>
+            <a href="http://www.linkedin.com/in/mohammed-shajith-e" target="_blank" rel="noopener noreferrer"> LinkedIn </a>
+            <a href="mailto:althafshajid@gmail.com"> Gmail </a>
+        </div>
+        <p>&copy; 2026 Passage Logistics Systems. All rights reserved.</p>
     </footer>
 </div>
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>

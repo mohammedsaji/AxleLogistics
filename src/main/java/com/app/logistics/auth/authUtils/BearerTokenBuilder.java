@@ -2,14 +2,17 @@ package com.app.logistics.auth.authUtils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
 public class BearerTokenBuilder{
-    public SecretKey secretKey = Jwts.SIG.HS256.key().build();
+    private static final String SECRET_STRING = "AxleOS_Super_Secret_Key_For_JWT_Authentication_2026_Secure!";
+    private final SecretKey secretKey = Keys.hmacShaKeyFor(SECRET_STRING.getBytes(StandardCharsets.UTF_8));
 
     public String builtBearerToken(String username, String role){
 

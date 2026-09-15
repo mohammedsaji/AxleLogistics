@@ -1,26 +1,48 @@
 package com.app.logistics.shipment.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class ShipmentResponse {
 
     private Integer shippingId;
     private String shippingFrom;
+    private BigDecimal originLatitude;
+    private BigDecimal originLongitude;
+    private String currentLocation;
+    private BigDecimal currentLatitude;
+    private BigDecimal currentLongitude;
     private String shippingTo;
+    private BigDecimal destinationLatitude;
+    private BigDecimal destinationLongitude;
     private Integer customerId;
     private Integer cargoId;
-    private Integer statusId;
     private LocalDateTime deliveryDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Integer updatedBy;
 
-    public Integer getShippingId() {
-        return shippingId;
+    public String getCurrentLocation() {
+        return currentLocation;
     }
 
-    public void setShippingId(Integer shippingId) {
-        this.shippingId = shippingId;
+    public void setCurrentLocation(String currentLocation) {
+        this.currentLocation = currentLocation;
+    }
+
+    public BigDecimal getCurrentLatitude() {
+        return currentLatitude;
+    }
+
+    public void setCurrentLatitude(BigDecimal currentLatitude) {
+        this.currentLatitude = currentLatitude;
+    }
+
+    public BigDecimal getCurrentLongitude() {
+        return currentLongitude;
+    }
+
+    public void setCurrentLongitude(BigDecimal currentLongitude) {
+        this.currentLongitude = currentLongitude;
     }
 
     public String getShippingFrom() {
@@ -39,6 +61,16 @@ public class ShipmentResponse {
         this.shippingTo = shippingTo;
     }
 
+    private Integer updatedBy;
+
+    public Integer getShippingId() {
+        return shippingId;
+    }
+
+    public void setShippingId(Integer shippingId) {
+        this.shippingId = shippingId;
+    }
+
     public Integer getCustomerId() {
         return customerId;
     }
@@ -53,14 +85,6 @@ public class ShipmentResponse {
 
     public void setCargoId(Integer cargoId) {
         this.cargoId = cargoId;
-    }
-
-    public Integer getStatusId() {
-        return statusId;
-    }
-
-    public void setStatusId(Integer statusId) {
-        this.statusId = statusId;
     }
 
     public LocalDateTime getDeliveryDate() {
@@ -93,5 +117,37 @@ public class ShipmentResponse {
 
     public void setUpdatedBy(Integer updatedBy) {
         this.updatedBy = updatedBy;
+    }
+
+    public BigDecimal getDestinationLatitude() {
+        return destinationLatitude;
+    }
+
+    public void setDestinationLatitude(BigDecimal destinationLatitude) {
+        this.destinationLatitude = destinationLatitude;
+    }
+
+    public BigDecimal getDestinationLongitude() {
+        return destinationLongitude;
+    }
+
+    public void setDestinationLongitude(BigDecimal destinationLongitude) {
+        this.destinationLongitude = destinationLongitude;
+    }
+
+    public BigDecimal getOriginLatitude() {
+        return originLatitude;
+    }
+
+    public void setOriginLatitude(BigDecimal originLatitude) {
+        this.originLatitude = originLatitude;
+    }
+
+    public BigDecimal getOriginLongitude() {
+        return originLongitude;
+    }
+
+    public void setOriginLongitude(BigDecimal originLongitude) {
+        this.originLongitude = originLongitude;
     }
 }

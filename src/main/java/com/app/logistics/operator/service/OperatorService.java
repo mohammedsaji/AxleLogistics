@@ -5,6 +5,7 @@ import com.app.logistics.common.dto.OperatorRequest;
 import com.app.logistics.common.exception.APIException;
 import com.app.logistics.manager.entity.Manager;
 import com.app.logistics.manager.service.ManagerService;
+import com.app.logistics.operator.dto.OperatorResponse;
 import com.app.logistics.operator.entity.Operator;
 import com.app.logistics.operator.repo.OperatorRepo;
 import com.app.logistics.operator.utils.OperatorMapper;
@@ -18,7 +19,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,21 +40,22 @@ public class OperatorService {
     }
 
     @Transactional(readOnly = true)
-    public List<com.app.logistics.operator.dto.OperatorResponse> fetchAllOperator(String operatorTransportType, int pageNo) {
+    public Map<String, Object> fetchAllOperator(String operatorTransportType, int pageNo) {
         if (pageNo < 1) {
             pageNo = 1;
         }
-        int elementCount = 25;
-        Pageable pageable = PageRequest.of(pageNo - 1, elementCount, Sort.by("operatorId").descending());
+        int elementCount = 1;
+        Pageable pageable = PageRequest.of(pageNo - 1, elementCount, Sort.by("operatorId"));
         Page<Operator> page = operatorRepo.findByOperatorTransportType(operatorTransportType, pageable);
 
-        return page.getContent().stream()
-                .map(this::toResponseWithActiveManager)
-                .collect(Collectors.toList());
+        Map<String, Object> valueMap = new HashMap<>();
+        valueMap.put("operatorList", page.getContent().stream().map(operatorMapper::toDTO).collect(Collectors.toList()));
+        valueMap.put("totalPages", page.getTotalPages());
+        return valueMap;
     }
 
     @Transactional(readOnly = true)
-    public com.app.logistics.operator.dto.OperatorResponse fetchOperator(Integer operatorId) {
+    public OperatorResponse fetchOperator(Integer operatorId) {
         if (operatorId == null) {
             throw new APIException("Operator ID cannot be null", HttpStatus.BAD_REQUEST);
         }
@@ -60,32 +64,29 @@ public class OperatorService {
         return toResponseWithActiveManager(operator);
     }
 
-    public Manager identifyActiveManager(Operator operator) {
-        if (operator == null || operator.getManagerVOList() == null) {
-            return new Manager();
+    public Manager identifyActiveManager(Integer operatorId) {
+        if (operatorId == null) {
+            throw new APIException("Operator Id could not be null or invalid because it was used to fetch active manager.",HttpStatus.BAD_REQUEST);
         }
-        Manager activeManager = new Manager();
-        for (Manager manager : operator.getManagerVOList()) {
-            if (manager != null && manager.getManagerStatus() != null && manager.getManagerStatus().equalsIgnoreCase("ACTIVE")) {
-                activeManager = manager;
-            }
-        }
-        return activeManager;
+        return managerService.findActiveManager(operatorId);
     }
 
-    private com.app.logistics.operator.dto.OperatorResponse toResponseWithActiveManager(Operator operator) {
-        com.app.logistics.operator.dto.OperatorResponse response = operatorMapper.toDTO(operator);
-        response.setManagerId(identifyActiveManager(operator).getManagerId());
-        return response;
+    private OperatorResponse toResponseWithActiveManager(Operator operator) {
+        OperatorResponse operatorResponse = operatorMapper.toDTO(operator);
+        Manager activeManager = identifyActiveManager(operator.getOperatorId());
+        if(activeManager != null && activeManager.getManagerId() != null){
+            operatorResponse.setManagerId(activeManager.getManagerId());
+        }else{
+            operatorResponse.setManagerId(null);
+        }
+        return operatorResponse;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public com.app.logistics.operator.dto.OperatorResponse saveOperator(com.app.logistics.operator.dto.OperatorRequest operatorRequest, com.app.logistics.auth.authUtils.AuthDetails authDetails) {
+    public OperatorResponse saveOperator(com.app.logistics.operator.dto.OperatorRequest operatorRequest, com.app.logistics.auth.authUtils.AuthDetails authDetails) {
         if (operatorRequest == null || authDetails == null) {
             throw new APIException("Payload request body and user context cannot be null", HttpStatus.BAD_REQUEST);
         }
-
-        managerService.fetchManager(operatorRequest.getManagerId());
 
         Operator savingOperator = operatorMapper.toVO(operatorRequest);
         savingOperator.setUpdatedBy(authDetails.getEmployeeId());
@@ -104,12 +105,10 @@ public class OperatorService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public com.app.logistics.operator.dto.OperatorResponse updateOperator(com.app.logistics.operator.dto.OperatorRequest operatorRequest, com.app.logistics.auth.authUtils.AuthDetails authDetails) {
+    public OperatorResponse updateOperator(com.app.logistics.operator.dto.OperatorRequest operatorRequest, com.app.logistics.auth.authUtils.AuthDetails authDetails) {
         if (operatorRequest == null) {
             throw new APIException("Operator request data payload cannot be null", HttpStatus.BAD_REQUEST);
         }
-
-        managerService.fetchManager(operatorRequest.getManagerId());
 
         Operator mutatedOperator = operatorMapper.toVO(operatorRequest);
         if (authDetails != null) {
@@ -140,7 +139,7 @@ public class OperatorService {
     }
 
     @Transactional(readOnly = true)
-    public com.app.logistics.operator.dto.OperatorResponse fetchByOperatorName(String operatorName) {
+    public OperatorResponse fetchByOperatorName(String operatorName) {
         if (operatorName == null || operatorName.trim().isEmpty()) {
             throw new APIException("Operator name cannot be empty", HttpStatus.BAD_REQUEST);
         }

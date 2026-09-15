@@ -1,47 +1,51 @@
 package com.app.logistics.auth.authUtils;
 
-import com.app.logistics.auth.entity.Auth;
+import com.app.logistics.account.entity.Account;
 import com.app.logistics.employee.entity.Employee;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class AuthDetails implements UserDetails {
 
-    private final Auth auth;
+    private final Account account;
 
-    public AuthDetails(Auth auth){
-        this.auth = auth;
+    public AuthDetails(Account account){
+        this.account = account;
     }
 
-    public String getUsername(){
-        return auth.getAccountUsername();
+    @Override
+    public String getUsername() {
+        return account != null ? account.getAccountUsername() : null;
     }
 
-    public String getPassword(){
-        return auth.getAccountPassword();
+    @Override
+    public String getPassword() {
+        return account != null ? account.getAccountPassword() : null;
     }
 
     public List<SimpleGrantedAuthority> getAuthorities(){
-
-        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(auth.getAccountRole());
-        List<SimpleGrantedAuthority> simpleGrantedAuthorityList = new ArrayList<>();
-        simpleGrantedAuthorityList.add(simpleGrantedAuthority);
-
-        return simpleGrantedAuthorityList;
+        if (account == null || account.getAccountRole() == null) {
+            return Collections.emptyList();
+        }
+        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(account.getAccountRole());
+        return Collections.singletonList(new SimpleGrantedAuthority(account.getAccountRole()));
     }
 
-    public Employee getEmployeeInfo(){
-        return auth.getEmployeeVO();
+    public Employee getEmployeeInfo() {
+        return (account != null) ? account.getEmployee() : null;
     }
 
-    public Integer getEmployeeId(){
-        return auth.getEmployeeVO().getEmployeeId();
+    public Integer getEmployeeId() {
+        if (account != null && account.getEmployee() != null) {
+            return account.getEmployee().getEmployeeId();
+        }
+        return null;
     }
-
-    public Auth getAccountVO(){
-        return auth;
+    public Account getAccount(){
+        return account;
     }
 }

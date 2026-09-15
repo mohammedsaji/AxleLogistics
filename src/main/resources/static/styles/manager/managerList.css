@@ -1,0 +1,7 @@
+.manager-navigation-menu {
+    display: none;
+}
+
+.manager-navigation-menu.active {
+    display: block;
+}

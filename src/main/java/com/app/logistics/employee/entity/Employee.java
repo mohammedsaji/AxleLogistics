@@ -1,6 +1,6 @@
 package com.app.logistics.employee.entity;
 
-import com.app.logistics.auth.entity.Auth;
+import com.app.logistics.account.entity.Account;
 import com.app.logistics.common.entity.BaseEntity;
 import com.app.logistics.common.validations.OnCreate;
 import com.app.logistics.common.validations.OnUpdate;
@@ -56,19 +56,19 @@ public class Employee extends BaseEntity {
     @NotNull(groups = {OnCreate.class, OnUpdate.class})
     @JoinColumn(name = "ACC_ID")
     @OneToOne(fetch = FetchType.EAGER)
-    private Auth auth;
+    private Account account;
 
     @Max(value = Integer.MAX_VALUE, groups = {OnCreate.class, OnUpdate.class})
     @Positive(groups = {OnCreate.class, OnUpdate.class})
     @Column(name = "UPDATED_BY")
     private Integer updatedBy;
 
-    public void setAccountVO(Auth auth) {
-        this.auth = auth;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
-    public Auth getAccountVO() {
-        return auth;
+    public Account getAccount() {
+        return account;
     }
 
     public String getEmployeeDepartment() {
