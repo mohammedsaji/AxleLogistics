@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Passage Logistic Systems</title>
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/footer.css">
     <link rel="stylesheet" href="../styles/landing.css">
+    <link rel="stylesheet" href="/styles/utils/customAlert.css">
 </head>
 <body>
 <div class="landing-page">
@@ -12,31 +14,36 @@
         <div class="landing-header-brand"><img class="landing-header-logo" src="" alt="Passage Logistics Systems"></div>
         <div class="landing-header-actions">
             <div class="landing-header-sign-in">
-                <button type="button" id="sign-in-btn"> Sign in</button>
+                <button type="button" id="sign-in-btn"> Sign in </button>
             </div>
         </div>
     </header>
     <main>
         <section class="shipment-tracking-form"><h1>Track Your Shipment</h1>
-            <p> Enter your shipment ID to view the latest shipment status. </p>
+            <p> Enter your shipment Id to view the latest shipment status. </p>
             <div class="shipment-tracking-search">
-                <label for="shipment-tracking-id"> Shipment Id </label>
-                <input
-                        type="search" id="shipment-tracking-id" name="shipmentId" inputmode="numeric" pattern="[0-9]+"
-                        placeholder="Enter shipment ID" autocomplete="off">
-                <button type="button" id="shipment-tracking-btn"> Track Shipment</button>
+                <input type="search" id="shipment-tracking-id" name="shipmentId" placeholder="Enter shipment tracking Id" autocomplete="off">
+                <button type="button" id="shipment-tracking-btn"> Track </button>
             </div>
         </section>
     </main>
 
     <footer class="footer">
-        <div class="footer-profile-section"><a href="https://github.com/mohammedsaji/mohammedsaji" target="_blank" rel="noopener noreferrer">GitHub </a>
+        <div class="footer-profile-section">
+            <a href="https://github.com/mohammedsaji/mohammedsaji" target="_blank" rel="noopener noreferrer">GitHub </a>
             <a href="http://www.linkedin.com/in/mohammed-shajith-e" target="_blank" rel="noopener noreferrer"> LinkedIn </a>
             <a href="mailto:althafshajid@gmail.com"> Gmail </a>
         </div>
         <p>&copy; 2026 Passage Logistics Systems. All rights reserved.</p>
     </footer>
 </div>
+<div id="custom-alert" class="custom-alert">
+    <div class="custom-alert-box">
+        <div id="custom-alert-message" class="custom-alert-message"></div>
+        <button type="button" id="custom-alert-close">OK</button>
+    </div>
+</div>
+<script src="../js/utility/customAlert.js"></script>
 <script src="../js/landing.js"></script>
 </body>
 </html>

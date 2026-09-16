@@ -5,3 +5,150 @@
 .vehicle-navigation-menu.active {
     display: block;
 }
+
+.vehicle {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.vehicle-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 32px;
+    gap: 24px;
+}
+
+.vehicle-header-brand {
+    display: flex;
+    align-items: center;
+}
+
+.vehicle-header-logo {
+    max-width: 180px;
+    height: auto;
+}
+
+.vehicle-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.vehicle-header-section-a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.vehicle-header-section-a button {
+    width: auto;
+}
+
+.vehicle-header-section-b {
+    display: flex;
+    align-items: center;
+}
+
+.vehicle-navigation {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.vehicle-navigation-group {
+    position: relative;
+}
+
+.vehicle-navigation-group > button {
+    width: auto;
+    padding: 8px 4px;
+    background: transparent;
+    color: var(--text);
+}
+
+.vehicle-navigation-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 180px;
+    padding-top: 8px;
+}
+
+.vehicle-navigation-menu.active {
+    display: flex;
+    flex-direction: column;
+}
+
+.vehicle-navigation-menu a {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.vehicle-navigation-menu a:hover {
+    background: var(--surface-hover);
+}
+
+.vehicle-body {
+    flex: 1;
+    padding: 10rem 5rem;
+}
+
+.vehicle-body-vehicle-display {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.vehicle-body-vehicle-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: 1rem 2rem;
+}
+
+.vehicle-body-vehicle-form div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.vehicle-body-vehicle-form label {
+    margin-top: 0;
+}
+
+.vehicle-body-vehicle-form input,
+.vehicle-body-vehicle-form select {
+    width: 100%;
+}
+
+.vehicle-body-vehicle-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 5rem;
+}
+
+.vehicle-body-vehicle-actions button,
+.vehicle-body-common-actions button {
+    width: auto;
+}
+
+.vehicle-body-common-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 5rem;
+}
+
+.vehicle-footer {
+    text-align: center;
+    padding: 24px 32px;
+}

@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Manager screen</title>
+    <link rel="stylesheet" href="../../styles/global.css">
     <link rel="stylesheet" href="../../styles/manager/manager.css">
+    <link rel="stylesheet" href="/styles/utils/customAlert.css">
 </head>
 <body>
 <div class="manager">
@@ -21,8 +23,8 @@
                     <div class="manager-navigation-group">
                         <button type="button" id="manager-navigation-btn">Manager</button>
                         <div class="manager-navigation-menu" id="manager-navigation-menu">
-                            <button type="button" id="manager-list-btn">Manage Managers</button>
-                            <button type="button" id="entry-manager-btn">Create Manager</button>
+                            <a href="#" id="manager-list-btn">Manage Managers</a>
+                            <a href="#" id="entry-manager-btn">Create Manager</a>
                         </div>
                     </div>
                 </nav>
@@ -31,34 +33,43 @@
     </header>
     <main class="manager-body">
         <div class="manager-body-manager-display">
-            <form>
-                <label for="manager-id">Manager Id :</label>
-                <input id="manager-id" type="number" readonly>
-
-                <label for="manager-name">Manager name :</label>
-                <input id="manager-name" type="text" maxlength="250" required>
-
-                <label for="manager-contact-no">Manager contact :</label>
-                <input id="manager-contact-no" type="text" maxlength="20" required>
-
-                <label for="operator-id">Operator Id :</label>
-                <input id="operator-id" type="number" readonly required>
-
-                <label for="manager-status">Manager status :</label>
-                <select id="manager-status" required>
-                    <option value="" selected>Select one</option>
-                    <option value="ACTIVE">Active</option>
-                    <option value="IN_ACTIVE">In Active</option>
-                </select>
-
-                <label for="created-at">Manager created at :</label>
-                <input id="created-at" type="datetime-local" readonly required>
-
-                <label for="updated-at">Manager updated at :</label>
-                <input id="updated-at" type="datetime-local" readonly required>
-
-                <label for="updated-by">Updated by :</label>
-                <input id="updated-by" type="number" readonly required>
+            <form class="manager-body-manager-form">
+                <div>
+                    <label for="manager-id">Manager Id :</label>
+                    <input id="manager-id" type="number" readonly>
+                </div>
+                <div>
+                    <label for="manager-name">Manager name :</label>
+                    <input id="manager-name" type="text" maxlength="250" required>
+                </div>
+                <div>
+                    <label for="manager-contact-no">Manager contact :</label>
+                    <input id="manager-contact-no" type="text" maxlength="20" required>
+                </div>
+                <div>
+                    <label for="operator-id">Operator Id :</label>
+                    <input id="operator-id" type="number" readonly required>
+                </div>
+                <div>
+                    <label for="manager-status">Manager status :</label>
+                    <select id="manager-status" required>
+                        <option value="" selected>Select one</option>
+                        <option value="ACTIVE">Active</option>
+                        <option value="IN_ACTIVE">In Active</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="created-at">Manager created at :</label>
+                    <input id="created-at" type="datetime-local" readonly required>
+                </div>
+                <div>
+                    <label for="updated-at">Manager updated at :</label>
+                    <input id="updated-at" type="datetime-local" readonly required>
+                </div>
+                <div>
+                    <label for="updated-by">Updated by :</label>
+                    <input id="updated-by" type="number" readonly required>
+                </div>
             </form>
         </div>
         <div class="manager-body-manager-actions">
@@ -70,7 +81,13 @@
 
     </footer>
 </div>
-
+<div id="custom-alert" class="custom-alert">
+    <div class="custom-alert-box">
+        <div id="custom-alert-message" class="custom-alert-message"></div>
+        <button type="button" id="custom-alert-close">OK</button>
+    </div>
+</div>
+<script src="../../js/utility/customAlert.js"></script>
 <script src="../../js/utility/utility.js"></script>
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
 <script src="../../js/manager/manager.js"></script>

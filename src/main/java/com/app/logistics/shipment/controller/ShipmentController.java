@@ -96,10 +96,10 @@ public class ShipmentController {
 
     @GetMapping("/tracking")
     public ResponseEntity<ApiResponse<ShipmentTrackingResponse>> trackShipment(
-            @RequestParam Integer shippingId) {
+            @RequestParam String decodedTrackingId) {
 
         ShipmentTrackingResponse result =
-                shipmentService.trackShipment(shippingId);
+                shipmentService.trackShipment(decodedTrackingId);
 
         return ResponseEntity.ok(
                 new ApiResponse.Builder<>(true, result)

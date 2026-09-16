@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Sign in</title>
+    <link rel="stylesheet" href="../../styles/global.css">
+    <link rel="stylesheet" href="../../styles/footer.css">
     <link rel="stylesheet" href="../../styles/signIn/signIn.css">
+    <link rel="stylesheet" href="/styles/utils/customAlert.css">
 </head>
 <body>
 <div class="sign-in">
@@ -14,22 +17,33 @@
     </header>
     <main class="sign-in-body">
         <div class="sign-in-body-sign-in-display">
-            <form class="sign-in-body-sign-in-form">
-                <label for="username">Username</label>
-                <input type="text" id="username" autocomplete="username" required>
-
-                <label for="password">Password</label>
-                <input type="password" id="password" autocomplete="current-password" required>
-
-                <button type="button" id="submit-btn">Sign in</button>
-            </form>
-            <div class="sign-in-actions">
-                <button type="button" id="forgot-password">Forgot password</button>
+            <div class="sign-in-box"><h1>SIGN IN</h1>
+                <form class="sign-in-body-sign-in-form"><label for="username">Username</label>
+                    <input type="text" id="username" autocomplete="username" required>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" autocomplete="current-password" required>
+                    <button type="button" id="submit-btn">SUBMIT</button>
+                </form>
+                <div class="sign-in-actions"><a href="#" id="forgot-password">Forgot password</a></div>
             </div>
         </div>
     </main>
-    <footer class="sign-in-footer"></footer>
+    <footer class="footer">
+        <div class="footer-profile-section">
+            <a href="https://github.com/mohammedsaji/mohammedsaji" target="_blank" rel="noopener noreferrer">GitHub </a>
+            <a href="http://www.linkedin.com/in/mohammed-shajith-e" target="_blank" rel="noopener noreferrer"> LinkedIn </a>
+            <a href="mailto:althafshajid@gmail.com"> Gmail </a>
+        </div>
+        <p>&copy; 2026 Passage Logistics Systems. All rights reserved.</p>
+    </footer>
 </div>
+<div id="custom-alert" class="custom-alert">
+    <div class="custom-alert-box">
+        <div id="custom-alert-message" class="custom-alert-message"></div>
+        <button type="button" id="custom-alert-close">OK</button>
+    </div>
+</div>
+<script src="../../js/utility/customAlert.js"></script>
 <script src="../../js/utility/utility.js"></script>
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
 <script src="../../js/signIn/signIn.js"></script>

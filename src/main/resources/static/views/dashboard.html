@@ -2,54 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Passage Logistics Systems</title>
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/footer.css">
     <link rel="stylesheet" href="../styles/dashboard.css">
+    <link rel="stylesheet" href="/styles/utils/customAlert.css">
 </head>
 
 <body>
 <div class="dashboard">
 
     <header class="dashboard-header">
-
         <div class="dashboard-header-brand">
             <img class="dashboard-header-logo" src="" alt="Dashboard">
         </div>
-
-
-        <nav class="dashboard-navigation" aria-label="Main navigation">
-
-            <div class="dashboard-navigation-group" id="dashboard-nav-shipment">
-                <button type="button" id="dashboard-nav-shipment-btn">Shipments</button>
-                <div class="dashboard-navigation-menu" id="dashboard-nav-shipment-menu">
-                    <button type="button" id="dashboard-nav-shipment-entry-btn">Enter Shipment</button>
-                    <button type="button" id="dashboard-nav-shipment-manage-btn">Manage Shipments</button>
+        <div class="dashboard-header-right">
+            <nav class="dashboard-navigation" aria-label="Main navigation">
+                <div class="dashboard-navigation-group" id="dashboard-nav-shipment">
+                    <button type="button" id="dashboard-nav-shipment-btn">Shipments</button>
+                    <div class="dashboard-navigation-menu" id="dashboard-nav-shipment-menu">
+                        <a href="#" id="dashboard-nav-shipment-entry-btn">Enter Shipment</a>
+                        <a href="#" id="dashboard-nav-shipment-manage-btn">Manage Shipments</a>
+                    </div>
                 </div>
-            </div>
-
-            <div class="dashboard-navigation-group" id="dashboard-nav-employee">
-                <button type="button" id="dashboard-nav-employee-btn">Employees</button>
-                <div class="dashboard-navigation-menu" id="dashboard-nav-employee-menu">
-                    <button type="button" id="dashboard-nav-employee-create-btn">Create Employee</button>
-                    <button type="button" id="dashboard-nav-employee-manage-btn">Manage Employees</button>
+                <div class="dashboard-navigation-group" id="dashboard-nav-employee">
+                    <button type="button" id="dashboard-nav-employee-btn">Employees</button>
+                    <div class="dashboard-navigation-menu" id="dashboard-nav-employee-menu">
+                        <a href="#" id="dashboard-nav-employee-create-btn">Create Employee</a>
+                        <a href="#" id="dashboard-nav-employee-manage-btn">Manage Employees</a>
+                    </div>
                 </div>
-            </div>
-
-
-            <div class="dashboard-navigation-group" id="dashboard-nav-partner">
-                <button type="button" id="dashboard-nav-partner-btn">Partners</button>
-                <div class="dashboard-navigation-menu" id="dashboard-nav-partner-menu">
-                    <button type="button" id="dashboard-nav-operator-manage-btn">Manage Operators</button>
-                    <button type="button" id="dashboard-nav-partner-register-btn">Register Partner</button>
+                <div class="dashboard-navigation-group" id="dashboard-nav-partner">
+                    <button type="button" id="dashboard-nav-partner-btn">Partners</button>
+                    <div class="dashboard-navigation-menu" id="dashboard-nav-partner-menu">
+                        <a href="#" id="dashboard-nav-operator-manage-btn">Manage Operators</a>
+                        <a href="#" id="dashboard-nav-partner-register-btn">Register Partner</a>
+                    </div>
                 </div>
-            </div>
-        </nav>
-
-
-        <div class="dashboard-header-actions">
-            <div class="dashboard-header-account-actions">
-                <button type="button" id="profile-view-btn">View Profile</button>
-                <button type="button" id="sign-out-btn">Sign out</button>
+            </nav>
+            <div class="dashboard-header-actions">
+                <div class="dashboard-header-account-actions">
+                    <button type="button" id="profile-view-btn">View Profile</button>
+                    <button type="button" id="sign-out-btn">Sign out</button>
+                </div>
             </div>
         </div>
     </header>
@@ -67,7 +62,13 @@
     </footer>
 
 </div>
-
+<div id="custom-alert" class="custom-alert">
+    <div class="custom-alert-box">
+        <div id="custom-alert-message" class="custom-alert-message"></div>
+        <button type="button" id="custom-alert-close">OK</button>
+    </div>
+</div>
+<script src="../js/utility/customAlert.js"></script>
 <script src="/js/ajaxCalls/ajaxCalls.js"></script>
 <script src="/js/dashboard.js"></script>
 </body>

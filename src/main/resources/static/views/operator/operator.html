@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Operator Management</title>
+    <link rel="stylesheet" href="../../styles/global.css">
     <link rel="stylesheet" href="../../styles/operator/operator.css">
+    <link rel="stylesheet" href="/styles/utils/customAlert.css">
 </head>
 
 <body>
@@ -25,12 +26,12 @@
                         <button type="button" id="operator-navigation-btn">Operator</button>
 
                         <div class="operator-navigation-menu" id="operator-navigation-menu">
-                            <button type="button" id="operator-list-btn">Manage Operators</button>
-                            <button type="button" id="create-operator-btn">Create Operator</button>
-                            <button type="button" id="view-managers-btn">View Managers</button>
-                            <button type="button" id="view-drivers-btn">View Drivers</button>
-                            <button type="button" id="create-vehicle-btn">Create Vehicle</button>
-                            <button type="button" id="view-vehicles-btn">View Vehicles</button>
+                            <a href="#"  id="operator-list-btn">Manage Operators</a>
+                            <a href="#"  id="create-operator-btn">Create Operator</a>
+                            <a href="#"  id="view-managers-btn">View Managers</a>
+                            <a href="#"  id="view-drivers-btn">View Drivers</a>
+                            <a href="#"  id="create-vehicle-btn">Create Vehicle</a>
+                            <a href="#"  id="view-vehicles-btn">View Vehicles</a>
                         </div>
                     </div>
                 </nav>
@@ -39,41 +40,45 @@
     </header>
 
     <main class="operator-body">
-        <section class="operator-body-operator-display">
-            <form>
-                <label for="operator-id">Operator Id :</label>
-                <input id="operator-id" type="text" readonly>
-
-                <label for="operator-name">Operator Name :</label>
-                <input id="operator-name" type="text" maxlength="250" required>
-
-                <label for="operator-transport-type">Transportation Mode :</label>
-                <input id="operator-transport-type" readonly>
-
-                <label for="operator-manager">Operator Manager Id :</label>
-                <input id="operator-manager" type="number" readonly required>
-
-                <label for="operator-created-at">Operator created at :</label>
-                <input id="operator-created-at" type="datetime-local" readonly required>
-
-                <label for="operator-updated-at">Operator updated at :</label>
-                <input id="operator-updated-at" type="datetime-local" readonly required>
-
-                <label for="operator-updated-by">Operator updated by :</label>
-                <input id="operator-updated-by" type="number" readonly required>
-
+        <div class="operator-body-operator-display">
+            <form class="operator-body-operator-form">
+                <div>
+                    <label for="operator-id">Operator Id :</label>
+                    <input id="operator-id" type="text" readonly>
+                </div>
+                <div>
+                    <label for="operator-name">Operator Name :</label>
+                    <input id="operator-name" type="text" maxlength="250" required>
+                </div>
+                <div>
+                    <label for="operator-transport-type">Transportation Mode :</label>
+                    <input id="operator-transport-type" readonly>
+                </div>
+                <div>
+                    <label for="operator-manager">Operator Manager Id :</label>
+                    <input id="operator-manager" type="number" readonly required>
+                </div>
+                <div>
+                    <label for="operator-created-at">Operator created at :</label>
+                    <input id="operator-created-at" type="datetime-local" readonly required>
+                </div>
+                <div>
+                    <label for="operator-updated-at">Operator updated at :</label>
+                    <input id="operator-updated-at" type="datetime-local" readonly required>
+                </div>
+                <div>
+                    <label for="operator-updated-by">Operator updated by :</label>
+                    <input id="operator-updated-by" type="number" readonly required>
+                </div>
             </form>
-        </section>
-
-        <section class="operator-body-operator-actions">
+        </div>
+        <div class="operator-body-operator-actions">
             <button type="button" id="update-btn">Update</button>
             <button type="button" id="delete-btn">Delete</button>
-        </section>
-
-        <section class="operator-body-common-actions">
+        </div>
+        <div class="operator-body-common-actions">
             <button type="button" id="proceed-btn">Proceed</button>
-        </section>
-
+        </div>
     </main>
 
 
@@ -86,7 +91,13 @@
     </footer>
 
 </div>
-
+<div id="custom-alert" class="custom-alert">
+    <div class="custom-alert-box">
+        <div id="custom-alert-message" class="custom-alert-message"></div>
+        <button type="button" id="custom-alert-close">OK</button>
+    </div>
+</div>
+<script src="../../js/utility/customAlert.js"></script>
 <script src="../../js/utility/utility.js"></script>
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
 <script src="../../js/operator/operator.js"></script>

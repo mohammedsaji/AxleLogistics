@@ -3,9 +3,10 @@ function clickEventBinder() {
     if (signInBtn) {
         signInBtn.addEventListener('click', function () {
             window.location.href = "/views/signIn/sign-in.html";
-        }, { once: true });
+        }, {once: true});
     }
 }
+
 clickEventBinder();
 
 function customerShipmentTrackingBinder() {
@@ -17,20 +18,20 @@ function customerShipmentTrackingBinder() {
         return;
     }
     trackingBtn.addEventListener('click', function () {
-        const shippingId = trackingInput.value.trim();
-        if (shippingId === '') {
-            alert('Please enter a shipment ID.');
+        const trackingId = trackingInput.value.trim().toUpperCase();
+        if (trackingId === '') {
+            alert('Please enter a shipment tracking ID.');
             trackingInput.focus();
             return;
         }
-        if (!/^\d+$/.test(shippingId)) {
-            alert('Please enter a valid shipment ID.');
+        if (!/^PLSTRCK\d{8}$/.test(trackingId)) {
+            alert('Please enter a valid shipment tracking ID.');
             trackingInput.focus();
             return;
         }
         const userAction = "Customer shipment tracking";
-        window.location.href = `/views/shipment/shipment.html?shippingId=${encodeURIComponent(shippingId)}&userAction=${userAction}`;
-    }, { once: true });
+        window.location.href = `/views/shipment/shipment.html?trackingId=${encodeURIComponent(trackingId)}&userAction=${userAction}`;
+    }, {once: true});
 }
 
 customerShipmentTrackingBinder();

@@ -233,6 +233,10 @@ function dynamicLayoutRender(shippingId, shippingStatusLogId, operatorId, loginU
             const statusUpdateBtn = document.getElementById('update-status-btn');
             if (statusUpdateBtn)
                 statusUpdateBtn.remove();
+            const shipmentActionsDiv = document.getElementById('shipment-body-shipment-actions');
+            if(shipmentActionsDiv){
+                shipmentActionsDiv.remove();
+            }
         } else if (roleArray.includes("FEDERATE-MANAGER")) {
             const operatorUpdateBtn = document.getElementById('update-operator-btn');
             if (operatorUpdateBtn)
@@ -264,6 +268,10 @@ function dynamicLayoutRender(shippingId, shippingStatusLogId, operatorId, loginU
         const dependentUpdateBtn = document.getElementById('update-dependent-btn');
         if (dependentUpdateBtn)
             dependentUpdateBtn.remove();
+        const shipmentDependentsListDiv = document.getElementById('shipment-body-dependents-list');
+        if(shipmentDependentsListDiv){
+            shipmentDependentsListDiv.remove();
+        }
     } else if (userAction === 'Reassign driver') {
         const statusUpdateBtn = document.getElementById('update-status-btn');
         if (statusUpdateBtn)

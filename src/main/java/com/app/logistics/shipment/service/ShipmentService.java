@@ -5,6 +5,8 @@ import com.app.logistics.cargo.entity.Cargo;
 import com.app.logistics.cargo.service.CargoService;
 import com.app.logistics.cargo.utils.CargoMapper;
 import com.app.logistics.common.exception.APIException;
+import com.app.logistics.common.utils.MailMessage;
+import com.app.logistics.common.utils.Messenger;
 import com.app.logistics.customer.entity.Customer;
 import com.app.logistics.customer.service.CustomerService;
 import com.app.logistics.customer.utils.CustomerMapper;
@@ -21,6 +23,7 @@ import com.app.logistics.shipment.dto.ShipmentTrackingResponse;
 import com.app.logistics.shipment.entity.Shipment;
 import com.app.logistics.shipment.repo.ShipmentRepo;
 import com.app.logistics.shipment.utils.ShipmentMapper;
+import com.app.logistics.shipment.utils.ShipmentTrackingIdUtil;
 import com.app.logistics.shipmentStatusLog.dto.ShipmentStatusLogResponse;
 import com.app.logistics.shipmentStatusLog.entity.ShipmentStatusLog;
 import com.app.logistics.shipmentStatusLog.service.ShipmentStatusLogService;
@@ -55,6 +58,8 @@ public class ShipmentService {
     private final ShipmentMapper shipmentMapper;
     private final CargoMapper cargoMapper;
     private final CustomerMapper customerMapper;
+    private final Messenger messenger;
+    private final MailMessage mailMessage;
 
     public ShipmentService(ShipmentRepo shipmentRepo,
                            CustomerService customerService,
@@ -65,7 +70,9 @@ public class ShipmentService {
                            @Lazy ShipmentStatusLogService shipmentStatusLogService,
                            ShipmentMapper shipmentMapper,
                            CargoMapper cargoMapper,
-                           CustomerMapper customerMapper) {
+                           CustomerMapper customerMapper,
+                           Messenger messenger,
+                           MailMessage mailMessage) {
         this.shipmentRepo = shipmentRepo;
         this.customerService = customerService;
         this.cargoService = cargoService;
@@ -76,6 +83,8 @@ public class ShipmentService {
         this.shipmentMapper = shipmentMapper;
         this.cargoMapper = cargoMapper;
         this.customerMapper = customerMapper;
+        this.messenger = messenger;
+        this.mailMessage = mailMessage;
     }
 
     /**
@@ -125,7 +134,7 @@ public class ShipmentService {
         if (pageNo < 1) {
             pageNo = 1;
         }
-        int elementCount = 1;
+        int elementCount = 10;
         Pageable pageable = PageRequest.of(pageNo - 1, elementCount, Sort.by("shippingId").descending());
         Page<Shipment> page = shipmentRepo.findAll(pageable);
 
@@ -182,7 +191,13 @@ public class ShipmentService {
         if(savedShipmenStatusLog == null || savedShipmenStatusLog.getShippingStatusLogId() == null){
             throw new APIException("Shipment Status Log not saved, Hence shipment save will be revoked.",HttpStatus.BAD_REQUEST);
         }
+        mailTrackingIdToCustomer((Customer) masterVOS.get("Customer"), savedShipment.getShippingId());
         return shipmentMapper.toDTO(savedShipment);
+    }
+
+    private void mailTrackingIdToCustomer(Customer customer, Integer trackingId){
+        String encodedTrackingId = ShipmentTrackingIdUtil.encode(trackingId);
+        messenger.mailSender(customer.getCustomerEmail(),"[Passage Logistic Systems] Shipment tracking Id for cargo order",mailMessage.getShipmentTrackingIdContent(encodedTrackingId));
     }
 
     private Shipment dtoToVOConverter(ShipmentRequest shipmentRequest, Map<String, Object> masterVOS) {
@@ -227,21 +242,17 @@ public class ShipmentService {
     }
 
     @Transactional(readOnly = true)
-    public ShipmentTrackingResponse trackShipment(Integer shippingId) {
+    public ShipmentTrackingResponse trackShipment(String decodedTrackingId) {
 
-        if (shippingId == null) {
-            throw new APIException(
-                    "Shipping ID is required",
-                    HttpStatus.BAD_REQUEST);
-        }
+        Integer trackingId = ShipmentTrackingIdUtil.decode(decodedTrackingId);
 
-        Shipment shipment = shipmentRepo.findById(shippingId)
+        Shipment shipment = shipmentRepo.findById(trackingId)
                 .orElseThrow(() -> new APIException(
-                        "Shipment not found for ID: " + shippingId,
+                        "Shipment not found for ID: " + trackingId,
                         HttpStatus.NOT_FOUND));
 
         ShipmentStatusLogResponse latestStatus =
-                shipmentStatusLogService.fetchCurrentStatus(shippingId);
+                shipmentStatusLogService.fetchCurrentStatus(trackingId);
 
         ShipmentTrackingResponse shipmentTrackingResponse = new ShipmentTrackingResponse();
 

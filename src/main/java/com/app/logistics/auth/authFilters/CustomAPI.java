@@ -35,6 +35,8 @@ public class CustomAPI extends OncePerRequestFilter {
         if (servletPath.equals("/logistic/account/signin")
                 || servletPath.equals("/logistic/account/signup")
                 || servletPath.equals("/logistic/shipment/tracking")
+                || servletPath.equals("/logistic/account/password/forgot")
+                || servletPath.equals("/logistic/account/password/reset")
                 || servletPath.equals("/actuator/health")
                 || servletPath.startsWith("/swagger-ui/")
                 || servletPath.startsWith("/v3/api-docs/")

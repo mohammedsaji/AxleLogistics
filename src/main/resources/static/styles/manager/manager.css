@@ -5,3 +5,143 @@
 .manager-navigation-menu.active {
     display: block;
 }
+
+.manager {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.manager-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 32px;
+    gap: 24px;
+}
+
+.manager-header-brand {
+    display: flex;
+    align-items: center;
+}
+
+.manager-header-logo {
+    max-width: 180px;
+    height: auto;
+}
+
+.manager-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.manager-header-section-a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.manager-header-section-a button {
+    width: auto;
+}
+
+.manager-header-section-b {
+    display: flex;
+    align-items: center;
+}
+
+.manager-navigation {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.manager-navigation-group {
+    position: relative;
+}
+
+.manager-navigation-group > button {
+    width: auto;
+    padding: 8px 4px;
+    background: transparent;
+    color: var(--text);
+}
+
+.manager-navigation-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 180px;
+    padding-top: 8px;
+}
+
+.manager-navigation-menu.active {
+    display: flex;
+    flex-direction: column;
+}
+
+.manager-navigation-menu a {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.manager-navigation-menu a:hover {
+    background: var(--surface-hover);
+}
+
+.manager-body {
+    flex: 1;
+    padding: 10rem 5rem;
+}
+
+.manager-body-manager-display {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.manager-body-manager-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+    gap: 1rem 2rem;
+}
+
+.manager-body-manager-form div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.manager-body-manager-form label {
+    margin-top: 0;
+}
+
+.manager-body-manager-form input,
+.manager-body-manager-form select {
+    width: 100%;
+}
+
+.manager-body-manager-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 5rem;
+}
+
+.manager-body-manager-actions button {
+    width: auto;
+}
+
+.manager-footer {
+    text-align: center;
+    padding: 24px 32px;
+}

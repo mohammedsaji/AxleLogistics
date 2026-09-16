@@ -3,8 +3,8 @@ const shipmentParams = new URLSearchParams(window.location.search);
 async function CustomerBasedPayloadExtractor() {
     const userAction = shipmentParams.get("userAction");
     if(userAction === 'Customer shipment tracking'){
-        const shippingId = shipmentParams.get("shippingId");
-        const shipmentUrl = `/logistic/shipment/tracking?shippingId=${shippingId}`;
+        const trackingId = shipmentParams.get("trackingId");
+        const shipmentUrl = `/logistic/shipment/tracking?decodedTrackingId=${trackingId}`;
         const shipmentMethodType = 'GET';
         const customerShipmentTrackingResponse = await ajaxCall(shipmentUrl, shipmentMethodType, null);
 
@@ -55,8 +55,6 @@ function customerTrackingValueInitializer(customerShipmentTrackingResponse) {
 
 function customerBasedLayoutRender() {
     const elementsToRemove = [
-        'shipmentHeaderActionsDivA',
-        'shipmentHeaderActionsDivB',
         'dashboard-btn',
 
         'shipping-id',
@@ -73,15 +71,19 @@ function customerBasedLayoutRender() {
         'cargo-id',
 
         'shipping-status-log-id',
+        'current-location-status',
         'current-latitude-status',
         'current-longitude-status',
         'assigned-by-name',
+        'assigned-by-manager-name',
         'status-updated-at',
         'status-updated-by',
         'operator-id',
         'driver-id',
         'vehicle-id',
         'assigned-by',
+        'driver-name',
+        'vehicle-number',
 
         'update-operator-btn',
         'update-dependent-btn',
@@ -96,51 +98,49 @@ function customerBasedLayoutRender() {
         'location-suggestions'
     ];
 
-    const shipmentListBtn = document.getElementById('shipment-list-btn');
-    if(shipmentListBtn){
-        shipmentListBtn.remove();
-    }
-
-    const shipmentHeaderActionsDivB =
-        document.getElementById('shipment-header-actions-b');
-
-    if (shipmentHeaderActionsDivB) {
-        shipmentHeaderActionsDivB.remove();
+    // Whole navigation dropdown ("Shipment ▾" -> Manage Shipments) — a
+    // customer has no shipments to manage, so the entire nav group goes,
+    // not just the button inside it.
+    const shipmentNavigationGroup = document.querySelector('.shipment-navigation-group');
+    if (shipmentNavigationGroup) {
+        shipmentNavigationGroup.remove();
     }
 
     elementsToRemove.forEach(function (elementId) {
-
         const element = document.getElementById(elementId);
-
         if (element) {
+            const label = document.querySelector(`label[for="${elementId}"]`);
+            if (label) {
+                label.remove();
+            }
             element.remove();
         }
     });
 
-    const currentLocation =
-        document.getElementById('current-location');
-
+    const currentLocation = document.getElementById('current-location');
     if (currentLocation) {
         currentLocation.readOnly = true;
     }
 
-    const shippingStatus =
-        document.getElementById('shipping-status');
-
+    // Customer sees status as a plain read-only field, not a selection box —
+    // swap the <select> for a text input carrying over the already-selected value.
+    const shippingStatus = document.getElementById('shipping-status');
     if (shippingStatus) {
-        shippingStatus.disabled = true;
+        const statusValue = shippingStatus.value;
+        const statusInput = document.createElement('input');
+        statusInput.type = 'text';
+        statusInput.id = 'shipping-status';
+        statusInput.value = statusValue;
+        statusInput.readOnly = true;
+        shippingStatus.replaceWith(statusInput);
     }
 
-    const shipmentActions =
-        document.getElementById('shipment-body-shipment-actions');
-
+    const shipmentActions = document.getElementById('shipment-body-shipment-actions');
     if (shipmentActions) {
         shipmentActions.remove();
     }
 
-    const dependentList =
-        document.querySelector('.shipment-body-dependents-list');
-
+    const dependentList = document.querySelector('.shipment-body-dependents-list');
     if (dependentList) {
         dependentList.remove();
     }

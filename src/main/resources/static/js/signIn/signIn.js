@@ -26,8 +26,10 @@ function clickEventBinder() {
     }
 
     const forgotPasswordBtn = document.getElementById('forgot-password');
-    if(forgotPasswordBtn){
-        window.location.href = ``
-    }
+    forgotPasswordBtn.addEventListener('click', function (){
+        if(forgotPasswordBtn){
+            window.location.href = `/views/forgot-password.html`;
+        }
+    },{once : true});
 }
 clickEventBinder();

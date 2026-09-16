@@ -1,0 +1,109 @@
+/* ============================================================
+   VARIABLES — 7 total. You never name a color, only a role.
+   Change one line here, it updates everywhere that role is used.
+   ============================================================ */
+:root {
+    --bg: #0a0a0c;           /* page background */
+    --surface: #141416;      /* raised elements — inputs, panels */
+    --surface-hover: #1c1c1f;
+
+    --border: #2a2a2e;       /* default border/divider */
+
+    --text: #f2f2f2;         /* main text */
+    --text-muted: #9a9a9e;   /* secondary/dim text */
+
+    --accent: #35c9ff;       /* the ONE accent color — links, focus rings */
+
+    --radius-btn: 8px;       /* buttons only */
+    --radius: 0;             /* everything else — inputs, tables, cards */
+    --border-width: 1px;
+}
+
+/* ============================================================
+   RESET
+   ============================================================ */
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* ============================================================
+   BASE / TYPOGRAPHY
+   ============================================================ */
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family:
+            -apple-system,
+            BlinkMacSystemFont,
+            "SF Pro Display",
+            "SF Pro Text",
+            "Inter",
+            "Segoe UI",
+            sans-serif;
+}
+
+/* ============================================================
+   BUTTONS — two kinds only.
+   1) plain <button>   → solid filled, primary action
+   2) .btn-outline      → transparent + border, secondary action
+   ============================================================ */
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    /*border-radius: var(--radius-btn);*/
+    background: var(--text);
+    color: var(--bg);
+    padding: 0.5rem 2rem;
+    width: 10rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: opacity 0.15s ease, box-shadow 0.15s ease;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--accent);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: var(--border-width) solid var(--text);
+    opacity: 1;
+}
+
+.btn-outline:hover {
+    background: var(--surface);
+}
+
+/* ============================================================
+   FORM ELEMENTS
+   ============================================================ */
+input,
+select,
+textarea {
+    border-radius: var(--radius);
+    border: var(--border-width) solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    padding: 0.6rem 0.9rem;
+    font-family: inherit;
+}
+
+/* ============================================================
+   TABLES
+   ============================================================ */
+table {
+    border-collapse: collapse;
+}

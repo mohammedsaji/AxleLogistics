@@ -5,3 +5,164 @@
 .driver-navigation-menu.active {
     display: block;
 }
+
+.driver {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.driver-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 32px;
+    gap: 24px;
+}
+
+.driver-header-brand {
+    display: flex;
+    align-items: center;
+}
+
+.driver-header-logo {
+    max-width: 180px;
+    height: auto;
+}
+
+.driver-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.driver-header-section-a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.driver-header-section-a button {
+    width: auto;
+}
+
+.driver-header-section-b {
+    display: flex;
+    align-items: center;
+}
+
+.driver-navigation {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.driver-navigation-group {
+    position: relative;
+}
+
+.driver-navigation-group > button {
+    width: auto;
+    padding: 8px 4px;
+    background: transparent;
+    color: var(--text);
+}
+
+.driver-navigation-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 180px;
+    padding-top: 8px;
+}
+
+.driver-navigation-menu.active {
+    display: flex;
+    flex-direction: column;
+}
+
+.driver-navigation-menu a {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.driver-navigation-menu a:hover {
+    background: var(--surface-hover);
+}
+
+.driver-body {
+    flex: 1;
+    padding: 10rem 5rem;
+}
+
+.driver-body-driver-display {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.driver-body-driver-form {
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+    gap: 1rem 2rem;
+}
+
+.driver-body-driver-form div{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.driver-body-driver-display label {
+    margin-top: 0;
+}
+
+.driver-body-driver-display input {
+    width: 100%;
+}
+
+.driver-body-driver-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 5rem;
+}
+
+.driver-body-driver-actions button,
+.driver-body-common-actions button {
+    width: auto;
+}
+
+.driver-body-common-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.footer {
+    text-align: center;
+    padding: 24px 32px;
+}
+
+.footer-profile-section {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 12px;
+}
+
+.footer p {
+    margin: 0;
+}
+
+.footer a {
+    text-decoration: none;
+}

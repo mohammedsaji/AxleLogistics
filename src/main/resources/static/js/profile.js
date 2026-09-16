@@ -124,6 +124,10 @@ function valueInitializer(accountData, profileData, managerData, operatorData) {
     if (employee.reportingManagerId !== undefined && employee.reportingManagerId !== null) {
         profileManagerIdRef.value = employee.reportingManagerId;
     } else {
+        const label = document.querySelector('label[for="profile-manager-id-ref"]');
+        if(label){
+            label.remove();
+        }
         profileManagerIdRef.remove();
     }
 

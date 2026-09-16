@@ -11,22 +11,18 @@ import com.app.logistics.auth.authUtils.APIKeyGenerator;
 import com.app.logistics.auth.authUtils.ApiCacheCluster;
 import com.app.logistics.account.entity.Account;
 import com.app.logistics.auth.authUtils.BearerTokenBuilder;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
+import com.app.logistics.common.utils.MailMessage;
+import com.app.logistics.common.utils.Messenger;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
-import org.springframework.mail.MailException;
-import com.app.logistics.common.utils.MailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -38,8 +34,8 @@ public class AccountService {
     private final APIKeyGenerator apiKeyGenerator;
     private final BearerTokenBuilder bearerTokenBuilder;
     private final ApiCacheCluster apiCacheCluster;
+    private final Messenger messenger;
     private final MailMessage mailMessage;
-    private final JavaMailSender javaMailSender;
 
     private final Map<String, Account> accountVOMap = new HashMap<>();
 
@@ -50,16 +46,16 @@ public class AccountService {
             APIKeyGenerator apiKeyGenerator,
             BearerTokenBuilder bearerTokenBuilder,
             ApiCacheCluster apiCacheCluster,
-            MailMessage mailMessage,
-            JavaMailSender javaMailSender) {
+            Messenger messenger,
+            MailMessage mailMessage) {
         this.accountRepo = accountRepo;
         this.accountMapper = accountMapper;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.apiKeyGenerator = apiKeyGenerator;
         this.bearerTokenBuilder = bearerTokenBuilder;
         this.apiCacheCluster = apiCacheCluster;
+        this.messenger = messenger;
         this.mailMessage = mailMessage;
-        this.javaMailSender = javaMailSender;
     }
 
     public void userAccountCache(Account account) {
@@ -202,28 +198,31 @@ public class AccountService {
     }
 
     @Transactional(readOnly = true)
-    public boolean resetPassword(String signedUpUserGmailId){
-        Account account = accountRepo.findByAccountEmail(signedUpUserGmailId).orElseThrow(()-> new APIException("Provided Email-Id doesn't registered against account.", HttpStatus.BAD_REQUEST));
-
-        try{
-            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-
-            MimeMessageHelper messageHelper = new MimeMessageHelper(
-                    mimeMessage,
-                    MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
-                    StandardCharsets.UTF_8.name()
-            );
-
-            messageHelper.setFrom("althafshajid@gmail.com");
-            messageHelper.setTo(account.getAccountEmail());
-            messageHelper.setSubject("[Passage Logistic Systems] Please reset your password");
-            messageHelper.setText(mailMessage.getResetPasswordContent(),true);
-            javaMailSender.send(mimeMessage);
-        }catch (MailException mailException) {
-            return false;
-        }catch(MessagingException messagingException){
-            throw new APIException("Unable to construct email message.", HttpStatus.BAD_REQUEST);
+    public Boolean forgotPassword(String emailId){
+        if(emailId == null){
+            throw new APIException("Provided Email-Id could be null or invalid.",HttpStatus.BAD_REQUEST);
         }
-        return true;
+        Account account = accountRepo.findByAccountEmail(emailId).orElseThrow(()-> new APIException("Provided Email-Id doesn't registered against account.", HttpStatus.BAD_REQUEST));
+        return messenger.mailSender(emailId,"[Passage Logistic Systems] Reset your Password",mailMessage.getResetPasswordContent(emailId));
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public String resetPassword(String emailId, String password, String confirmPassword){
+        if(emailId == null){
+            throw new APIException("Provided Email-Id could be null or invalid.",HttpStatus.BAD_REQUEST);
+        }
+        if((password != null && !password.isBlank()) || (confirmPassword != null && !confirmPassword.isBlank())){
+            if(!confirmPassword.equals(password)){
+                throw new APIException("Confirm password didn't match with password, enter again.", HttpStatus.BAD_REQUEST);
+            }
+        }else{
+            throw new APIException("Provided password or confirm password could be null.",HttpStatus.BAD_REQUEST);
+        }
+
+        Account account = accountRepo.findByAccountEmail(emailId).orElseThrow(()-> new APIException("Provided Email-Id doesn't registered against account.", HttpStatus.BAD_REQUEST));
+        account.setAccountPassword(bCryptPasswordEncoder.encode(password));
+        account.setUpdatedAt(LocalDateTime.now());
+
+        return "Password updated for account successfully.";
     }
 }

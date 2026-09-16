@@ -5,3 +5,199 @@
 .shipment-navigation-menu.active {
     display: block;
 }
+
+.shipment {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.shipment-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 32px;
+    gap: 24px;
+}
+
+.shipment-header-brand {
+    display: flex;
+    align-items: center;
+}
+
+.shipment-header-logo {
+    max-width: 180px;
+    height: auto;
+}
+
+.shipment-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.shipment-header-section-a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.shipment-header-section-a button {
+    width: auto;
+}
+
+.shipment-header-section-b {
+    display: flex;
+    align-items: center;
+}
+
+.shipment-navigation {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.shipment-navigation-group {
+    position: relative;
+}
+
+.shipment-navigation-group > button {
+    width: auto;
+    padding: 8px 4px;
+    background: transparent;
+    color: var(--text);
+}
+
+.shipment-navigation-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 180px;
+    padding-top: 8px;
+}
+
+.shipment-navigation-menu.active {
+    display: flex;
+    flex-direction: column;
+}
+
+.shipment-navigation-menu a {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.shipment-navigation-menu a:hover {
+    background: var(--surface-hover);
+}
+
+.shipment-body {
+    flex: 1;
+    padding: 10rem 5rem;
+}
+
+.shipment-body-shipment-display,
+.shipment-body-status-display {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.shipment-body-shipment-form,
+.shipment-body-status-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: 1rem 2rem;
+}
+
+.shipment-body-shipment-form div,
+.shipment-body-status-form div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.shipment-body-shipment-form label,
+.shipment-body-status-form label {
+    margin-top: 0;
+}
+
+.shipment-body-location {
+    position: relative;
+}
+
+.shipment-body-location-field {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.shipment-body-location-field input {
+    width: 100%;
+    min-height: 38px;
+}
+
+#location-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background: var(--surface);
+    border: var(--border-width) solid var(--border);
+}
+
+#location-suggestions div {
+    padding: 0.6rem 0.9rem;
+    cursor: pointer;
+}
+
+#location-suggestions div:hover {
+    background: var(--surface-hover);
+}
+
+.shipment-body-shipment-form input,
+.shipment-body-shipment-form select,
+.shipment-body-status-form input,
+.shipment-body-status-form select {
+    width: 100%;
+}
+
+.shipment-body-dependents-list {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 2rem;
+}
+
+.shipment-body-dependents-list button {
+    width: auto;
+}
+
+.shipment-body-status-display {
+    margin-top: 3rem;
+}
+
+.shipment-body-shipment-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 2rem;
+}
+
+.shipment-body-shipment-actions button {
+    width: auto;
+}
+
+.shipment-footer {
+    text-align: center;
+    padding: 24px 32px;
+}

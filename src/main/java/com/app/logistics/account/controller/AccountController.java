@@ -88,13 +88,28 @@ public class AccountController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    @PostMapping("/reset-password")
-    public ResponseEntity<ApiResponse<Boolean>> resetPassword(@RequestParam String signedUpUserGmailId) {
-        Boolean resetMailSent = accountService.resetPassword(signedUpUserGmailId);
+    @PostMapping("/password/forgot")
+    public ResponseEntity<ApiResponse<Boolean>> forgotPassword(@RequestParam String emailId) {
+        Boolean resetMailSent = accountService.forgotPassword(emailId);
 
         ApiResponse<Boolean> apiResponse = new ApiResponse
                 .Builder<Boolean>(true, resetMailSent)
-                .message("Check OTP mail Inbox, Spam for password reset.")
+                .message("Check your email Inbox or Spam folder for the password reset.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+    @PatchMapping("/password/reset")
+    public ResponseEntity<ApiResponse<String>> resetPassword(@RequestParam String emailId,
+                                                             @RequestParam String password,
+                                                             @RequestParam String confirmPassword) {
+        String pwdUpdated = accountService.resetPassword(emailId, password, confirmPassword);
+
+        ApiResponse<String> apiResponse = new ApiResponse
+                .Builder<String>(true, pwdUpdated)
+                .message("Password updated successfully.")
                 .timeStamp()
                 .build();
 

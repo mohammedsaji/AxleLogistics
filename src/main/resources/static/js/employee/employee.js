@@ -51,7 +51,7 @@ function valueInitializer(response) {
         const accountStatus = document.getElementById('account-status');
         const accountEmail = document.getElementById('account-email');
 
-        accountUsername.value = response.accountUsername;
+        accountUsername.value = response.accountUserName;
         accountRole.value = response.accountRole;
         accountStatus.value = response.accountStatus;
         accountEmail.value = response.accountEmail;

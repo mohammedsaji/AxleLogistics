@@ -80,7 +80,7 @@ public class ManagerService {
         if (pageNo < 1) {
             pageNo = 1;
         }
-        int elementCount = 1;
+        int elementCount = 10;
         Pageable pageable = PageRequest.of(pageNo - 1, elementCount, Sort.by("managerId"));
         Page<Manager> page = managerRepo.findByOperator_OperatorId(operatorId, pageable);
 
