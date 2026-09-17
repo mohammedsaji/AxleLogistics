@@ -1,0 +1,66 @@
+.shipment {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.shipment-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 32px;
+}
+
+.shipment-header-brand {
+    display: flex;
+    align-items: center;
+}
+
+.shipment-header-logo {
+    max-width: 180px;
+    height: auto;
+}
+
+/* Body */
+.shipment-body {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5rem;
+}
+
+/* Shipment display */
+.shipment-body-shipment-display {
+    width: 100%;
+    max-width: 850px;
+}
+
+/* Shipment information */
+.shipment-body-shipment-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    width: 100%;
+    padding: 2rem;
+    border: var(--border-width) solid var(--border);
+}
+
+/* Field */
+.shipment-body-shipment-form div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.shipment-body-shipment-form label {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.shipment-body-shipment-form input {
+    width: 100%;
+    min-width: 0;
+    color: var(--text);
+}

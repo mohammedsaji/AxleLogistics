@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Vehicle creation form</title>
+    <title>Vehicle Creation Form</title>
     <link rel="stylesheet" href="../../styles/global.css">
+    <link rel="stylesheet" href="../../styles/footer.css">
     <link rel="stylesheet" href="../../styles/vehicle/vehicleCreationForm.css">
     <link rel="stylesheet" href="/styles/utils/customAlert.css">
 </head>
@@ -22,24 +23,33 @@
         </div>
     </header>
     <main class="vehicle-body">
-        <div class="vehicle-body-form">
-            <form>
-                <label for="vehicle-type">Vehicle Type :</label>
-                <input id="vehicle-type" type="text" maxlength="50" required>
-
-                <label for="vehicle-number">Vehicle Number :</label>
-                <input id="vehicle-number" type="text" maxlength="50" required>
-
-                <div id="operator-id-display" style="display:none;">
+        <div class="vehicle-body-vehicle-display">
+            <form class="vehicle-body-vehicle-form">
+                <div>
+                    <label for="vehicle-type">Vehicle Type :</label>
+                    <input id="vehicle-type" type="text" maxlength="50" required>
+                </div>
+                <div>
+                    <label for="vehicle-number">Vehicle Number :</label>
+                    <input id="vehicle-number" type="text" maxlength="50" required>
+                </div>
+                <div id="operator-id-display">
                     <label for="operator-id">Operator ID :</label>
                     <input id="operator-id" type="number" readonly>
                 </div>
-
-                <button type="submit" id="create-btn">Create</button>
+                <div id="vehicle-actions" class="vehicle-body-vehicle-actions">
+                    <button type="submit" id="create-btn">Create</button>
+                </div>
             </form>
         </div>
     </main>
-    <footer class="vehicle-footer">
+    <footer class="footer">
+        <div class="footer-profile-section">
+            <a href="https://github.com/mohammedsaji/mohammedsaji" target="_blank" rel="noopener noreferrer">GitHub </a>
+            <a href="http://www.linkedin.com/in/mohammed-shajith-e" target="_blank" rel="noopener noreferrer"> LinkedIn </a>
+            <a href="mailto:althafshajid@gmail.com"> Gmail </a>
+        </div>
+        <p>&copy; 2026 Passage Logistics Systems. All rights reserved.</p>
     </footer>
 </div>
 <div id="custom-alert" class="custom-alert">
@@ -48,8 +58,10 @@
         <button type="button" id="custom-alert-close">OK</button>
     </div>
 </div>
+
 <script src="../../js/utility/customAlert.js"></script>
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
 <script src="../../js/vehicle/vehicleCreationForm.js"></script>
+
 </body>
 </html>

@@ -53,23 +53,27 @@ function renderDriverList(driverList) {
         driverDiv.setAttribute('data-driver-id', driver.driverId);
         driverDiv.setAttribute('data-driver-name', driver.driverName);
 
-        const driverInfoDiv = document.createElement('div');
-        driverInfoDiv.className = 'driver-info';
+        const driverInnerDivA = document.createElement('div');
+        driverInnerDivA.className = 'driver-inner-div-a';
 
         const driverIdP = document.createElement('p');
-        driverIdP.textContent = `Driver ID: ${driver.driverId}`;
-        driverInfoDiv.append(driverIdP);
+        driverIdP.className = 'driver-id-display';
+        driverIdP.textContent = `Driver Id : ${driver.driverId}`;
+        driverInnerDivA.append(driverIdP);
 
         const driverNameP = document.createElement('p');
         driverNameP.className = 'driver-name-display';
-        driverNameP.textContent = `Driver Name: ${driver.driverName}`;
-        driverInfoDiv.append(driverNameP);
+        driverNameP.textContent = `Driver Name : ${driver.driverName}`;
+        driverInnerDivA.append(driverNameP);
 
         const viewBtn = document.createElement('button');
         viewBtn.className = 'view-btn';
         viewBtn.setAttribute('data-driver-id', driver.driverId);
         viewBtn.setAttribute('data-operator-id', driver.operatorId);
         viewBtn.textContent = 'View';
+
+        const driverInnerDivB = document.createElement('div');
+        driverInnerDivB.className = 'driver-inner-div-b';
 
         viewBtn.addEventListener('click', function () {
             const driverId = this.getAttribute('data-driver-id');
@@ -83,9 +87,10 @@ function renderDriverList(driverList) {
             }
         }, {once: true});
 
-        driverInfoDiv.append(viewBtn);
+        driverInnerDivB.append(viewBtn);
 
-        driverDiv.append(driverInfoDiv);
+        driverDiv.append(driverInnerDivA);
+        driverDiv.append(driverInnerDivB);
         listContainer.append(driverDiv);
     });
 }

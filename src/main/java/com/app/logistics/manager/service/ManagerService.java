@@ -5,6 +5,8 @@ import com.app.logistics.account.entity.Account;
 import com.app.logistics.account.service.AccountService;
 import com.app.logistics.auth.authUtils.AuthDetails;
 import com.app.logistics.common.exception.APIException;
+import com.app.logistics.driver.dto.DriverResponse;
+import com.app.logistics.driver.entity.Driver;
 import com.app.logistics.manager.dto.ManagerProfileResponse;
 import com.app.logistics.manager.entity.Manager;
 import com.app.logistics.manager.dto.ManagerRequest;
@@ -221,6 +223,10 @@ public class ManagerService {
             throw new APIException("Account Id provided should be null, required for manager fetching.",HttpStatus.BAD_REQUEST);
         }
         return managerRepo.findByAccount_AccountId(accountId).orElse(null);
+    }
+
+    public ManagerResponse findManagerByAccountID(AuthDetails authDetails){
+        return managerMapper.toDTO(findManagerByAccountID(authDetails.getAccount().getAccountId()));
     }
 
     @Transactional( propagation = Propagation.REQUIRED)

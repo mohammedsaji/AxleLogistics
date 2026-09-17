@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Manager creation form</title>
     <link rel="stylesheet" href="../../styles/global.css">
+    <link rel="stylesheet" href="../../styles/footer.css">
     <link rel="stylesheet" href="../../styles/manager/managerCreationForm.css">
     <link rel="stylesheet" href="/styles/utils/customAlert.css">
 </head>
@@ -21,14 +22,14 @@
     </header>
     <main class="manager-body">
         <div class="manager-body-form">
-            <form>
-                <label for="manager-name">Manager Name :</label>
+            <form class="manager-body-manager-form">
+                <label for="manager-name">Manager Name </label>
                 <input id="manager-name" type="text" maxlength="250" required>
 
-                <label for="manager-contact-no">Manager Contact No :</label>
+                <label for="manager-contact-no">Manager Contact No </label>
                 <input id="manager-contact-no" type="text" maxlength="25" required>
 
-                <label for="manager-status">Manager Status :</label>
+                <label for="manager-status">Manager Status </label>
                 <select id="manager-status" required>
                     <option value="" selected>Select one</option>
                     <option value="ACTIVE">Active</option>
@@ -36,15 +37,22 @@
                 </select>
 
                 <div id="operator-id-display" style="display:none;">
-                    <label for="operator-id">Operator ID :</label>
+                    <label for="operator-id">Operator Id </label>
                     <input id="operator-id" type="number" readonly>
                 </div>
-
-                <button type="submit" id="create-btn">Create</button>
+                <div class="manager-body-manager-actions">
+                    <button type="submit" id="create-btn">Create</button>
+                </div>
             </form>
         </div>
     </main>
-    <footer class="manager-footer">
+    <footer class="footer">
+        <div class="footer-profile-section">
+            <a href="https://github.com/mohammedsaji/mohammedsaji" target="_blank" rel="noopener noreferrer">GitHub </a>
+            <a href="http://www.linkedin.com/in/mohammed-shajith-e" target="_blank" rel="noopener noreferrer"> LinkedIn </a>
+            <a href="mailto:althafshajid@gmail.com"> Gmail </a>
+        </div>
+        <p>&copy; 2026 Passage Logistics Systems. All rights reserved.</p>
     </footer>
 </div>
 <div id="custom-alert" class="custom-alert">

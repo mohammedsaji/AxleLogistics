@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Driver form</title>
     <link rel="stylesheet" href="../../styles/global.css">
+    <link rel="stylesheet" href="../../styles/footer.css">
     <link rel="stylesheet" href="../../styles/driver/driverCreationForm.css">
     <link rel="stylesheet" href="/styles/utils/customAlert.css">
 </head>
@@ -21,26 +22,29 @@
     </header>
     <main class="driver-body">
         <div class="driver-body-form">
-            <form>
-                <label for="driver-name">Driver Name :</label>
-                <input id="driver-name" type="text" maxlength="250" required>
-
-                <label for="driver-phone-no">Driver Phone No :</label>
-                <input id="driver-phone-no" type="text" maxlength="25" required>
-
-                <label for="driver-license-no">Driver License No :</label>
-                <input id="driver-license-no" type="text" maxlength="20" required>
-
+            <form class="driver-body-driver-form">
+                <div>
+                    <label for="driver-name">Driver Name </label>
+                    <input id="driver-name" type="text" maxlength="250" required>
+                </div>
+                <div>
+                    <label for="driver-phone-no">Driver Phone No </label>
+                    <input id="driver-phone-no" type="text" maxlength="25" required>
+                </div>
+                <div>
+                    <label for="driver-license-no">Driver License No </label>
+                    <input id="driver-license-no" type="text" maxlength="20" required>
+                </div>
                 <div id="operator-id-display" style="display:none;">
-                    <label for="operator-id">Operator ID :</label>
+                    <label for="operator-id">Operator ID </label>
                     <input id="operator-id" type="text" readonly>
                 </div>
-
-                <button type="submit" id="create-btn">Create</button>
+                <div id="driver-body-driver-actions">
+                    <button type="submit" id="create-btn">Create</button>
+                </div>
             </form>
         </div>
     </main>
-
     <footer class="footer">
         <div class="footer-profile-section"><a href="https://github.com/mohammedsaji/mohammedsaji" target="_blank" rel="noopener noreferrer">GitHub </a>
             <a href="http://www.linkedin.com/in/mohammed-shajith-e" target="_blank" rel="noopener noreferrer"> LinkedIn </a>

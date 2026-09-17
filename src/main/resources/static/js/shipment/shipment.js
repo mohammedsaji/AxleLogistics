@@ -225,6 +225,13 @@ function locationTracker(currentLocation, currentLatitude, currentLongitude){
 function dynamicLayoutRender(shippingId, shippingStatusLogId, operatorId, loginUserMap) {
     const roleArray = loginUserMap.RoleList;
 
+    if(!roleArray.includes("ADMIN")){
+        const shipmentHeaderSectionDivB = document.querySelector('.shipment-header-section-b');
+        if(shipmentHeaderSectionDivB){
+            shipmentHeaderSectionDivB.remove();
+        }
+    }
+
     if (userAction === 'Read shipment') {
         if (roleArray.includes("ADMIN")) {
             const dependentUpdateBtn = document.getElementById('update-dependent-btn');
@@ -247,6 +254,10 @@ function dynamicLayoutRender(shippingId, shippingStatusLogId, operatorId, loginU
             const currentLocationField = document.getElementById('current-location');
             if (currentLocationField) {
                 currentLocationField.readOnly = true;
+            }
+            const shipmentActionsDiv = document.getElementById('shipment-body-shipment-actions');
+            if(shipmentActionsDiv){
+                shipmentActionsDiv.remove();
             }
         } else if (roleArray.includes("FEDERATE-DRIVER")) {
             const operatorUpdateBtn = document.getElementById('update-operator-btn');
@@ -279,6 +290,10 @@ function dynamicLayoutRender(shippingId, shippingStatusLogId, operatorId, loginU
         const operatorUpdateBtn = document.getElementById('update-operator-btn');
         if (operatorUpdateBtn)
             operatorUpdateBtn.remove();
+        const shipmentDependentsListDiv = document.getElementById('shipment-body-dependents-list');
+        if(shipmentDependentsListDiv){
+            shipmentDependentsListDiv.remove();
+        }
     }
 
     if (roleArray.includes("ADMIN")) {

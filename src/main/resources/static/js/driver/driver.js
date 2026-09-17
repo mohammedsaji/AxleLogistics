@@ -52,6 +52,16 @@ function dynamicLayoutRender(driverId, operatorId, roleArray) {
         if(backToOperatorBtn) {
             backToOperatorBtn.remove();
         }
+
+        const driverHeaderSectionDivB = document.querySelector('.driver-header-section-b');
+        if(driverHeaderSectionDivB){
+            driverHeaderSectionDivB.remove();
+        }
+
+        const driverBodyDriverActionsDiv = document.querySelector('.driver-body-driver-actions');
+        if(driverBodyDriverActionsDiv){
+            driverBodyDriverActionsDiv.remove();
+        }
     }
 
     if (userAction === 'Read operator') {

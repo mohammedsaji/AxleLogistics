@@ -54,20 +54,26 @@ function renderVehicleList(vehicleList) {
         vehicleDiv.setAttribute('data-vehicle-number', vehicle.vehicleNumber);
         vehicleDiv.setAttribute('data-operator-id', vehicle.operatorId);
 
-        const vehicleInfoDiv = document.createElement('div');
-        vehicleInfoDiv.className = 'vehicle-info';
+        const vehicleInnerDivA = document.createElement('div');
+        vehicleInnerDivA.className = 'vehicle-inner-div-a';
 
         const vehicleIdP = document.createElement('p');
-        vehicleIdP.textContent = `Vehicle ID: ${vehicle.vehicleId}`;
-        vehicleInfoDiv.append(vehicleIdP);
+        vehicleIdP.className = 'vehicle-id-display';
+        vehicleIdP.textContent = `Vehicle Id : ${vehicle.vehicleId}`;
+        vehicleInnerDivA.append(vehicleIdP);
 
         const vehicleNumberP = document.createElement('p');
-        vehicleNumberP.textContent = `Vehicle Number: ${vehicle.vehicleNumber}`;
-        vehicleInfoDiv.append(vehicleNumberP);
+        vehicleNumberP.className = 'vehicle-number-display';
+        vehicleNumberP.textContent = `Vehicle Number : ${vehicle.vehicleNumber}`;
+        vehicleInnerDivA.append(vehicleNumberP);
 
         const operatorIdP = document.createElement('p');
-        operatorIdP.textContent = `Operator ID: ${vehicle.operatorId}`;
-        vehicleInfoDiv.append(operatorIdP);
+        operatorIdP.className = 'operator-id-display';
+        operatorIdP.textContent = `Operator Id : ${vehicle.operatorId}`;
+        vehicleInnerDivA.append(operatorIdP);
+
+        const vehicleInnerDivB = document.createElement('div');
+        vehicleInnerDivB.className = 'vehicle-inner-div-b';
 
         const viewBtn = document.createElement('button');
         viewBtn.className = 'view-btn';
@@ -96,17 +102,18 @@ function renderVehicleList(vehicleList) {
                 window.location.href = `../../views/vehicle/vehicle.html?vehicleId=${vehicleId}&userAction=${userAction}&operatorId=${operatorId}`;
             }
         }, { once: true });
-        vehicleInfoDiv.append(viewBtn);
+        vehicleInnerDivB.append(viewBtn);
 
-        vehicleDiv.append(vehicleInfoDiv);
+        vehicleDiv.append(vehicleInnerDivA);
+        vehicleDiv.append(vehicleInnerDivB);
         listContainer.append(vehicleDiv);
     });
 }
 
 function dynamicLayoutRender(roleArray){
-    const createVehicleBtn = document.getElementById('create-vehicle-btn');
-    if(roleArray.length > 0 && !roleArray.includes("ADMIN") && createVehicleBtn){
-        createVehicleBtn.remove();
+    const vehicleHeaderSectionDivB = document.querySelector('.vehicle-header-section-b');
+    if(roleArray.length > 0 && !roleArray.includes("ADMIN") && vehicleHeaderSectionDivB){
+        vehicleHeaderSectionDivB.remove();
     }
 }
 

@@ -59,20 +59,26 @@ function renderShipmentList(shipmentList, isDriver) {
         shipmentDiv.setAttribute('data-shipment-from', shipment.shippingFrom);
         shipmentDiv.setAttribute('data-shipment-to', shipment.shippingTo);
 
-        const shipmentInfoDiv = document.createElement('div');
-        shipmentInfoDiv.className = 'shipment-info';
+        const shipmentInnerDivA = document.createElement('div');
+        shipmentInnerDivA.className = 'shipment-inner-div-a';
 
         const shippingIdP = document.createElement('p');
-        shippingIdP.textContent = `Shipping ID: ${shipment.shippingId}`;
-        shipmentInfoDiv.append(shippingIdP);
+        shippingIdP.className = 'shipment-id-display';
+        shippingIdP.textContent = `Shipping Id : ${shipment.shippingId}`;
+        shipmentInnerDivA.append(shippingIdP);
 
         const shipmentFromP = document.createElement('p');
-        shipmentFromP.textContent = `From: ${shipment.shippingFrom}`;
-        shipmentInfoDiv.append(shipmentFromP);
+        shipmentFromP.className = 'shipment-from-display';
+        shipmentFromP.textContent = `From : ${shipment.shippingFrom}`;
+        shipmentInnerDivA.append(shipmentFromP);
 
         const shipmentToP = document.createElement('p');
-        shipmentToP.textContent = `To: ${shipment.shippingTo}`;
-        shipmentInfoDiv.append(shipmentToP);
+        shipmentToP.className = 'shipment-to-display';
+        shipmentToP.textContent = `To : ${shipment.shippingTo}`;
+        shipmentInnerDivA.append(shipmentToP);
+
+        const shipmentInnerDivB = document.createElement('div');
+        shipmentInnerDivB.className = 'shipment-inner-div-b';
 
         const viewBtn = document.createElement('button');
         viewBtn.className = 'view-btn';
@@ -85,9 +91,10 @@ function renderShipmentList(shipmentList, isDriver) {
             window.location.href = `../../views/shipment/shipment.html?shippingId=${shippingId}&userAction=${userAction}`;
         }, { once: true });
 
-        shipmentInfoDiv.append(viewBtn);
+        shipmentInnerDivB.append(viewBtn);
 
-        shipmentDiv.append(shipmentInfoDiv);
+        shipmentDiv.append(shipmentInnerDivA);
+        shipmentDiv.append(shipmentInnerDivB);
         listContainer.append(shipmentDiv);
     });
 }

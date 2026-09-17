@@ -30,7 +30,7 @@ function customerShipmentTrackingBinder() {
             return;
         }
         const userAction = "Customer shipment tracking";
-        window.location.href = `/views/shipment/shipment.html?trackingId=${encodeURIComponent(trackingId)}&userAction=${userAction}`;
+        window.location.href = `../../views/customer/customer-tracking-shipment.html?trackingId=${encodeURIComponent(trackingId)}&userAction=${userAction}`;
     }, {once: true});
 }
 

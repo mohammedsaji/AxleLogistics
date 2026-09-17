@@ -88,30 +88,3 @@ main {
 .shipment-tracking-search input {
     width: 25rem;
 }
-
-/* ============================================================
-   FOOTER
-   ============================================================ */
-
-.footer {
-    text-align: center;
-    padding: 24px 32px;
-}
-
-.footer-profile-section {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 12px;
-}
-
-.footer p {
-    margin: 0;
-}
-
-.footer a {
-    text-decoration: none;
-}
-
-/***Header → centered tracking section → */
-/*footer**, with no unnecessary CSS abstraction.*/

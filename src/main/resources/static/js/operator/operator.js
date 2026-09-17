@@ -46,6 +46,36 @@ function valueInitializer(response){
 function dynamicLayoutRender(operatorId, operatorName, roleArray){
     const userAction = params.get("userAction");
 
+    if(!roleArray.includes("ADMIN")){
+        if(roleArray.includes("FEDERATE-MANAGER")){
+            const operatorListBtn = document.getElementById('operator-list-btn');
+            if(operatorListBtn){
+                operatorListBtn.remove();
+            }
+
+            const createOperatorBtn = document.getElementById('create-operator-btn');
+            if(createOperatorBtn){
+                createOperatorBtn.remove();
+            }
+
+            const createVehicleBtn = document.getElementById('create-vehicle-btn');
+            if(createVehicleBtn){
+                createVehicleBtn.remove();
+            }
+
+            const operatorBodyOperatorActionsDiv = document.querySelector('.operator-body-operator-actions');
+            if(operatorBodyOperatorActionsDiv) {
+                operatorBodyOperatorActionsDiv.remove();
+            }
+        }else if(roleArray.includes("FEDERATE-DRIVER")){
+
+            const operatorHeaderSectionDivB = document.querySelector('.operator-header-section-b');
+            if(operatorHeaderSectionDivB) {
+                operatorHeaderSectionDivB.remove();
+            }
+        }
+    }
+
     if(userAction === 'Reassign operator'||
         userAction === 'Entry shipping' ){
 
@@ -125,7 +155,7 @@ function dynamicLayoutRender(operatorId, operatorName, roleArray){
             operatorBodyCommonActionsDiv.remove();
         }
 
-        if(userAction === 'Entry operator' || !roleArray.includes("ADMIN")){
+        if(userAction === 'Entry operator' && !roleArray.includes("ADMIN")){
             const viewManagersBtn = document.getElementById('view-managers-btn');
             if(viewManagersBtn){
                 viewManagersBtn.remove();
@@ -142,10 +172,15 @@ function dynamicLayoutRender(operatorId, operatorName, roleArray){
             }
         }
 
-        if(roleArray.includes("ADMIN")){
+        if(!roleArray.includes("ADMIN")){
             const createVehicleBtn = document.getElementById('create-vehicle-btn');
             if(createVehicleBtn){
                 createVehicleBtn.setAttribute('data-operator-id',operatorId);
+            }
+
+            const operatorBodyOperatorActionsDiv = document.querySelector('.operator-body-operator-actions');
+            if(operatorBodyOperatorActionsDiv) {
+                operatorBodyOperatorActionsDiv.remove();
             }
         }
     }

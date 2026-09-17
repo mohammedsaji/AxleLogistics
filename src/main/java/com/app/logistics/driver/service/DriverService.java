@@ -186,4 +186,8 @@ public class DriverService {
         }
         return driverRepo.findByAccount_AccountId(accountId).orElse(null);
     }
+
+    public DriverResponse findDriverByAccountID(AuthDetails authDetails){
+        return driverMapper.toDTO(findDriverByAccountID(authDetails.getAccount().getAccountId()));
+    }
 }

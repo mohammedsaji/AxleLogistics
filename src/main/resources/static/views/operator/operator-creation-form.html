@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Create operator</title>
     <link rel="stylesheet" href="../../styles/global.css">
+    <link rel="stylesheet" href="../../styles/footer.css">
     <link rel="stylesheet" href="../../styles/operator/operatorCreationForm.css">
     <link rel="stylesheet" href="/styles/utils/customAlert.css">
 </head>
@@ -33,22 +34,29 @@
     </header>
     <main class="operator-body">
         <div class="operator-body-form">
-            <form>
-                <label for="operator-name">Operator Name :</label>
-                <input id="operator-name" type="text" maxlength="250" required>
-                <label for="operator-transport-type">Transportation Mode :</label>
-                <select id="operator-transport-type" required>
-                    <option value="" selected>Select one</option>
-                    <option value="AIR">Air ways</option>
-                    <option value="SEA">Sea ways</option>
-                    <option value="RAIL">Rail ways</option>
-                    <option value="ROAD">Road ways</option>
-                </select>
-                <button type="submit" id="create-btn">Create</button>
+            <form class="operator-body-operator-form">
+                <div>
+                    <label for="operator-name">Operator Name </label>
+                    <input id="operator-name" type="text" maxlength="250" required>
+                </div>
+
+                <div>
+                    <label for="operator-transport-type">Transportation Mode </label>
+                    <select id="operator-transport-type" required>
+                        <option value="" selected>Select one</option>
+                        <option value="AIR">Air ways</option>
+                        <option value="SEA">Sea ways</option>
+                        <option value="RAIL">Rail ways</option>
+                        <option value="ROAD">Road ways</option>
+                    </select>
+                </div>
+
+                <div class="operator-body-operator-actions">
+                    <button type="submit" id="create-btn">Create</button>
+                </div>
             </form>
         </div>
     </main>
-
     <<footer class="footer">
         <div class="footer-profile-section"><a href="https://github.com/mohammedsaji/mohammedsaji" target="_blank" rel="noopener noreferrer">GitHub </a>
             <a href="http://www.linkedin.com/in/mohammed-shajith-e" target="_blank" rel="noopener noreferrer"> LinkedIn </a>

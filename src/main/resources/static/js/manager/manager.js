@@ -8,9 +8,13 @@ async function payloadExtractor() {
     const methodType = 'GET';
     const response = await ajaxCall(url, methodType, null);
     if (response && response.data) {
-        valueInitializer(response.data);
-        dynamicLayoutRender(response.data.managerId, response.data.operatorId);
-        clickEventBinder();
+        const loginUserMap = await ajaxCall(`/logistic/account/user-info`, 'GET', null);
+        const roleArray = loginUserMap?.data?.RoleList;
+        if(roleArray && roleArray.length > 0) {
+            valueInitializer(response.data);
+            dynamicLayoutRender(response.data.managerId, response.data.operatorId, roleArray);
+            clickEventBinder();
+        }
     }
 }
 
@@ -41,8 +45,26 @@ function valueInitializer(response) {
     updatedBy.value = response.updatedBy;
 }
 
-function dynamicLayoutRender(managerId, operatorId) {
+function dynamicLayoutRender(managerId, operatorId, roleArray) {
     const userAction = params.get("userAction");
+
+    if(!roleArray.includes("ADMIN")){
+        const backToOperatorBtn = document.getElementById('back-to-operator-btn');
+        if (backToOperatorBtn) {
+            backToOperatorBtn.remove();
+        }
+
+        const managerHeaderSectionDivB = document.querySelector('.manager-header-section-b');
+        if (managerHeaderSectionDivB) {
+            managerHeaderSectionDivB.remove();
+        }
+
+        const managerBodyManagerActionsDiv = document.querySelector('.manager-body-manager-actions');
+        if(managerBodyManagerActionsDiv){
+            managerBodyManagerActionsDiv.remove();
+        }
+
+    }
 
     if (userAction === 'Entry manager') {
 

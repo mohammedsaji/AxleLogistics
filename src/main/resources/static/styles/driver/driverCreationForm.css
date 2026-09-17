@@ -1,0 +1,84 @@
+.driver {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.driver-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 32px;
+}
+
+.driver-header-brand {
+    display: flex;
+    align-items: center;
+}
+
+.driver-header-logo {
+    max-width: 180px;
+    height: auto;
+}
+
+.driver-header-actions {
+    display: flex;
+    align-items: center;
+}
+
+.driver-header-section-a {
+    display: flex;
+    align-items: center;
+}
+
+.driver-header-section-a button {
+    width: auto;
+}
+
+.driver-body {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 48px 24px;
+}
+
+.driver-body-form {
+    width: 100%;
+    max-width: 50rem;
+}
+
+.driver-body-driver-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    border: 1px solid var(--border);
+    padding: 32px;
+}
+
+.driver-body-driver-form div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.driver-body-driver-form label {
+    margin-top: 0;
+}
+
+.driver-body-driver-form input {
+    width: 100%;
+}
+
+#driver-body-driver-actions{
+    width: auto;
+    align-items: center;
+    margin-top: 16px;
+}
+
+#operator-id-display {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}

@@ -6,3 +6,214 @@
     display: block;
 }
 
+.operator {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.operator-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 32px;
+    gap: 24px;
+}
+
+.operator-header-brand {
+    display: flex;
+    align-items: center;
+}
+
+.operator-header-logo {
+    max-width: 180px;
+    height: auto;
+}
+
+.operator-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.operator-header-section-a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.operator-header-section-a button {
+    width: auto;
+}
+
+.operator-header-section-b {
+    display: flex;
+    align-items: center;
+}
+
+.operator-navigation {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.operator-navigation-group {
+    position: relative;
+}
+
+.operator-navigation-group > button {
+    width: auto;
+    padding: 8px 4px;
+    background: transparent;
+    color: var(--text);
+}
+
+.operator-navigation-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 180px;
+    padding-top: 8px;
+}
+
+.operator-navigation-menu.active {
+    display: flex;
+    flex-direction: column;
+}
+
+.operator-navigation-menu a {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.operator-navigation-menu a:hover {
+    background: var(--surface-hover);
+}
+
+/* Body */
+
+.operator-body {
+    flex: 1;
+    padding: 10rem 5rem;
+}
+
+/* Search */
+
+.operator-body-search {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.operator-body-search input {
+    flex: 1 1 300px;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.operator-body-search button {
+    flex: 0 0 auto;
+    width: auto;
+}
+
+/* Operator list */
+
+.operator-body-list {
+    width: 100%;
+    max-width: 850px;
+    margin: 2rem auto 0;
+}
+
+#operator-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.operator-list-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    width: 100%;
+    box-sizing: border-box;
+
+    border: 1px solid var(--border);
+    padding: 1rem;
+
+    text-align: left;
+
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.operator-list-item:hover {
+    transform: scale(1.03);
+    transition-duration: 0.5s;
+    border-color: var(--border);
+}
+
+.operator-inner-div-a {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.operator-inner-div-a p {
+    margin: 0;
+}
+
+.operator-id-display {
+    width: 8rem;
+}
+
+.operator-name-display {
+    width: 12rem;
+}
+
+.operator-transport-type-display {
+    width: 16rem;
+}
+
+.operator-inner-div-b {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+.operator-inner-div-b button {
+    width: auto;
+}
+
+/* Pagination */
+
+.operator-body-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 2rem;
+}
+
+.operator-body-pagination button {
+    width: auto;
+}

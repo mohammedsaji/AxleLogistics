@@ -1,0 +1,101 @@
+.vehicle {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.vehicle-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 32px;
+    gap: 24px;
+}
+
+.vehicle-header-brand {
+    display: flex;
+    align-items: center;
+}
+
+.vehicle-header-logo {
+    max-width: 180px;
+    height: auto;
+}
+
+.vehicle-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.vehicle-header-section-a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.vehicle-header-section-a button {
+    width: auto;
+}
+
+.vehicle-header-section-b {
+    display: flex;
+    align-items: center;
+}
+
+.vehicle-body {
+    flex: 1;
+    padding: 10rem 5rem;
+}
+
+.vehicle-body-vehicle-display {
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.vehicle-body-vehicle-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    padding: 2rem;
+    border: var(--border-width) solid var(--border);
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.vehicle-body-vehicle-form div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.vehicle-body-vehicle-form label {
+    margin-top: 0;
+}
+
+.vehicle-body-vehicle-form input,
+.vehicle-body-vehicle-form select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#operator-id-display {
+    display: none;
+}
+
+.vehicle-body-vehicle-actions {
+    display: flex;
+    flex-direction: row !important;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 1rem;
+}
+
+.vehicle-body-vehicle-actions button {
+    width: auto;
+}

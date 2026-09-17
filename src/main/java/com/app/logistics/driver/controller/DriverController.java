@@ -128,4 +128,17 @@ public class DriverController {
 
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
+
+    @GetMapping("/fetchByAccountId")
+    public ResponseEntity<ApiResponse<DriverResponse>> fetchByDriverName(@AuthenticationPrincipal AuthDetails authDetails) {
+        DriverResponse result = driverService.findDriverByAccountID(authDetails);
+
+        ApiResponse<DriverResponse> apiResponse = new ApiResponse
+                .Builder<DriverResponse>(true, result)
+                .message("Driver fetched successfully.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
 }

@@ -9,7 +9,7 @@ function payloadExtractor() {
         if (reportingManagerId) {
             const reportingManagerIdDisplay = document.getElementById('reporting-manager-id-display');
             if (reportingManagerIdDisplay) {
-                reportingManagerIdDisplay.style.display = 'block';
+                reportingManagerIdDisplay.style.display = 'flex';
             }
             const reportingManagerIdInput = document.getElementById('reporting-manager-id');
             if (reportingManagerIdInput) {

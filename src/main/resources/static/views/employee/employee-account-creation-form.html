@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Employee creation form</title>
     <link rel="stylesheet" href="../../styles/global.css">
+    <link rel="stylesheet" href="../../styles/footer.css">
     <link rel="stylesheet" href="../../styles/employee/employeeCreationForm.css">
     <link rel="stylesheet" href="/styles/utils/customAlert.css">
 </head>
@@ -21,36 +22,48 @@
     </header>
     <main class="employee-body">
         <div class="employee-body-form">
-            <form>
-                <label for="employee-name">Employee Name :</label>
-                <input id="employee-name" type="text" maxlength="250" required>
-
-                <label for="employee-phone-no">Employee Phone No :</label>
-                <input id="employee-phone-no" type="text" maxlength="25" required>
-
-                <label for="employee-department">Employee Department :</label>
-                <input id="employee-department" type="text" maxlength="30" required>
-
-                <label for="employee-joining-date">Employee joining date :</label>
-                <input id="employee-joining-date" type="datetime-local" required>
-
-                <label for="employee-status">Employee Status :</label>
-                <select id="employee-status" required>
-                    <option value="">Select one</option>
-                    <option value="ACTIVE">Active</option>
-                    <option value="IN_ACTIVE">In Active</option>
-                </select>
-
+            <form class="employee-body-employee-form">
+                <div>
+                    <label for="employee-name">Employee Name </label>
+                    <input id="employee-name" type="text" maxlength="250" required>
+                </div>
+                <div>
+                    <label for="employee-phone-no">Employee Phone No </label>
+                    <input id="employee-phone-no" type="text" maxlength="25" required>
+                </div>
+                <div>
+                    <label for="employee-department">Employee Department </label>
+                    <input id="employee-department" type="text" maxlength="30" required>
+                </div>
+                <div>
+                    <label for="employee-joining-date">Employee joining date </label>
+                    <input style="text-overflow: ellipsis" id="employee-joining-date" type="datetime-local" required>
+                </div>
+                <div>
+                    <label for="employee-status">Employee Status </label>
+                    <select id="employee-status" required>
+                        <option value="">Select one</option>
+                        <option value="ACTIVE">Active</option>
+                        <option value="IN_ACTIVE">In Active</option>
+                    </select>
+                </div>
                 <div id="reporting-manager-id-display" style="display:none;">
-                    <label for="reporting-manager-id">Reporting Manager ID :</label>
+                    <label for="reporting-manager-id">Reporting Manager Id </label>
                     <input id="reporting-manager-id" type="number" readonly>
                 </div>
-
-                <button type="submit" id="create-btn">Create</button>
+                <div id="employee-body-employee-actions">
+                    <button type="submit" id="create-btn">Create</button>
+                </div>
             </form>
         </div>
     </main>
-    <footer class="employee-footer">
+    <footer class="footer">
+        <div class="footer-profile-section">
+            <a href="https://github.com/mohammedsaji/mohammedsaji" target="_blank" rel="noopener noreferrer">GitHub </a>
+            <a href="http://www.linkedin.com/in/mohammed-shajith-e" target="_blank" rel="noopener noreferrer"> LinkedIn </a>
+            <a href="mailto:althafshajid@gmail.com"> Gmail </a>
+        </div>
+        <p>&copy; 2026 Passage Logistics Systems. All rights reserved.</p>
     </footer>
 </div>
 <div id="custom-alert" class="custom-alert">

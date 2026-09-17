@@ -8,34 +8,73 @@ async function payloadExtractor() {
     if (response && response.data) {
         const rolesArray = response.data.RoleList || [];
         const accountId = response.data.userId;
-        dynamicLayoutRender(rolesArray);
-        clickEventBinder(accountId, rolesArray, response);
+
+        let myOperatorId = null;
+
+        if (rolesArray.includes("FEDERATE-DRIVER")) {
+            const driverResponse = await ajaxCall(`/logistic/driver/fetchByAccountId`, 'GET', null);
+            if (driverResponse && driverResponse.data) {
+                myOperatorId = driverResponse.data.operatorId;
+            }
+        } else if (rolesArray.includes("FEDERATE-MANAGER")) {
+            const managerResponse = await ajaxCall(`/logistic/manager/fetchByAccountId?`, 'GET', null); // <-- confirm this endpoint
+            if (managerResponse && managerResponse.data) {
+                myOperatorId = managerResponse.data.operatorId;
+            }
+        }
+
+        dynamicLayoutRender(rolesArray, myOperatorId);
+        clickEventBinder(accountId, rolesArray, response, myOperatorId);
     }
 }
 payloadExtractor();
 
-function dynamicLayoutRender(rolesArray) {
+function dynamicLayoutRender(rolesArray, myOperatorId) {
     const isAdmin = rolesArray.includes("ADMIN");
+    const isFederateManager = rolesArray.includes("FEDERATE-MANAGER");
+    const isFederateDriver = rolesArray.includes("FEDERATE-DRIVER");
+    const isFederate = isFederateManager || isFederateDriver;
 
-    // Only ADMIN can see these buttons — remove for everyone else
-    if (!isAdmin) {
+    if (isFederate) {
         const shipmentEntryBtn = document.getElementById('dashboard-nav-shipment-entry-btn');
-        if (shipmentEntryBtn) shipmentEntryBtn.closest('.dashboard-navigation-group').remove();
+        if (shipmentEntryBtn) shipmentEntryBtn.remove();
+
+        const employeeGroup = document.getElementById('dashboard-nav-employee');
+        if (employeeGroup) employeeGroup.remove();
 
         const operatorManageBtn = document.getElementById('dashboard-nav-operator-manage-btn');
-        if (operatorManageBtn) operatorManageBtn.closest('.dashboard-navigation-group').remove();
+        if (operatorManageBtn) operatorManageBtn.remove();
 
         const partnerRegisterBtn = document.getElementById('dashboard-nav-partner-register-btn');
-        if (partnerRegisterBtn) partnerRegisterBtn.closest('.dashboard-navigation-group').remove();
+        if (partnerRegisterBtn) partnerRegisterBtn.remove();
 
-        const employeeCreateBtn = document.getElementById('dashboard-nav-employee-create-btn');
-        if (employeeCreateBtn) employeeCreateBtn.closest('.dashboard-navigation-group').remove();
+        const myOperatorBtn = document.getElementById('dashboard-nav-my-operator-btn');
+        if (myOperatorBtn && myOperatorId) {
+            myOperatorBtn.setAttribute('data-operator-id', myOperatorId);
+        }
+    } else {
+        if (!isAdmin) {
+            const shipmentEntryBtn = document.getElementById('dashboard-nav-shipment-entry-btn');
+            if (shipmentEntryBtn) shipmentEntryBtn.closest('.dashboard-navigation-group').remove();
 
-        const employeeAdminstrBtn = document.getElementById('dashboard-nav-employee-manage-btn');
-        if (employeeAdminstrBtn) employeeAdminstrBtn.closest('.dashboard-navigation-group').remove();
+            const operatorManageBtn = document.getElementById('dashboard-nav-operator-manage-btn');
+            if (operatorManageBtn) operatorManageBtn.closest('.dashboard-navigation-group').remove();
+
+            const partnerRegisterBtn = document.getElementById('dashboard-nav-partner-register-btn');
+            if (partnerRegisterBtn) partnerRegisterBtn.closest('.dashboard-navigation-group').remove();
+
+            const employeeCreateBtn = document.getElementById('dashboard-nav-employee-create-btn');
+            if (employeeCreateBtn) employeeCreateBtn.closest('.dashboard-navigation-group').remove();
+
+            const employeeAdminstrBtn = document.getElementById('dashboard-nav-employee-manage-btn');
+            if (employeeAdminstrBtn) employeeAdminstrBtn.closest('.dashboard-navigation-group').remove();
+        }
+
+        const myOperatorBtn = document.getElementById('dashboard-nav-my-operator-btn');
+        if (myOperatorBtn) myOperatorBtn.remove();
     }
 }
-function clickEventBinder(employeeId, rolesArray, response) {
+function clickEventBinder(employeeId, rolesArray, response, myOperatorId) {
     const signOutBtn = document.getElementById('sign-out-btn');
     const username = response.data.username;
     signOutBtn.addEventListener('click', async function () {
@@ -93,6 +132,18 @@ function clickEventBinder(employeeId, rolesArray, response) {
     if(profileViewBtn){
         profileViewBtn.addEventListener('click', function () {
             window.location.href = `/views/profile.html`;
+        }, { once: true });
+    }
+
+    const myOperatorBtn = document.getElementById('dashboard-nav-my-operator-btn');
+    if (myOperatorBtn) {
+        myOperatorBtn.addEventListener('click', function () {
+            const operatorId = this.dataset.operatorId || myOperatorId;
+            if (operatorId) {
+                window.location.href = `../../views/operator/operator.html?operatorId=${operatorId}&userAction=Read operator`;
+            } else {
+                alert('No operator found for your account.');
+            }
         }, { once: true });
     }
 }

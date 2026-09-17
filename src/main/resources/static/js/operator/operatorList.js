@@ -61,26 +61,31 @@ function renderOperatorList(operatorList) {
         operatorDiv.setAttribute('data-operator-id', operator.operatorId);
         operatorDiv.setAttribute('data-operator-name', operator.operatorName);
 
-        const operatorInfoDiv = document.createElement('div');
-        operatorInfoDiv.className = 'operator-info';
+        const operatorInnerDivA = document.createElement('div');
+        operatorInnerDivA.className = 'operator-inner-div-a';
 
         const operatorIdP = document.createElement('p');
-        operatorIdP.textContent = `Operator ID: ${operator.operatorId}`;
-        operatorInfoDiv.append(operatorIdP);
+        operatorIdP.className = 'operator-id-display';
+        operatorIdP.textContent = `Operator Id : ${operator.operatorId}`;
+        operatorInnerDivA.append(operatorIdP);
 
         const operatorNameP = document.createElement('p');
-        operatorNameP.textContent = `Operator Name: ${operator.operatorName}`;
-        operatorInfoDiv.append(operatorNameP);
+        operatorNameP.className = 'operator-name-display';
+        operatorNameP.textContent = `Name : ${operator.operatorName}`;
+        operatorInnerDivA.append(operatorNameP);
 
         const operatorTransportTypeP = document.createElement('p');
-        operatorTransportTypeP.textContent = `Transport Type: ${operator.operatorTransportType}`;
-        operatorInfoDiv.append(operatorTransportTypeP);
+        operatorTransportTypeP.className = 'operator-transport-type-display';
+        operatorTransportTypeP.textContent = `Transport Type : ${operator.operatorTransportType}`;
+        operatorInnerDivA.append(operatorTransportTypeP);
+
+        const operatorInnerDivB = document.createElement('div');
+        operatorInnerDivB.className = 'operator-inner-div-b';
 
         const viewBtn = document.createElement('button');
         viewBtn.className = 'view-btn';
         viewBtn.setAttribute('data-operator-id', operator.operatorId);
         viewBtn.textContent = 'View';
-        operatorInfoDiv.append(viewBtn);
 
         viewBtn.addEventListener('click', function () {
             const operatorId = this.getAttribute('data-operator-id');
@@ -94,8 +99,10 @@ function renderOperatorList(operatorList) {
                 window.location.href = `../../views/operator/operator.html?operatorId=${operatorId}&userAction=${userAction}&accountUserName=${accountUserName}`;
             }
         }, { once: true });
+        operatorInnerDivB.append(viewBtn);
 
-        operatorDiv.append(operatorInfoDiv);
+        operatorDiv.append(operatorInnerDivA);
+        operatorDiv.append(operatorInnerDivB);
         listContainer.append(operatorDiv);
     });
 }

@@ -1,0 +1,85 @@
+.profile {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 32px;
+    gap: 24px;
+}
+
+.profile-header-brand-icon {
+    display: flex;
+    align-items: center;
+}
+
+.profile-header-logo {
+    max-width: 180px;
+    height: auto;
+}
+
+.profile-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.profile-header-section-a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.profile-header-section-a button {
+    width: auto;
+}
+
+/* Body */
+
+.profile-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 5rem;
+}
+
+/* Profile sections */
+
+.profile-body-section {
+    width: 100%;
+    border: var(--border-width) solid var(--border);
+    padding: 2rem;
+}
+
+.profile-body-section-title {
+    margin: 0 0 2rem;
+}
+
+/* Section content */
+
+.profile-body-section-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.profile-body-section-content label {
+    margin-top: 0.75rem;
+}
+
+.profile-body-section-content input {
+    width: 100%;
+}

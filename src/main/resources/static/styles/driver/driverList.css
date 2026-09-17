@@ -5,3 +5,211 @@
 .driver-navigation-menu.active {
     display: block;
 }
+
+.driver {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.driver-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 32px;
+    gap: 24px;
+}
+
+.driver-header-brand {
+    display: flex;
+    align-items: center;
+}
+
+.driver-header-logo {
+    max-width: 180px;
+    height: auto;
+}
+
+.driver-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.driver-header-section-a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.driver-header-section-a button {
+    width: auto;
+}
+
+.driver-header-section-b {
+    display: flex;
+    align-items: center;
+}
+
+.driver-navigation {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.driver-navigation-group {
+    position: relative;
+}
+
+.driver-navigation-group > button {
+    width: auto;
+    padding: 8px 4px;
+    background: transparent;
+    color: var(--text);
+}
+
+.driver-navigation-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 180px;
+    padding-top: 8px;
+}
+
+.driver-navigation-menu.active {
+    display: flex;
+    flex-direction: column;
+}
+
+.driver-navigation-menu a {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.driver-navigation-menu a:hover {
+    background: var(--surface-hover);
+}
+
+/* Body */
+
+.driver-body {
+    flex: 1;
+    padding: 10rem 5rem;
+}
+
+/* Search */
+
+.driver-body-search {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.driver-body-search input {
+    flex: 1 1 300px;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.driver-body-search button {
+    flex: 0 0 auto;
+    width: auto;
+}
+
+/* Driver list */
+
+.driver-body-list {
+    width: 100%;
+    max-width: 850px;
+    margin: 2rem auto 0;
+}
+
+#driver-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.driver-list-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    width: 100%;
+    box-sizing: border-box;
+
+    border: 1px solid var(--border);
+    padding: 1rem;
+
+    text-align: left;
+
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.driver-list-item:hover {
+    transform: scale(1.03);
+    transition-duration: 0.5s;
+    border-color: var(--border);
+}
+
+.driver-inner-div-a {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.driver-inner-div-a p {
+    margin: 0;
+}
+
+.driver-id-display {
+    width: 8rem;
+}
+
+.driver-name-display {
+    width: 12rem;
+}
+
+.driver-inner-div-b {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+.driver-inner-div-b button {
+    width: auto;
+}
+
+/* Pagination */
+
+.driver-body-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 2rem;
+}
+
+.driver-body-pagination button {
+    width: auto;
+}

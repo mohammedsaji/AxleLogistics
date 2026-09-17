@@ -4,9 +4,9 @@ import com.app.logistics.auth.authUtils.AuthDetails;
 import com.app.logistics.common.dto.ApiResponse;
 import com.app.logistics.common.validations.OnCreate;
 import com.app.logistics.common.validations.OnUpdate;
+import com.app.logistics.manager.dto.ManagerResponse;
 import com.app.logistics.manager.dto.ManagerProfileResponse;
 import com.app.logistics.manager.dto.ManagerRequest;
-import com.app.logistics.manager.dto.ManagerResponse;
 import com.app.logistics.manager.service.ManagerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -122,6 +122,19 @@ public class ManagerController {
         ApiResponse<ManagerResponse> apiResponse = new ApiResponse
                 .Builder<ManagerResponse>(true, result)
                 .message("Manager updated successfully.")
+                .timeStamp()
+                .build();
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/fetchByAccountId")
+    public ResponseEntity<ApiResponse<ManagerResponse>> fetchByManagerName(@AuthenticationPrincipal AuthDetails authDetails) {
+        ManagerResponse result = managerService.findManagerByAccountID(authDetails);
+
+        ApiResponse<ManagerResponse> apiResponse = new ApiResponse
+                .Builder<ManagerResponse>(true, result)
+                .message("Manager fetched successfully.")
                 .timeStamp()
                 .build();
 

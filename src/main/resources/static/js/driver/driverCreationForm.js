@@ -6,7 +6,7 @@ function payloadExtractor() {
     if (operatorId) {
         const operatorIdDisplay = document.getElementById('operator-id-display');
         if (operatorIdDisplay) {
-            operatorIdDisplay.style.display = 'block';
+            operatorIdDisplay.style.display = 'flex';
         }
         const operatorIdInput = document.getElementById('operator-id');
         if (operatorIdInput) {

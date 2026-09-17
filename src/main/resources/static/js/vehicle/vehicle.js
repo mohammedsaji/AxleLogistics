@@ -49,6 +49,16 @@ function dynamicLayoutRender(vehicleId, operatorId, roleArray) {
         if(backToOperatorBtn) {
             backToOperatorBtn.remove();
         }
+
+        const vehicleHeaderSectionDivB = document.querySelector('.vehicle-header-section-b');
+        if(vehicleHeaderSectionDivB){
+            vehicleHeaderSectionDivB.remove();
+        }
+
+        const vehicleBodyVehicleActionsDiv = document.querySelector('.vehicle-body-vehicle-actions');
+        if(vehicleBodyVehicleActionsDiv) {
+            vehicleBodyVehicleActionsDiv.remove();
+        }
     }
 
     if (userAction === 'Entry shipping' ||

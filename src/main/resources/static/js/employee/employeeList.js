@@ -46,21 +46,26 @@ function renderEmployeeList(employeeList) {
         employeeDiv.setAttribute('data-employee-id', employee.employeeId);
         employeeDiv.setAttribute('data-employee-name', employee.employeeName);
 
-        const employeeInfoDiv = document.createElement('div');
-        employeeInfoDiv.className = 'employee-info';
+        const employeeInnerDivA = document.createElement('div');
+        employeeInnerDivA.className = 'employee-inner-div-a';
 
         const employeeIdP = document.createElement('p');
-        employeeIdP.textContent = `Employee ID: ${employee.employeeId}`;
-        employeeInfoDiv.append(employeeIdP);
+        employeeIdP.className = 'employee-id-display';
+        employeeIdP.textContent = `Employee Id : ${employee.employeeId}`;
+        employeeInnerDivA.append(employeeIdP);
 
         const employeeNameP = document.createElement('p');
         employeeNameP.className = 'employee-name-display';
-        employeeNameP.textContent = `Employee Name: ${employee.employeeName}`;
-        employeeInfoDiv.append(employeeNameP);
+        employeeNameP.textContent = `Name : ${employee.employeeName}`;
+        employeeInnerDivA.append(employeeNameP);
 
         const employeeDepartmentP = document.createElement('p');
-        employeeDepartmentP.textContent = `Department: ${employee.employeeDepartment}`;
-        employeeInfoDiv.append(employeeDepartmentP);
+        employeeDepartmentP.className = 'employee-dept-display';
+        employeeDepartmentP.textContent = `Dept : ${employee.employeeDepartment}`;
+        employeeInnerDivA.append(employeeDepartmentP);
+
+        const employeeInnerDivB = document.createElement('div');
+        employeeInnerDivB.className = 'employee-inner-div-b';
 
         const viewBtn = document.createElement('button');
         if(userAction === 'Entry employee'){
@@ -85,9 +90,10 @@ function renderEmployeeList(employeeList) {
             }, {once: true});
         }
         viewBtn.setAttribute('data-employee-id', employee.employeeId);
-        employeeInfoDiv.append(viewBtn);
+        employeeInnerDivB.append(viewBtn);
 
-        employeeDiv.append(employeeInfoDiv);
+        employeeDiv.append(employeeInnerDivA);
+        employeeDiv.append(employeeInnerDivB);
         listContainer.append(employeeDiv);
     });
 }

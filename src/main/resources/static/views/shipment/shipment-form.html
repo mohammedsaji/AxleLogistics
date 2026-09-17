@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Shipment creation form</title>
+    <title>Shipment Creation Form</title>
     <link rel="stylesheet" href="../../styles/global.css">
+    <link rel="stylesheet" href="../../styles/footer.css">
     <link rel="stylesheet" href="../../styles/shipment/shipmentForm.css">
     <link rel="stylesheet" href="/styles/utils/customAlert.css">
 </head>
@@ -20,111 +21,131 @@
         </div>
     </header>
     <main class="shipment-body">
-        <div class="shipment-body-form">
-            <form>
-                <!-- Cargo Details Section -->
+        <div class="shipment-body-shipment-display">
+            <form class="shipment-body-shipment-form">
+                <!-- Cargo Details -->
                 <fieldset>
                     <legend>Cargo Details</legend>
-                    <label for="cargo-name">Cargo Name :</label>
-                    <input id="cargo-name" type="text" maxlength="250" required>
-
-                    <label for="cargo-weight">Cargo Weight :</label>
-                    <input id="cargo-weight" type="text" maxlength="100" required>
-
-                    <label for="cargo-quantity">Cargo Quantity :</label>
-                    <input id="cargo-quantity" type="text" maxlength="100" required>
-
-                    <label for="cargo-type">Cargo Type :</label>
-                    <input id="cargo-type" type="text" maxlength="100" required>
-
-                    <label for="cargo-description">Cargo Description :</label>
-                    <textarea id="cargo-description" maxlength="500" required></textarea>
+                    <div>
+                        <label for="cargo-name">Cargo Name :</label>
+                        <input id="cargo-name" type="text" maxlength="250" required>
+                    </div>
+                    <div>
+                        <label for="cargo-weight">Cargo Weight :</label>
+                        <input id="cargo-weight" type="text" maxlength="100" required>
+                    </div>
+                    <div>
+                        <label for="cargo-quantity">Cargo Quantity :</label>
+                        <input id="cargo-quantity" type="text" maxlength="100" required>
+                    </div>
+                    <div>
+                        <label for="cargo-type">Cargo Type :</label>
+                        <input id="cargo-type" type="text" maxlength="100" required>
+                    </div>
+                    <div>
+                        <label for="cargo-description">Cargo Description :</label>
+                        <textarea id="cargo-description" maxlength="500" required></textarea>
+                    </div>
                 </fieldset>
-
-                <!-- Customer Details Section -->
+                <!-- Customer Details -->
                 <fieldset>
                     <legend>Customer Details</legend>
-                    <label for="customer-name">Customer Name :</label>
-                    <input id="customer-name" type="text" maxlength="250" required>
-
-                    <label for="customer-email">Customer Email :</label>
-                    <input id="customer-email" type="email" required>
-
-                    <label for="customer-phoneno">Customer Phone No :</label>
-                    <input id="customer-phoneno" type="text" maxlength="25" required>
+                    <div>
+                        <label for="customer-name">Customer Name :</label>
+                        <input id="customer-name" type="text" maxlength="250" required>
+                    </div>
+                    <div>
+                        <label for="customer-email">Customer Email :</label>
+                        <input id="customer-email" type="email" required>
+                    </div>
+                    <div>
+                        <label for="customer-phoneno">Customer Phone No :</label>
+                        <input id="customer-phoneno" type="text" maxlength="25" required>
+                    </div>
                 </fieldset>
-
-                <!-- Shipment Details Section -->
+                <!-- Shipment Details -->
                 <fieldset>
                     <legend>Shipment Details</legend>
-
-                    <label for="shipping-from">Shipping From :</label>
-                    <input type="search"
-                           id="shipping-from"
-                           name="shipping-from"
-                           placeholder="Enter origin pickup the cargo"
-                           autocomplete="off" required>
-
-                    <div id="location-suggestions-origin"></div>
-
-                    <label for="origin-latitude">Origin latitude :</label>
-                    <input type="text" id="origin-latitude" readonly>
-
-                    <label for="origin-longitude">Origin longitude :</label>
-                    <input type="text" id="origin-longitude" readonly>
-
-                    <label for="current-location">Operator Destination :</label>
-                    <input type="search"
-                           id="current-location"
-                           name="currentLocation"
-                           placeholder="Enter current leg operator destination for delivery"
-                           autocomplete="off" required>
-
-                    <div id="location-suggestions"></div>
-
-                    <label for="current-latitude">Current latitude :</label>
-                    <input hidden type="text" id="current-latitude" readonly>
-
-                    <label for="current-longitude">Current longitude :</label>
-                    <input type="text" id="current-longitude" readonly>
-
-                    <label for="shipping-to">Shipping To :</label>
-                    <input type="search"
-                           id="shipping-to"
-                           name="shipping-to"
-                           placeholder="Enter destination to delivery cargo"
-                           autocomplete="off" required>
-
-                    <div id="location-suggestions-destination"></div>
-
-                    <label for="destination-latitude">Destination latitude :</label>
-                    <input hidden type="text" id="destination-latitude" readonly>
-
-                    <label for="destination-longitude">Destination longitude :</label>
-                    <input type="text" id="destination-longitude" readonly>
-
-                    <label for="delivery-date">Delivery Date :</label>
-                    <input id="delivery-date" type="datetime-local" required>
+                    <div class="shipment-body-location">
+                        <div class="shipment-body-location-field">
+                            <label for="shipping-from">Shipping From</label>
+                            <input type="search" id="shipping-from" name="shipping-from" placeholder="Enter origin pickup the cargo" autocomplete="off" required>
+                        </div>
+                        <div id="location-suggestions-origin"></div>
+                    </div>
+                    <div>
+                        <label for="origin-latitude">Origin Latitude :</label>
+                        <input type="text" id="origin-latitude" readonly>
+                    </div>
+                    <div>
+                        <label for="origin-longitude">Origin Longitude :</label>
+                        <input type="text" id="origin-longitude" readonly>
+                    </div>
+                    <div class="shipment-body-location">
+                        <div class="shipment-body-location-field">
+                            <label for="current-location">Operator Destination</label>
+                            <input type="search" id="current-location" name="currentLocation" placeholder="Enter operator destination for delivery" autocomplete="off" required>
+                        </div>
+                        <div id="location-suggestions"></div>
+                    </div>
+                    <div>
+                        <label for="current-latitude" >Current Latitude :</label>
+                        <input type="text" id="current-latitude" readonly>
+                    </div>
+                    <div>
+                        <label for="current-longitude" >Current Longitude :</label>
+                        <input type="text" id="current-longitude" readonly>
+                    </div>
+                    <div class="shipment-body-location">
+                        <div class="shipment-body-location-field">
+                            <label for="shipping-to">Shipping To</label>
+                            <input type="search"
+                                   id="shipping-to" name="shipping-to" placeholder="Enter destination to delivery cargo" autocomplete="off" required>
+                        </div>
+                        <div id="location-suggestions-destination"></div>
+                    </div>
+                    <div>
+                        <label for="destination-latitude">Destination Latitude :</label>
+                        <input type="text" id="destination-latitude" readonly>
+                    </div>
+                    <div>
+                        <label for="destination-longitude">Destination Longitude :</label>
+                        <input type="text" id="destination-longitude" readonly>
+                    </div>
+                    <div>
+                        <label for="delivery-date">Delivery Date :</label>
+                        <input id="delivery-date" type="datetime-local" required>
+                    </div>
                 </fieldset>
-
-                <!-- Carrier Information Section (Read-only) -->
+                <!-- Carrier Information -->
                 <fieldset>
                     <legend>Carrier Information</legend>
-                    <label for="operator-id">Operator ID :</label>
-                    <input id="operator-id" type="number" readonly>
-
-                    <label for="driver-id">Driver ID :</label>
-                    <input id="driver-id" type="number" readonly>
-
-                    <label for="vehicle-id">Vehicle ID :</label>
-                    <input id="vehicle-id" type="number" readonly>
+                    <div>
+                        <label for="operator-id">Operator ID :</label>
+                        <input id="operator-id" type="number" readonly>
+                    </div>
+                    <div>
+                        <label for="driver-id">Driver ID :</label>
+                        <input id="driver-id" type="number" readonly>
+                    </div>
+                    <div>
+                        <label for="vehicle-id">Vehicle ID :</label>
+                        <input id="vehicle-id" type="number" readonly>
+                    </div>
                 </fieldset>
-
-                <button type="submit" id="create-btn">Create</button>
+                <div id="shipment-actions" class="shipment-body-shipment-actions">
+                    <button type="submit" id="create-btn">Create</button>
+                </div>
             </form>
         </div>
     </main>
-    <footer class="shipment-footer">
+    <footer class="footer">
+        <div class="footer-profile-section">
+            <a href="https://github.com/mohammedsaji/mohammedsaji" target="_blank" rel="noopener noreferrer">GitHub </a>
+            <a href="http://www.linkedin.com/in/mohammed-shajith-e" target="_blank" rel="noopener noreferrer"> LinkedIn </a>
+            <a href="mailto:althafshajid@gmail.com"> Gmail </a>
+        </div>
+        <p>&copy; 2026 Passage Logistics Systems. All rights reserved.</p>
     </footer>
 </div>
 <div id="custom-alert" class="custom-alert">
@@ -133,9 +154,11 @@
         <button type="button" id="custom-alert-close">OK</button>
     </div>
 </div>
+
 <script src="../../js/utility/customAlert.js"></script>
 <script src="../../js/utility/photonGeoLocator.js"></script>
 <script src="../../js/ajaxCalls/ajaxCalls.js"></script>
 <script src="../../js/shipment/shipmentForm.js"></script>
+
 </body>
 </html>

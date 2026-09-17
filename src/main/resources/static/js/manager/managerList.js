@@ -52,21 +52,26 @@ function renderManagerList(managerList) {
         managerDiv.setAttribute('data-manager-id', manager.managerId);
         managerDiv.setAttribute('data-manager-name', manager.managerName);
 
-        const managerInfoDiv = document.createElement('div');
-        managerInfoDiv.className = 'manager-info';
+        const managerInnerDivA = document.createElement('div');
+        managerInnerDivA.className = 'manager-inner-div-a';
 
         const managerIdP = document.createElement('p');
-        managerIdP.textContent = `Manager ID: ${manager.managerId}`;
-        managerInfoDiv.append(managerIdP);
+        managerIdP.className = 'manager-id-display';
+        managerIdP.textContent = `Manager Id : ${manager.managerId}`;
+        managerInnerDivA.append(managerIdP);
 
         const managerNameP = document.createElement('p');
         managerNameP.className = 'manager-name-display';
-        managerNameP.textContent = `Manager Name: ${manager.managerName}`;
-        managerInfoDiv.append(managerNameP);
+        managerNameP.textContent = `Name : ${manager.managerName}`;
+        managerInnerDivA.append(managerNameP);
 
         const managerStatusP = document.createElement('p');
-        managerStatusP.textContent = `Status: ${manager.managerStatus}`;
-        managerInfoDiv.append(managerStatusP);
+        managerStatusP.className = 'manager-status-display';
+        managerStatusP.textContent = `Status : ${manager.managerStatus}`;
+        managerInnerDivA.append(managerStatusP);
+
+        const managerInnerDivB = document.createElement('div');
+        managerInnerDivB.className = 'manager-inner-div-b';
 
         const viewBtn = document.createElement('button');
         viewBtn.className = 'view-btn';
@@ -80,9 +85,10 @@ function renderManagerList(managerList) {
             window.location.href = `../../views/manager/manager.html?managerId=${managerId}&userAction=${userAction}&operatorId=${operatorId}`;
         }, {once: true});
 
-        managerInfoDiv.append(viewBtn);
+        managerInnerDivB.append(viewBtn);
 
-        managerDiv.append(managerInfoDiv);
+        managerDiv.append(managerInnerDivA);
+        managerDiv.append(managerInnerDivB);
         listContainer.append(managerDiv);
     });
 }

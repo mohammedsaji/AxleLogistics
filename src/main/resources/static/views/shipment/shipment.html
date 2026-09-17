@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Shipment status screen</title>
     <link rel="stylesheet" href="../../styles/global.css">
+    <link rel="stylesheet" href="../../styles/footer.css">
     <link rel="stylesheet" href="../../styles/shipment/shipment.css">
     <link rel="stylesheet" href="/styles/utils/customAlert.css">
 </head>
@@ -29,7 +30,6 @@
             </div>
         </div>
     </header>
-
     <main class="shipment-body">
         <div class="shipment-body-shipment-display">
             <form class="shipment-body-shipment-form">
@@ -68,13 +68,8 @@
                 <div class="shipment-body-location">
                     <div class="shipment-body-location-field">
                         <label for="current-location">Operator Destination</label>
-                        <input type="search"
-                               id="current-location"
-                               name="currentLocation"
-                               placeholder="Enter operator destination for delivery"
-                               autocomplete="off">
+                        <input type="search" id="current-location" name="currentLocation" placeholder="Enter operator destination for delivery" autocomplete="off">
                     </div>
-
                     <div id="location-suggestions"></div>
                 </div>
                 <div>
@@ -122,10 +117,10 @@
                     <input type="number" id="cargo-id" readonly>
                 </div>
             </form>
-            <div class="shipment-body-dependents-list">
-                <button id="view-customer-btn">View customer</button>
-                <button id="view-cargo-btn">View cargo</button>
-            </div>
+<!--            <div class="shipment-body-dependents-list">-->
+<!--                <button id="view-customer-btn">View customer</button>-->
+<!--                <button id="view-cargo-btn">View cargo</button>-->
+<!--            </div>-->
         </div>
 
         <!-- ============================================================
@@ -206,8 +201,14 @@
             <button id="update-status-btn">Update</button>
         </div>
     </main>
-
-    <footer class="shipment-footer"></footer>
+    <footer class="footer">
+        <div class="footer-profile-section">
+            <a href="https://github.com/mohammedsaji/mohammedsaji" target="_blank" rel="noopener noreferrer">GitHub </a>
+            <a href="http://www.linkedin.com/in/mohammed-shajith-e" target="_blank" rel="noopener noreferrer"> LinkedIn </a>
+            <a href="mailto:althafshajid@gmail.com"> Gmail </a>
+        </div>
+        <p>&copy; 2026 Passage Logistics Systems. All rights reserved.</p>
+    </footer>
 </div>
 <div id="custom-alert" class="custom-alert">
     <div class="custom-alert-box">

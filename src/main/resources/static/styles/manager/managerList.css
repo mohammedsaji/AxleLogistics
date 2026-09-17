@@ -5,3 +5,215 @@
 .manager-navigation-menu.active {
     display: block;
 }
+
+.manager {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.manager-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 32px;
+    gap: 24px;
+}
+
+.manager-header-brand {
+    display: flex;
+    align-items: center;
+}
+
+.manager-header-logo {
+    max-width: 180px;
+    height: auto;
+}
+
+.manager-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.manager-header-section-a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.manager-header-section-a button {
+    width: auto;
+}
+
+.manager-header-section-b {
+    display: flex;
+    align-items: center;
+}
+
+.manager-navigation {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.manager-navigation-group {
+    position: relative;
+}
+
+.manager-navigation-group > button {
+    width: auto;
+    padding: 8px 4px;
+    background: transparent;
+    color: var(--text);
+}
+
+.manager-navigation-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 180px;
+    padding-top: 8px;
+}
+
+.manager-navigation-menu.active {
+    display: flex;
+    flex-direction: column;
+}
+
+.manager-navigation-menu a {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.manager-navigation-menu a:hover {
+    background: var(--surface-hover);
+}
+
+/* Body */
+
+.manager-body {
+    flex: 1;
+    padding: 10rem 5rem;
+}
+
+/* Search */
+
+.manager-body-search {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.manager-body-search input {
+    flex: 1 1 300px;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.manager-body-search button {
+    flex: 0 0 auto;
+    width: auto;
+}
+
+/* Manager list */
+
+.manager-body-list {
+    width: 100%;
+    max-width: 850px;
+    margin: 2rem auto 0;
+}
+
+#manager-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.manager-list-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    width: 100%;
+    box-sizing: border-box;
+
+    border: 1px solid var(--border);
+    padding: 1rem;
+
+    text-align: left;
+
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.manager-list-item:hover {
+    transform: scale(1.03);
+    transition-duration: 0.5s;
+    border-color: var(--border);
+}
+
+.manager-inner-div-a {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.manager-inner-div-a p {
+    margin: 0;
+}
+
+.manager-id-display {
+    width: 8rem;
+}
+
+.manager-name-display {
+    width: 16rem;
+}
+
+.manager-status-display {
+    width: 16rem;
+}
+
+.manager-inner-div-b {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+.manager-inner-div-b button {
+    width: auto;
+}
+
+/* Pagination */
+
+.manager-body-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 2rem;
+}
+
+.manager-body-pagination button {
+    width: auto;
+}
